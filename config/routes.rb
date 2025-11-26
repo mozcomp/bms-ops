@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-
+  resource :session
+  resources :passwords, param: :token
   namespace :rui do
     get "about", to: "pages#about"
     get "pricing", to: "pages#pricing"
@@ -21,13 +22,24 @@ Rails.application.routes.draw do
   end
 
   if Rails.env.development?
-     # Visit the start page for Rails UI any time at /railsui/start
+    # Visit the start page for Rails UI any time at /railsui/start
     mount Railsui::Engine, at: "/railsui"
   end
 
-  # Inherits from Railsui::PageController#index
-  # To override, add your own page#index view or change to a new root
-  root action: :index, controller: "railsui/default"
+  # BMS Ops custom dashboard
+  root "dashboard#index"
+
+  # Tenant management
+  resources :tenants
+
+  # Service management
+  resources :services
+
+  # App management
+  resources :apps
+
+  # Database management
+  resources :databases
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

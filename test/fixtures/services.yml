@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  image: MyString
+  registry: MyString
+  version: MyString
+  task_definitions: 
+  service_definition: 
+  service_task: MyString
+  string: MyString
+  environment: 
+
+two:
+  name: MyString
+  image: MyString
+  registry: MyString
+  version: MyString
+  task_definitions: 
+  service_definition: 
+  service_task: MyString
+  string: MyString
+  environment: 

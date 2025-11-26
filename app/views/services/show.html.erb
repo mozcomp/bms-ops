@@ -1,0 +1,174 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <%= link_to services_path, class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+            <%= icon "arrow-left", class: "size-6" %>
+          <% end %>
+          <div>
+            <div class="flex items-center gap-3 mb-1">
+              <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100"><%= @service.name %></h1>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 text-sm font-medium rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+                <span class="size-2 bg-green-600 dark:bg-green-400 rounded-full"></span>
+                <%= @service.status %>
+              </span>
+            </div>
+            <p class="text-slate-600 dark:text-slate-400">Service configuration and details</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <%= link_to edit_service_path(@service), class: "btn btn-white flex items-center gap-2" do %>
+            <%= icon "pencil", class: "size-5" %>
+            <span>Edit</span>
+          <% end %>
+          <%= button_to @service, method: :delete, data: { turbo_confirm: "Are you sure you want to delete #{@service.name}?" }, class: "btn btn-white text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2" do %>
+            <%= icon "trash", class: "size-5" %>
+            <span>Delete</span>
+          <% end %>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Info -->
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Service Information</h2>
+            </div>
+            <div class="px-6 py-4">
+              <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Service Name</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @service.name %></dd>
+                </div>
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Version</dt>
+                  <dd>
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400">
+                      <%= @service.version || 'latest' %>
+                    </span>
+                  </dd>
+                </div>
+                <div class="sm:col-span-2">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Container Image</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded">
+                    <%= @service.full_image %>
+                  </dd>
+                </div>
+                <% if @service.registry.present? %>
+                  <div>
+                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Registry</dt>
+                    <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @service.registry %></dd>
+                  </div>
+                <% end %>
+                <% if @service.service_task.present? %>
+                  <div>
+                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Service Task</dt>
+                    <dd class="text-sm text-slate-600 dark:text-slate-400 font-mono truncate"><%= @service.service_task %></dd>
+                  </div>
+                <% end %>
+              </dl>
+            </div>
+          </div>
+
+          <!-- Environment Variables -->
+          <% if @service.environment.present? && @service.environment.any? %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+              <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Environment Variables</h2>
+              </div>
+              <div class="px-6 py-4">
+                <div class="bg-slate-50 dark:bg-slate-900 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+                  <pre class="text-slate-900 dark:text-slate-100"><%= JSON.pretty_generate(@service.environment) %></pre>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Service Definition -->
+          <% if @service.service_definition.present? && @service.service_definition.any? %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+              <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Service Definition</h2>
+              </div>
+              <div class="px-6 py-4">
+                <div class="bg-slate-50 dark:bg-slate-900 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+                  <pre class="text-slate-900 dark:text-slate-100"><%= JSON.pretty_generate(@service.service_definition) %></pre>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Task Definitions -->
+          <% if @service.task_definitions.present? && @service.task_definitions.any? %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+              <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Task Definitions</h2>
+              </div>
+              <div class="px-6 py-4">
+                <div class="bg-slate-50 dark:bg-slate-900 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+                  <pre class="text-slate-900 dark:text-slate-100"><%= JSON.pretty_generate(@service.task_definitions) %></pre>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Metadata</h2>
+            </div>
+            <div class="px-6 py-4 space-y-4">
+              <div>
+                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Created</dt>
+                <dd class="text-sm text-slate-900 dark:text-slate-100">
+                  <%= time_tag @service.created_at, @service.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Last Updated</dt>
+                <dd class="text-sm text-slate-900 dark:text-slate-100">
+                  <%= time_tag @service.updated_at, @service.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+                </dd>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Quick Actions</h2>
+            </div>
+            <div class="px-6 py-4 space-y-2">
+              <%= link_to "#", class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                <%= icon "arrow-path", class: "size-5 text-slate-500" %>
+                <span class="text-sm font-medium">Restart Service</span>
+              <% end %>
+              <%= link_to "#", class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                <%= icon "arrow-up-tray", class: "size-5 text-slate-500" %>
+                <span class="text-sm font-medium">Deploy New Version</span>
+              <% end %>
+              <%= link_to "#", class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                <%= icon "chart-bar", class: "size-5 text-slate-500" %>
+                <span class="text-sm font-medium">View Metrics</span>
+              <% end %>
+              <%= link_to "#", class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                <%= icon "document-text", class: "size-5 text-slate-500" %>
+                <span class="text-sm font-medium">View Logs</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

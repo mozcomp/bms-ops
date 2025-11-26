@@ -1,0 +1,143 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <%= link_to tenants_path, class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+            <%= icon "arrow-left", class: "size-6" %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1"><%= @tenant.name %></h1>
+            <p class="text-slate-600 dark:text-slate-400">Tenant configuration details</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <%= link_to edit_tenant_path(@tenant), class: "btn btn-white flex items-center gap-2" do %>
+            <%= icon "pencil", class: "size-5" %>
+            <span>Edit</span>
+          <% end %>
+          <%= button_to @tenant, method: :delete, data: { turbo_confirm: "Are you sure you want to delete #{@tenant.name}?" }, class: "btn btn-white text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2" do %>
+            <%= icon "trash", class: "size-5" %>
+            <span>Delete</span>
+          <% end %>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Info -->
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Basic Information</h2>
+            </div>
+            <div class="px-6 py-4">
+              <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Tenant Name</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.name %></dd>
+                </div>
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Tenant Code</dt>
+                  <dd>
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400">
+                      <%= @tenant.code %>
+                    </span>
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Subdomain</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.subdomain %></dd>
+                </div>
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">URL</dt>
+                  <dd>
+                    <%= link_to @tenant.url, target: "_blank", class: "text-sm text-primary-600 dark:text-primary-400 hover:underline flex items-center gap-1" do %>
+                      <span><%= @tenant.url %></span>
+                      <%= icon "arrow-top-right-on-square", class: "size-4" %>
+                    <% end %>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Configuration</h2>
+            </div>
+            <div class="px-6 py-4">
+              <dl class="grid grid-cols-1 gap-6">
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Database</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded"><%= @tenant.database %></dd>
+                </div>
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Service Name</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.service_name || "Not configured" %></dd>
+                </div>
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">SES Region</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.ses_region %></dd>
+                </div>
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">S3 Bucket</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded"><%= @tenant.s3_bucket %></dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Metadata</h2>
+            </div>
+            <div class="px-6 py-4 space-y-4">
+              <div>
+                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Created</dt>
+                <dd class="text-sm text-slate-900 dark:text-slate-100">
+                  <%= time_tag @tenant.created_at, @tenant.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Last Updated</dt>
+                <dd class="text-sm text-slate-900 dark:text-slate-100">
+                  <%= time_tag @tenant.updated_at, @tenant.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+                </dd>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Quick Actions</h2>
+            </div>
+            <div class="px-6 py-4 space-y-2">
+              <%= link_to "#", class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                <%= icon "arrow-path", class: "size-5 text-slate-500" %>
+                <span class="text-sm font-medium">Migrate Database</span>
+              <% end %>
+              <%= link_to "#", class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                <%= icon "document-duplicate", class: "size-5 text-slate-500" %>
+                <span class="text-sm font-medium">Clone Configuration</span>
+              <% end %>
+              <%= link_to "#", class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                <%= icon "chart-bar", class: "size-5 text-slate-500" %>
+                <span class="text-sm font-medium">View Analytics</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,127 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Welcome to BMS Ops</h2>
+        <p class="text-slate-600 dark:text-slate-400">Manage your AWS infrastructure, services, and tenants</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Active Tenants</p>
+              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2">24</p>
+            </div>
+            <div class="bg-primary-100 dark:bg-primary-900/30 rounded-full p-3">
+              <%= icon "users", class: "size-6 text-primary-600 dark:text-primary-400" %>
+            </div>
+          </div>
+          <p class="text-sm text-green-600 dark:text-green-400 mt-4">+3 this month</p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Running Services</p>
+              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2">12</p>
+            </div>
+            <div class="bg-green-100 dark:bg-green-900/30 rounded-full p-3">
+              <%= icon "server", class: "size-6 text-green-600 dark:text-green-400" %>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">All healthy</p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Applications</p>
+              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2">8</p>
+            </div>
+            <div class="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3">
+              <%= icon "code-bracket", class: "size-6 text-blue-600 dark:text-blue-400" %>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">2 updates available</p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Databases</p>
+              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2">36</p>
+            </div>
+            <div class="bg-purple-100 dark:bg-purple-900/30 rounded-full p-3">
+              <%= icon "circle-stack", class: "size-6 text-purple-600 dark:text-purple-400" %>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">24 tenant schemas</p>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="p-6 border-b border-slate-200 dark:border-slate-700">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Recent Deployments</h3>
+          </div>
+          <div class="p-6">
+            <div class="space-y-4">
+              <% [
+                { service: "BMS Core API", version: "v2.4.1", status: "success", time: "5 mins ago" },
+                { service: "Auth Service", version: "v1.8.3", status: "success", time: "2 hours ago" },
+                { service: "Analytics Engine", version: "v3.1.0", status: "success", time: "5 hours ago" }
+              ].each do |deployment| %>
+                <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                  <div class="flex items-center gap-3">
+                    <div class="bg-green-100 dark:bg-green-900/30 rounded-full p-2">
+                      <%= icon "check-circle", class: "size-5 text-green-600 dark:text-green-400" %>
+                    </div>
+                    <div>
+                      <p class="font-medium text-slate-900 dark:text-slate-100"><%= deployment[:service] %></p>
+                      <p class="text-sm text-slate-600 dark:text-slate-400"><%= deployment[:version] %></p>
+                    </div>
+                  </div>
+                  <span class="text-sm text-slate-500 dark:text-slate-400"><%= deployment[:time] %></span>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="p-6 border-b border-slate-200 dark:border-slate-700">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">System Status</h3>
+          </div>
+          <div class="p-6">
+            <div class="space-y-4">
+              <% [
+                { name: "AWS ECS Services", status: "operational", percentage: 100 },
+                { name: "Database Connections", status: "operational", percentage: 98 },
+                { name: "API Gateway", status: "operational", percentage: 100 }
+              ].each do |system| %>
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100"><%= system[:name] %></span>
+                    <span class="text-sm text-green-600 dark:text-green-400">
+                      <%= icon "check-circle", class: "size-4 inline" %> <%= system[:status].titleize %>
+                    </span>
+                  </div>
+                  <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                    <div class="bg-green-600 dark:bg-green-500 h-2 rounded-full" style="width: <%= "#{system[:percentage]}%" %>"></div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

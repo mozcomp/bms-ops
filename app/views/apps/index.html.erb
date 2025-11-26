@@ -1,0 +1,105 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Applications</h1>
+          <p class="text-slate-600 dark:text-slate-400">Manage application repositories and codebases</p>
+        </div>
+        <%= link_to new_app_path, class: "btn btn-primary flex items-center gap-2" do %>
+          <%= icon "plus", class: "size-5" %>
+          <span>New App</span>
+        <% end %>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Apps Grid -->
+      <% if @apps.any? %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <% @apps.each do |app| %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-lg transition">
+              <div class="p-6">
+                <div class="flex items-start justify-between mb-4">
+                  <div class="flex items-center gap-3 min-w-0 flex-1">
+                    <div class="size-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <%= icon "code-bracket", class: "size-6 text-blue-600 dark:text-blue-400" %>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 truncate">
+                        <%= app.name %>
+                      </h3>
+                      <% if app.repository_platform %>
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                          <%= app.repository_platform %>
+                        </span>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-3 mb-4">
+                  <div>
+                    <dt class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Repository</dt>
+                    <dd class="text-sm text-slate-900 dark:text-slate-100">
+                      <% if app.repository_name %>
+                        <div class="flex items-center gap-1.5">
+                          <span class="font-mono truncate"><%= app.repository_name %></span>
+                          <%= link_to app.repository_url, target: "_blank", class: "text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 flex-shrink-0" do %>
+                            <%= icon "arrow-top-right-on-square", class: "size-4" %>
+                          <% end %>
+                        </div>
+                      <% else %>
+                        <span class="font-mono text-sm truncate"><%= app.repository %></span>
+                      <% end %>
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Created</dt>
+                    <dd class="text-sm text-slate-600 dark:text-slate-400">
+                      <%= time_tag app.created_at, app.created_at.strftime("%b %d, %Y") %>
+                    </dd>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 pt-4 border-t border-slate-200 dark:border-slate-700">
+                  <%= link_to app, class: "flex-1 btn btn-white text-sm flex items-center justify-center gap-2" do %>
+                    <%= icon "eye", class: "size-4" %>
+                    <span>View</span>
+                  <% end %>
+                  <%= link_to edit_app_path(app), class: "flex-1 btn btn-white text-sm flex items-center justify-center gap-2" do %>
+                    <%= icon "pencil", class: "size-4" %>
+                    <span>Edit</span>
+                  <% end %>
+                  <%= button_to app, method: :delete, data: { turbo_confirm: "Are you sure you want to delete #{app.name}?" }, class: "btn btn-white text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm flex items-center justify-center gap-2" do %>
+                    <%= icon "trash", class: "size-4" %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="text-center py-12">
+            <div class="inline-flex items-center justify-center size-16 bg-slate-100 dark:bg-slate-700 rounded-full mb-4">
+              <%= icon "code-bracket", class: "size-8 text-slate-400" %>
+            </div>
+            <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">No apps yet</h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-6">Get started by adding your first application repository.</p>
+            <%= link_to new_app_path, class: "btn btn-primary inline-flex items-center gap-2" do %>
+              <%= icon "plus", class: "size-5" %>
+              <span>New App</span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </main>
+  </div>
+</div>

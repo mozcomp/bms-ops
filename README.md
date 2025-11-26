@@ -23,3 +23,22 @@ API Integration: Are there external APIs or services this app integrates with th
 
 Testing Patterns: Should I add specific testing conventions once you develop custom features beyond Rails UI pages?
 
+
+
+Models:
+
+Service:
+A service is one or more containers running the specific version of an app.
+It is a one for one relationship with the service running on AWS ECS.
+One or more tenants are nominated as being serviced by a service, mainly by the server_name definition within an NGINX configuration.
+
+App:
+Each app is sourced from a Github project.
+
+Tenant:
+A tenant relates to a specific client running on the system at a defined level. Separate tenants would exist fo a customers' production system, as against their staging or development system.
+
+Database:
+A separate schema is specified for each tenant.
+A service would specify the migration level for a database.
+

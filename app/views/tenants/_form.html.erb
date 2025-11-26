@@ -1,0 +1,86 @@
+<%= form_with(model: tenant, class: "space-y-6") do |form| %>
+  <% if tenant.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+      <div class="flex items-start gap-3">
+        <%= icon "exclamation-circle", class: "size-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" %>
+        <div class="flex-1">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-400 mb-2">
+            <%= pluralize(tenant.errors.count, "error") %> prohibited this tenant from being saved:
+          </h3>
+          <ul class="list-disc list-inside text-sm text-red-700 dark:text-red-400 space-y-1">
+            <% tenant.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+      <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Basic Information</h2>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Essential tenant details and identifiers</p>
+    </div>
+    <div class="px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+        <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "Acme Corporation" %>
+      </div>
+
+      <div>
+        <%= form.label :code, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+        <%= form.text_field :code, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "acme" %>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Unique identifier (lowercase, no spaces)</p>
+      </div>
+
+      <div class="md:col-span-2">
+        <%= form.label :subdomain, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+        <div class="flex">
+          <%= form.text_field :subdomain, class: "form-input flex-1 rounded-l-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "acme" %>
+          <span class="inline-flex items-center px-4 text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-l-0 border-slate-300 dark:border-slate-600 rounded-r-lg">
+            .bmserp.com
+          </span>
+        </div>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Defaults to tenant code if not specified</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+      <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Infrastructure Configuration</h2>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Database, service, and AWS settings</p>
+    </div>
+    <div class="px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="md:col-span-2">
+        <%= form.label :database, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+        <%= form.text_field :database, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "bms_acme_production" %>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Database name (defaults to bms_{code}_production)</p>
+      </div>
+
+      <div class="md:col-span-2">
+        <%= form.label :service_name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+        <%= form.text_field :service_name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "bms-acme-service" %>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">AWS ECS service name</p>
+      </div>
+
+      <div>
+        <%= form.label :ses_region, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+        <%= form.text_field :ses_region, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "ap-southeast-2" %>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">AWS SES region</p>
+      </div>
+
+      <div>
+        <%= form.label :s3_bucket, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+        <%= form.text_field :s3_bucket, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "bms-acme-production" %>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">S3 bucket name</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-end gap-3">
+    <%= link_to "Cancel", tenant.persisted? ? tenant : tenants_path, class: "btn btn-white" %>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

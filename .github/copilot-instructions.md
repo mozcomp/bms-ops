@@ -1,9 +1,15 @@
 # BMS Ops - AI Coding Agent Instructions
 
 ## Project Overview
-Rails 8.1 application for BMS operations using **Rails UI** (Hound theme) for pre-built UI components. This is a modern Rails app leveraging Hotwire (Turbo + Stimulus), Propshaft for assets, importmap for JS, and Tailwind CSS via the new `@import "tailwindcss"` syntax.
+Rails 8.1 application for managing AWS resources and services for BMS (Business Management System) infrastructure. Provides tenant onboarding and multi-tenant service orchestration via AWS ECS.
 
-**Key Architecture**: Rails UI theme integration (`railsui` gem ~3.3) with dynamic page generation via metaprogramming in `Rui::PagesController`.
+**Purpose**: Interface to manage AWS ECS services, each running specific versions of apps from GitHub repositories, with multi-tenant database schema isolation.
+
+**Key Architecture**: 
+- Rails UI theme integration (`railsui` gem ~3.3) with dynamic page generation via metaprogramming in `Rui::PagesController`
+- Multi-tenant architecture with isolated database schemas per tenant
+- Service-to-tenant mapping via NGINX server_name configuration
+- MCP (Model Context Protocol) Server for API access to management operations
 
 ## Critical Dependencies & Stack
 - **Rails 8.1** with modern defaults (Solid Cache, Solid Queue, Solid Cable for SQLite-backed adapters)
@@ -14,6 +20,8 @@ Rails 8.1 application for BMS operations using **Rails UI** (Hound theme) for pr
 - **Importmap**: JS dependencies loaded via CDN (see `config/importmap.rb`), includes Rails UI Stimulus controllers
 - **SQLite3**: Database for Active Record, cache, queue, and cable (Solid adapters)
 - **Kamal**: Deployment configuration in `config/deploy.yml` for Docker-based deployments
+- **AWS Integration**: ECS service management, future integration for container orchestration
+- **MCP Server**: Model Context Protocol server for API operations (planned)
 
 ## Development Workflow
 
@@ -97,6 +105,8 @@ end
 - **SQLite3** for all environments (development, test, production)
 - **Schemas**: Separate schemas for cable (`cable_schema.rb`), cache (`cache_schema.rb`), queue (`queue_schema.rb`), main (`schema.rb`)
 - **Migrations**: Standard Rails migrations in `db/migrate/`
+- **Multi-tenant Schema Design**: Each tenant gets an isolated database schema for data isolation
+- **Service-level Migrations**: Services specify migration level for their database schema
 
 ## Deployment (Kamal)
 
@@ -131,6 +141,53 @@ bin/kamal dbc          # Database console on server
 - **Stimulus controllers**: Place in `app/javascript/controllers/`, follow Rails UI patterns in `app/javascript/controllers/railsui/`
 - **Importmap**: Pin external libraries via `bin/importmap pin <package>` or manually in `config/importmap.rb`
 
+## Domain Model Architecture
+
+### Core Entities
+
+**Service** (`app/models/service.rb` - to be created):
+- Represents one or more containers running a specific version of an app on AWS ECS
+- 1:1 relationship with AWS ECS service
+- Maps to tenants via NGINX server_name configuration
+- Attributes: app reference, version, ECS service identifier, tenant associations
+
+**App** (`app/models/app.rb` - to be created):
+- Sourced from GitHub repositories
+- Represents the application codebase that services deploy
+- Attributes: GitHub project URL, repository name, available versions
+
+**Tenant** (`app/models/tenant.rb` - to be created):
+- Represents a client running on the system at a defined environment level
+- Separate tenants for production, staging, development environments for same customer
+- Has isolated database schema
+- Attributes: name, environment (production/staging/development), schema_name, service association
+
+**Database** (schema management):
+- Each tenant has a dedicated database schema for isolation
+- Services specify migration level for their database
+- Consider using `apartment` gem or custom schema management for multi-tenancy
+
+### Key Relationships
+- `Service` belongs_to `App`
+- `Service` has_many `Tenants`
+- `Tenant` has_one database schema (managed via schema_name)
+- NGINX configuration ties tenant server_name to service routing
+
+### AWS ECS Integration
+- Services map 1:1 to ECS services
+- Container orchestration via AWS ECS
+- Version-specific deployments per service
+- Future: API integration for ECS management (start, stop, scale services)
+
+## MCP Server Architecture (Planned)
+
+**Model Context Protocol Server** for API operations:
+- Expose service management operations (deploy, scale, restart)
+- Tenant onboarding workflows
+- Database schema creation and migration management
+- Integration with AWS APIs for ECS control
+- Consider placing in `app/services/mcp/` or separate `lib/mcp_server/`
+
 ## Important Files to Reference
 - `config/railsui.yml`: Theme config, page list, body classes
 - `config/deploy.yml`: Kamal deployment settings
@@ -138,3 +195,4 @@ bin/kamal dbc          # Database console on server
 - `app/controllers/rui/pages_controller.rb`: Metaprogramming pattern example
 - `app/assets/tailwind/application.css`: Tailwind entry point with Rails UI imports
 - `Procfile.dev`: Development processes (Rails + Tailwind watch)
+- `README.md`: Domain model definitions and project objectives
