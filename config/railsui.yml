@@ -1,25 +1,30 @@
 --- !ruby/object:Railsui::Configuration
 application_name: bms Ops
 support_email: support@bmserp.com
-theme: hound
+theme: shepherd
 pages:
 - about
 - pricing
 - dashboard
-- projects
-- project
-- messages
-- message
-- assignments
+- properties
+- inbox
 - calendar
-- people
-- profile
-- activity
-- settings
-- notifications
-- billing
-- team
-- integrations
+- insights
+- bookings
+- new_booking
+- booking
+- edit_booking
+- help_center
+- changelog
+- api
+- privacy_policy
+- terms
+- contact
+- account_payment_methods
+- account_payouts
+- account_notifications
+- account_preferences
 build_mode: nobuild
-body_classes: antialiased h-full bg-slate-50 dark:bg-slate-900 dark:text-slate-100
-  text-slate-800
+body_classes: h-full antialiased text-zinc-800 leading-normal selection:bg-primary-100
+  selection:text-primary-700 dark:bg-zinc-900 bg-white dark:text-zinc-50 dark:selection:bg-zinc-500/40
+  dark:selection:text-zinc-200

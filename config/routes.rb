@@ -1,25 +1,30 @@
 Rails.application.routes.draw do
-  resource :session
-  resources :passwords, param: :token
+
   namespace :rui do
     get "about", to: "pages#about"
     get "pricing", to: "pages#pricing"
     get "dashboard", to: "pages#dashboard"
-    get "projects", to: "pages#projects"
-    get "project", to: "pages#project"
-    get "messages", to: "pages#messages"
-    get "message", to: "pages#message"
-    get "assignments", to: "pages#assignments"
+    get "properties", to: "pages#properties"
+    get "inbox", to: "pages#inbox"
     get "calendar", to: "pages#calendar"
-    get "people", to: "pages#people"
-    get "profile", to: "pages#profile"
-    get "activity", to: "pages#activity"
-    get "settings", to: "pages#settings"
-    get "notifications", to: "pages#notifications"
-    get "billing", to: "pages#billing"
-    get "team", to: "pages#team"
-    get "integrations", to: "pages#integrations"
+    get "insights", to: "pages#insights"
+    get "bookings", to: "pages#bookings"
+    get "new_booking", to: "pages#new_booking"
+    get "booking", to: "pages#booking"
+    get "edit_booking", to: "pages#edit_booking"
+    get "help_center", to: "pages#help_center"
+    get "changelog", to: "pages#changelog"
+    get "api", to: "pages#api"
+    get "privacy_policy", to: "pages#privacy_policy"
+    get "terms", to: "pages#terms"
+    get "contact", to: "pages#contact"
+    get "account_payment_methods", to: "pages#account_payment_methods"
+    get "account_payouts", to: "pages#account_payouts"
+    get "account_notifications", to: "pages#account_notifications"
+    get "account_preferences", to: "pages#account_preferences"
   end
+  resource :session
+  resources :passwords, param: :token
 
   if Rails.env.development?
     # Visit the start page for Rails UI any time at /railsui/start

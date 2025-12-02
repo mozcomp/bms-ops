@@ -5,10 +5,18 @@
 
   .form-label {
     @apply block mb-2 select-none;
+
+    &.form-label-required {
+      @apply after:content-['*'] after:absolute after:text-primary-600 after:top-0 relative after:pl-px;
+    }
   }
 
   .form-input {
-    @apply px-3 py-2 border border-slate-300 bg-white font-normal text-base placeholder:text-slate-500 rounded-lg block w-full focus:outline-hidden focus:ring-4 focus:ring-primary-50 focus:border-primary-500 text-slate-900 dark:bg-slate-800 dark:border-slate-600 dark:focus:ring-primary-400/30 dark:focus:border-slate-500 dark:text-white dark:placeholder:text-slate-400 disabled:bg-slate-100/90 dark:disabled:bg-slate-800/90 disabled:cursor-not-allowed disabled:dark:opacity-70 shadow-xs;
+    @apply rounded-full px-4 py-2 border border-zinc-300/80 bg-white focus:border-zinc-500/80 focus:ring-4 focus:ring-zinc-50 focus:shadow-none focus:outline-hidden dark:bg-zinc-800 dark:border-zinc-500/80 dark:focus:border-zinc-500 placeholder-zinc-500/80 dark:focus:ring-zinc-500/40 dark:placeholder:text-zinc-300/60 invalid:focus:border-primary-300 invalid:focus:text-primary-600 invalid:focus:ring-primary-50 font-normal antialiased font-sans w-full;
+
+    &:disabled {
+      @apply bg-zinc-100/90 pointer-events-none select-none shadow-none cursor-not-allowed dark:bg-zinc-800/90 dark:opacity-70;
+    }
 
     &.form-input-error {
       @apply border-red-500 text-red-800 focus:ring-red-50 focus:border-red-400 dark:border-red-400 dark:text-red-300 dark:focus:ring-red-300/20;
@@ -24,36 +32,131 @@
   }
 
   .form-help {
-    @apply text-sm mt-2 text-slate-600/80 dark:text-slate-500/90;
+    @apply mt-1 text-sm text-zinc-500 dark:text-zinc-400;
   }
 
   .form-textarea {
-    @apply px-3 py-2 border border-slate-300 bg-white font-normal text-base placeholder:text-slate-500 rounded-lg block w-full focus:outline-hidden focus:ring-4 focus:ring-primary-50 focus:border-primary-500 text-slate-900 dark:bg-slate-800 dark:border-slate-600 dark:focus:ring-primary-400/30 dark:focus:border-slate-500 dark:text-white dark:placeholder:text-slate-400 disabled:bg-slate-100/90 dark:disabled:bg-slate-800/90 disabled:cursor-not-allowed disabled:dark:opacity-70 shadow-xs min-h-[100px];
+    @apply rounded-lg px-4 py-2 border border-zinc-300/80 bg-white focus:border-zinc-500/80 focus:ring-4 focus:ring-zinc-50 focus:shadow-none focus:outline-hidden dark:bg-zinc-800 dark:border-zinc-500/80 dark:focus:border-zinc-500 placeholder-zinc-500/80 dark:focus:ring-zinc-500/40 dark:placeholder:text-zinc-300/60 invalid:focus:border-primary-300 invalid:focus:text-primary-600 invalid:focus:ring-primary-50 min-h-[100px] w-full;
 
     &:disabled {
-      @apply bg-slate-100/90 pointer-events-none select-none shadow-none cursor-not-allowed dark:bg-slate-800/90 dark:opacity-70;
+      @apply bg-zinc-100/90 pointer-events-none select-none shadow-none cursor-not-allowed dark:bg-zinc-800/90 dark:opacity-70;
     }
   }
 
   .form-file {
-    @apply block w-full text-sm text-slate-500 dark:text-slate-400
+    @apply block w-full text-sm text-zinc-500 dark:text-zinc-400
     file:mr-4 file:py-2 file:px-4
     file:rounded-full file:border-0
     file:text-sm file:font-semibold
-    file:bg-primary-50 file:text-primary-700
-    hover:file:bg-primary-100 dark:file:bg-primary-600 dark:file:text-slate-100 dark:hover:file:text-slate-100 dark:hover:file:bg-primary-700;
+    file:bg-zinc-100 file:text-zinc-700
+    hover:file:bg-zinc-200/80 dark:file:bg-primary-600 dark:file:text-zinc-100 dark:hover:file:text-zinc-100 dark:hover:file:bg-primary-700;
+  }
+
+  .form-input-color {
+    @apply appearance-none rounded-full w-8 h-8 border border-zinc-200 focus:border-zinc-400 focus:shadow transition focus:ring-4 focus:ring-primary-500/10 dark:border-zinc-600;
+
+    &::-webkit-color-swatch-wrapper,
+    &::-webkit-color-swatch {
+      @apply p-0 rounded-full border-2 border-white dark:border-zinc-700;
+    }
   }
 
   .form-input-datalist {
     &::-webkit-calendar-picker-indicator {
-      @apply hidden;
+      @apply hidden!;
+    }
+  }
+
+  .form-input-range {
+    @apply relative bg-transparent appearance-none focus:outline-hidden;
+
+    --range-fill: 0;
+
+    &::-webkit-slider-thumb {
+      @apply appearance-none border-2 border-white h-4 w-4 rounded-full bg-white cursor-pointer relative -top-1.5 shadow-sm outline outline-gray-300 focus:ring-4 focus:outline-gray-400 hover:outline-gray-400 dark:bg-gray-800 dark:focus:outline-zinc-600 dark:hover:outline-zinc-600 dark:border-zinc-500 dark:outline-zinc-700;
+    }
+
+    &::-moz-range-thumb {
+      @apply appearance-none border-2 border-white h-4 w-4 rounded-full bg-white cursor-pointer relative -top-1.5 shadow-sm outline outline-zinc-300 focus:ring-4 focus:outline-zinc-400 hover:outline-zinc-400 dark:bg-zinc-800 dark:focus:outline-zinc-600 dark:hover:outline-zinc-600 dark:border-zinc-500 dark:outline-zinc-700;
+    }
+
+    &::-ms-thumb {
+      @apply appearance-none border-2 border-white h-4 w-4 rounded-full bg-white cursor-pointer relative -top-1.5 shadow-sm outline outline-zinc-300 focus:ring-4 focus:outline-zinc-400 hover:outline-zinc-400 dark:bg-zinc-800 dark:focus:outline-zinc-600 dark:hover:outline-zinc-600 dark:border-zinc-500 dark:outline-zinc-700;
+    }
+
+    &::-webkit-slider-runnable-track {
+      @apply w-full h-1 rounded-lg cursor-pointer;
+      background: linear-gradient(
+        to right,
+        var(--color-primary-500) var(--range-fill),
+        var(--color-zinc-300) var(--range-fill)
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background: linear-gradient(
+          to right,
+          var(--color-primary-500) var(--range-fill),
+          var(--color-zinc-700) var(--range-fill)
+        );
+      }
+    }
+
+    &::-moz-range-track {
+      @apply w-full h-1 rounded-lg cursor-pointer;
+      background: linear-gradient(
+        to right,
+        var(--color-primary-500) var(--range-fill),
+        var(--color-zinc-300) var(--range-fill)
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background: linear-gradient(
+          to right,
+          var(--color-primary-500) var(--range-fill),
+          var(--color-zinc-700) var(--range-fill)
+        );
+      }
+    }
+
+    &::-ms-track {
+      @apply w-full h-1 rounded-lg cursor-pointer;
+      background: linear-gradient(
+        to right,
+        var(--color-primary-500) var(--range-fill),
+        var(--color-zinc-300) var(--range-fill)
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background: linear-gradient(
+          to right,
+          var(--color-primary-500) var(--range-fill),
+          var(--color-zinc-700) var(--range-fill)
+        );
+      }
+    }
+
+    &:focus::-webkit-slider-runnable-track {
+      @apply bg-zinc-200 dark:bg-zinc-600;
+    }
+
+    &:focus::-moz-range-track {
+      @apply bg-zinc-200 dark:bg-zinc-600;
+    }
+
+    &:focus::-ms-track {
+      @apply bg-zinc-200 dark:bg-zinc-600;
     }
   }
 
   .form-select {
-    @apply appearance-none px-3 py-2 border border-slate-300 bg-white font-normal rounded-lg block w-full focus:ring-4 focus:ring-primary-50 focus:border-primary-500 text-slate-900 dark:bg-slate-800 dark:border-slate-600 dark:focus:ring-primary-500/30 dark:focus:border-slate-600 dark:text-white dark:placeholder:text-slate-400 disabled:bg-slate-100/90 dark:disabled:bg-slate-800/90 disabled:cursor-not-allowed disabled:dark:opacity-70 shadow-xs;
+    @apply appearance-none px-4 py-2 border border-zinc-300 bg-white font-normal text-base placeholder:text-zinc-500/80 rounded-full block w-full focus:outline-hidden focus:ring-4 focus:ring-zinc-50 focus:border-zinc-400 text-zinc-900  dark:focus:border-zinc-600 dark:text-white dark:placeholder:text-zinc-400 shadow-xs dark:bg-zinc-800 dark:border-zinc-500 dark:focus:ring-zinc-500/40 font-sans;
+
+    &:disabled {
+      @apply bg-zinc-100/90 pointer-events-none select-none shadow-none cursor-not-allowed dark:bg-zinc-800/90 dark:opacity-70;
+    }
 
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%2334497e' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
     background-position: right calc(var(--spacing) * 2) center;
@@ -65,7 +168,7 @@
   }
 
   .form-input-checkbox {
-    @apply rounded-sm border appearance-none border-slate-400  checked:bg-primary-500  checked:border-primary-500 checked:ring-2 checked:ring-primary-500/10 checked:accent-primary-500 text-primary-600 dark:bg-slate-700 dark:border-slate-600 focus:ring-primary-500/30 dark:checked:border-primary-400 dark:checked:accent-primary-400 size-4 outline-hidden;
+    @apply rounded-sm border appearance-none border-zinc-400  checked:bg-primary-500  checked:border-primary-500 checked:ring-2 checked:ring-primary-500/10 checked:accent-primary-500 text-primary-600 dark:bg-zinc-700 dark:border-slate-600 focus:ring-primary-500/30 dark:checked:border-primary-400 dark:checked:accent-primary-400 size-4 outline-hidden;
 
     &:checked {
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3 6-6'/%3e%3c/svg%3e");
@@ -78,11 +181,7 @@
   }
 
   .form-input-radio {
-    @apply appearance-none rounded-full border border-slate-400 focus:ring-2 checked:ring-primary-200  checked:shadow-primary-600 text-primary-600 focus-visible:text-primary-600 focus-visible:ring-primary-200 focus-visible:outline-hidden dark:bg-slate-700 dark:border-slate-600 dark:checked:border-primary-400 dark:checked:accent-primary-400 size-4 checked:bg-primary-500 checked:border-primary-500;
-
-    &:checked {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3ccircle cx='10' cy='10' r='4' fill='%23fff'/%3e%3c/svg%3e");
-    }
+    @apply rounded-full border border-zinc-400 focus:ring-2 checked:ring-primary-200 checked:border-primary-600 checked:accent-primary-600 checked:shadow-primary-600 text-primary-600 focus-visible:text-primary-600 focus-visible:ring-primary-200 focus-visible:outline-hidden dark:bg-zinc-700 dark:border-zinc-600 dark:checked:border-primary-400 dark:checked:accent-primary-400;
 
     + label,
     + .form-label {
@@ -112,107 +211,15 @@
     }
 
     + label {
-      @apply inline-flex cursor-pointer text-base leading-6 select-none relative;
+      @apply inline-flex cursor-pointer text-base leading-6 select-none relative font-sans;
 
       &:before {
-        @apply content-[""] block bg-slate-300 rounded-full h-6 w-10 mr-3 transition-colors ease-out flex-shrink-0 dark:bg-slate-500;
+        @apply content-[""] block bg-zinc-300 rounded-full h-6 w-10 mr-3 transition-colors ease-out flex-shrink-0 dark:bg-zinc-500;
       }
 
       &:after {
         @apply content-[""] block bg-white rounded-full size-4 absolute top-[4px] left-[4px] transition-transform ease-out shadow-sm;
       }
-    }
-  }
-
-  /* Requires railsui_range_controller.js: https://github.com/getrailsui/railsui-stimulus */
-
-  .form-input-range {
-    @apply relative bg-transparent appearance-none focus:outline-hidden;
-
-    --range-fill: 0;
-
-    &::-webkit-slider-thumb {
-      @apply appearance-none border-2 border-white h-4 w-4 rounded-full bg-white cursor-pointer relative -top-1.5 shadow-sm outline outline-gray-300 focus:ring-4 focus:outline-gray-400 hover:outline-gray-400 dark:bg-gray-800 dark:focus:outline-gray-600 dark:hover:outline-gray-600 dark:border-gray-500 dark:outline-gray-700;
-    }
-
-    &::-moz-range-thumb {
-      @apply appearance-none border-2 border-white h-4 w-4 rounded-full bg-white cursor-pointer relative -top-1.5 shadow-sm outline outline-gray-300 focus:ring-4 focus:outline-gray-400 hover:outline-gray-400 dark:bg-gray-800 dark:focus:outline-gray-600 dark:hover:outline-gray-600 dark:border-gray-500 dark:outline-gray-700;
-    }
-
-    &::-ms-thumb {
-      @apply appearance-none border-2 border-white h-4 w-4 rounded-full bg-white cursor-pointer relative -top-1.5 shadow-sm outline outline-gray-300 focus:ring-4 focus:outline-gray-400 hover:outline-gray-400 dark:bg-gray-800 dark:focus:outline-gray-600 dark:hover:outline-gray-600 dark:border-gray-500 dark:outline-gray-700;
-    }
-
-    &::-webkit-slider-runnable-track {
-      @apply w-full h-1 rounded-lg cursor-pointer;
-      background: linear-gradient(
-        to right,
-        var(--color-primary-500) var(--range-fill),
-        var(--color-gray-300) var(--range-fill)
-      );
-
-      @media (prefers-color-scheme: dark) {
-        background: linear-gradient(
-          to right,
-          var(--color-primary-500) var(--range-fill),
-          var(--color-gray-700) var(--range-fill)
-        );
-      }
-    }
-
-    &::-moz-range-track {
-      @apply w-full h-1 rounded-lg cursor-pointer;
-      background: linear-gradient(
-        to right,
-        var(--color-primary-500) var(--range-fill),
-        var(--color-gray-300) var(--range-fill)
-      );
-
-      @media (prefers-color-scheme: dark) {
-        background: linear-gradient(
-          to right,
-          var(--color-primary-500) var(--range-fill),
-          var(--color-gray-700) var(--range-fill)
-        );
-      }
-    }
-
-    &::-ms-track {
-      @apply w-full h-1 rounded-lg cursor-pointer;
-      background: linear-gradient(
-        to right,
-        var(--color-primary-500) var(--range-fill),
-        var(--color-gray-300) var(--range-fill)
-      );
-
-      @media (prefers-color-scheme: dark) {
-        background: linear-gradient(
-          to right,
-          var(--color-primary-500) var(--range-fill),
-          var(--color-gray-700) var(--range-fill)
-        );
-      }
-    }
-
-    &:focus::-webkit-slider-runnable-track {
-      @apply bg-gray-200 dark:bg-gray-600;
-    }
-
-    &:focus::-moz-range-track {
-      @apply bg-gray-200 dark:bg-gray-600;
-    }
-
-    &:focus::-ms-track {
-      @apply bg-gray-200 dark:bg-gray-600;
-    }
-  }
-
-  .form-input-color {
-    @apply appearance-none rounded-full size-8 border border-slate-200 focus:border-slate-400  transition focus:ring-4 focus:ring-primary-500/10 dark:border-slate-600;
-
-    &::-webkit-color-swatch-wrapper,
-    &::-webkit-color-swatch {
-      @apply p-0 rounded-full border-2 border-white dark:border-slate-700;
     }
   }
 }

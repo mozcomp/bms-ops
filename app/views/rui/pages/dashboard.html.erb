@@ -1,313 +1,180 @@
-<% content_for :header do %>
-  <%= render "rui/shared/admin/nav", { header_title: "Dashboard" } do %>
-    <%= render "rui/shared/admin/create_dropdown" %>
-  <% end %>
-<% end%>
+<div class="relative min-h-[320px] md:py-16 py-14 border-b border-zinc-200 dark:border-zinc-700/80">
+  <div class="opacity-5 blur-4xl absolute inset-0 w-full h-full
+    bg-gradient-to-r from-white via-primary-500/40 via-[24.79%] to-[#177BB5] z-0"></div>
 
-<div class="px-4">
-  <div class="flex justify-between items-center mt-4 container mx-auto">
-    <h2 class="text-base font-medium text-slate-700 dark:text-slate-300 mb-0">
-      Recent stats
-    </h2>
-    <div data-controller="railsui-modal">
-      <button type="button" class="btn btn-white gap-2" tabindex="0" data-action="click->railsui-modal#open">
-        <%= icon "cog-6-tooth", class: "size-4 text-slate-600 dark:text-slate-300" %>
-        <span class="pointer-events-none">Customize dashboard</span>
-      </button>
-      <div aria-labelledby="modal-title" aria-modal="true" data-action="keyup@window->railsui-modal#closeWithEsc"
-        data-railsui-modal-target="container" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog">
-        <div class="h-screen w-full relative">
-          <div data-railsui-modal-target="content" data-transition-enter-active="transition ease-out duration-300"
-            data-transition-enter-from="transform opacity-0 scale-95"
-            data-transition-enter-to="transform opacity-100 scale-100"
-            data-transition-leave-active="transition ease-in duration-300"
-            data-transition-leave-from="transform opacity-100 scale-100"
-            data-transition-leave-to="transform opacity-0 scale-95"
-            class="hidden rounded shadow-xl max-w-2xl h-auto mx-auto bg-white m-4 p-8 dark:bg-slate-700">
-            <div class="prose dark:bg-slate-700 dark:text-slate-200 m-auto">
-              <h2 id="modal-title" class="dark:text-slate-100">Customize dashboard</h2>
-              <p>This could be some sort of widget enabling interface for the dashboard</p>
-              <div class="flex justify-end items-center flex-wrap space-x-4">
-                <button class="btn btn-primary" data-action="click->railsui-modal#close">Close</button>
-              </div>
-            </div>
-          </div>
+  <% current_hour = Time.now.hour %>
+  <% greeting = case current_hour
+                when 0..11
+                  "Good morning"
+                when 12..17
+                  "Good afternoon"
+                else
+                  "Good evening"
+                end %>
+
+  <div class="relative z-20">
+    <h2 class="text-4xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight text-center"><%= "#{greeting}" %>, John</h2>
+    <p class="font-light font-heading text-center py-4 text-zinc-700 dark:text-zinc-300">Here is what's happening today
+    </p>
+
+    <div class="grid md:grid-cols-4 grid-cols-2 px-4 md:gap-6 gap-3 md:pt-6 pt-3 max-w-5xl mx-auto">
+      <%= link_to rui_inbox_path, class: "bg-white border border-zinc-300 p-4 rounded-lg shadow-xs hover:shadow-none focus:ring-4 focus:ring-zinc-100/70 md:col-span-1 col-span-2 dark:bg-zinc-800/90 dark:border-zinc-600/80 dark:focus:ring-zinc-600/30 dark:focus:border-zinc-600" do %>
+        <h3 class="font-normal text-base font-sans text-zinc-800/80 dark:text-zinc-300">Inbox</h3>
+        <p class="font-heading text-4xl font-semibold text-zinc-800 dark:text-white">39</p>
+      <% end %>
+
+      <%= link_to "#", class: "bg-white border border-zinc-300 p-4 rounded-lg shadow-xs hover:shadow-none focus:ring-4 focus:ring-zinc-100/70 md:col-span-1 col-span-2 dark:bg-zinc-800/90 dark:border-zinc-600/80 dark:focus:border-zinc-600 dark:focus:ring-zinc-600/30" do %>
+        <h3 class="font-normal text-base font-sans text-zinc-800/80 dark:text-zinc-300">Sched. messages</h3>
+        <p class="font-heading text-4xl font-semibold text-zinc-800 dark:text-white">46</p>
+      <% end %>
+
+      <%= link_to "#", class: "bg-white border border-zinc-300 p-4 rounded-lg shadow-xs hover:shadow-none focus:ring-4 focus:ring-zinc-100/70 md:col-span-1 col-span-2 dark:bg-zinc-800/90 dark:border-zinc-600/80 dark:focus:border-zinc-600 dark:focus:ring-zinc-600/30" do %>
+        <h3 class="font-normal text-base font-sans text-zinc-800/80 dark:text-zinc-300">Arrivals</h3>
+        <p class="font-heading text-4xl font-semibold text-zinc-800 dark:text-white">2</p>
+      <% end %>
+
+      <%= link_to "#", class: "bg-white border border-zinc-300 p-4 rounded-lg shadow-xs hover:shadow-none focus:ring-4 focus:ring-zinc-100/70 md:col-span-1 col-span-2 dark:bg-zinc-800/90 dark:border-zinc-600/80 dark:focus:border-zinc-600 dark:focus:ring-zinc-600/30" do %>
+        <h3 class="font-normal text-base font-sans text-zinc-800/80 dark:text-zinc-300">Departures</h3>
+        <p class="font-heading text-4xl font-semibold text-zinc-800 dark:text-white">1</p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container mx-auto px-4 pt-16">
+  <div class="flex md:justify-between justify-center items-center flex-wrap">
+    <div class="flex items-center space-x-3 flex-1 md:mb-0 mb-3">
+      <button type="button" class="btn btn-primary">Arrivals (2)</button>
+      <button type="button" class="btn btn-white">Departures (1)</button>
+    </div>
+
+    <%= link_to "View all bookings", rui_bookings_path, class: "btn btn-link" %>
+  </div>
+
+  <div class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 my-8">
+
+    <!-- Property user card 1 -->
+    <div class="border border-zinc-300/90 shadow-xs shadow-zinc-300/20 rounded-lg p-4 dark:shadow-zinc-950/50 dark:bg-zinc-800/90 dark:border-zinc-600/80 dark:focus:ring-zinc-600/30 dark:focus:border-zinc-600">
+      <%= image_tag "railsui/property-1.jpg", alt: "Image of Alpine Retreat Haven", class: "rounded-lg h-[174px] w-full object-cover object-center shadow dark:shadow-none dark:border dark:border-zinc-600/80 border-transparent mb-4" %>
+      <div class="flex items-center gap-3">
+        <%= image_tag demo_avatar_url(variant: "men", id: "88"), class: "size-10 rounded-full object-cover", alt: "Noah Martinez" %>
+        <div class="flex-1">
+          <p class="font-medium dark:text-white font-heading text-zinc-900">Noah Martinez</p>
+          <p class="font-light text-sm text-zinc-600 font-heading dark:text-zinc-400">Alpine Retreat Haven</p>
         </div>
+      </div>
+      <div class="flex justify-between items-end pt-3">
+        <div class="flex items-center gap-2">
+          <%= icon "clock", class: "size-5 text-zinc-500 stroke-current dark:text-zinc-300" %>
+          <span class="text-zinc-600 dark:text-zinc-400 text-sm">Aug 24, 3pm</span>
+        </div>
+        <%= link_to "View", rui_booking_path, class: "btn btn-white" %>
+      </div>
+    </div>
+
+    <!-- Property user card 2 -->
+    <div class="border border-zinc-300/90 shadow-xs shadow-zinc-300/20 rounded-lg p-4 dark:shadow-zinc-950/50 dark:bg-zinc-800/90 dark:border-zinc-600/80 dark:focus:ring-zinc-600/30 dark:focus:border-zinc-600">
+      <%= image_tag "railsui/property-3.jpg", alt: "Image of Mountain Vista Chalet", class: "rounded-lg h-[174px] w-full object-cover object-center shadow dark:shadow-none dark:border dark:border-zinc-600/80 border-transparent mb-4" %>
+      <div class="flex items-center gap-3">
+        <%= image_tag demo_avatar_url(variant: "women", id: "78"), class: "size-10 rounded-full object-cover", alt: "Dannie White" %>
+        <div class="flex-1">
+          <p class="font-medium dark:text-white font-heading text-zinc-900">Dannie White</p>
+          <p class="font-light text-sm text-zinc-600 font-heading dark:text-zinc-400">Mountain Vista Chalet</p>
+        </div>
+      </div>
+      <div class="flex justify-between items-end pt-3">
+        <div class="flex items-center gap-2">
+          <%= icon "clock", class: "size-5 text-zinc-500 stroke-current dark:text-zinc-300" %>
+          <span class="text-zinc-600 dark:text-zinc-400 text-sm">Aug 24, 3pm</span>
+        </div>
+        <%= link_to "View", rui_booking_path, class: "btn btn-white" %>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="grid grid-cols-12 md:gap-6 gap-4 mt-4 container mx-auto mb-24">
-    <div
-      class="md:col-span-6 lg:col-span-3 col-span-12 rounded-lg shadow-xs border border-slate-200 bg-white dark:bg-slate-800 dark:border-none p-4">
-      <div class="flex items-start gap-3">
-        <div class="rounded-full size-10 flex items-center justify-center bg-primary-50 dark:bg-primary-600/30">
-          <%= icon "envelope-open", class: "size-5 text-primary-600 stroke-current dark:text-primary-300" %>
-        </div>
-        <div class="flex-1">
-          <span class="text-primary-500 dark:text-primary-400/90 text-sm font-medium">Open deals</span>
-          <div class="flex items-center space-x-2 mt-1 mb-2">
-            <h3 class="h2 tracking-tight">32</h3>
-            <p class="text-red-600">-2</p>
-          </div>
-          <p class="text-sm text-slate-400">vs last month: <strong class="text-slate-600 dark:text-slate-400">34</strong>
-          </p>
-        </div>
-      </div>
+<div class="container mx-auto px-4 pt-16">
+  <div class="md:flex items-center justify-between">
+    <div class="md:flex-1">
+      <h3 class="text-3xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight mb-3">Recent stats</h3>
+      <p class="text-zinc-500 font-sans dark:text-zinc-300">Past 30 days</p>
     </div>
-    <div
-      class="md:col-span-6 lg:col-span-3 col-span-12 rounded-lg shadow-xs border border-slate-200 bg-white dark:bg-slate-800 dark:border-none p-4">
-      <div class="flex items-start gap-3">
-        <div class="rounded-full w-10 h-10 flex items-center justify-center bg-red-50 dark:bg-red-500/20">
-          <%= icon "exclamation-circle", class: "size-6 text-red-600 stroke-current dark:text-red-400/90" %>
-        </div>
-        <div class="flex-1">
-          <span class="text-red-400 dark:text-red-400/90 text-sm font-medium">Untouched deals</span>
-          <div class="flex items-center space-x-2 mt-1 mb-2">
-            <h3 class="h2 tracking-tight">40</h3>
-            <p class="text-green-600">+1</p>
-          </div>
-          <p class="text-sm text-slate-500">vs last month: <strong class="text-slate-600 dark:text-slate-400">39</strong>
-          </p>
-        </div>
-      </div>
+    <form action="#" class="md:min-w-[250px] md:w-auto w-full md:mt-0 mt-4">
+      <select name="recent_states_properties" class="form-select">
+        <option value="">Select property</option>
+        <option value="Alpine Retreat Haven">Alpine Retreat Haven</option>
+        <option value="Mount Vista Chalet">Mountain Vista Chalet</option>
+        <option value="Cozy Mountain A-Frame">Cozy Mountain A-Frame</option>
+      </select>
+    </form>
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-6 md:divide-x divide-x-0 mt-6 dark:divide-zinc-700">
+    <div class="md:pr-6 md:py-3">
+      <p class="text-zinc-600 mb-1 dark:text-zinc-200">Clicks</p>
+      <h4 class="text-4xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight">243</h4>
     </div>
-    <div
-      class="md:col-span-6 lg:col-span-3 col-span-12 rounded-lg shadow-xs border border-slate-200 bg-white dark:bg-slate-800 dark:border-none p-4">
-      <div class="flex items-start gap-3">
-        <div class="rounded-full w-10 h-10 flex items-center justify-center bg-blue-50 dark:bg-blue-500/20">
-          <%= icon "phone-arrow-up-right", class: "size-5 text-blue-600 stroke-current dark:text-blue-400/80" %>
-        </div>
-        <div class="flex-1">
-          <span class="text-blue-500 dark:text-blue-300/90 text-sm font-medium">Calls today</span>
-          <div class="flex items-center space-x-2 mt-1 mb-2">
-            <h3 class="h2 tracking-tight">25</h3>
-            <p class="text-green-600">+7</p>
-          </div>
-          <p class="text-sm text-slate-500">vs yesterday: <strong
-              class="text-slate-600 dark:text-slate-400">18</strong>
-          </p>
-        </div>
-      </div>
+    <div class="md:px-6 md:py-3">
+      <p class="text-zinc-600 mb-1 dark:text-zinc-200">Impressions</p>
+      <h4 class="text-4xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight">1231</h4>
     </div>
-
-    <div
-      class="md:col-span-6 lg:col-span-3 col-span-12 rounded-lg shadow-xs border border-slate-200 bg-white dark:bg-slate-800 dark:border-none p-4">
-      <div class="flex items-start gap-3">
-        <div class="rounded-full w-10 h-10 flex items-center justify-center bg-green-50 dark:bg-green-500/20">
-          <%= icon "currency-dollar", class: "size-6 text-green-600 stroke-current dark:text-green-400/80" %>
-        </div>
-        <div class="flex-1">
-          <span class="text-green-500 dark:text-green-400/90 text-sm font-medium">Revenue this month</span>
-
-          <div class="flex items-center space-x-2 mt-1 mb-2">
-            <h3 class="h3 tracking-tight">$125,302</h3>
-            <p class="text-green-600">+2%</p>
-          </div>
-          <p class="text-sm text-slate-500">vs last month: <strong class="text-slate-600 dark:text-slate-400">$102,103</strong>
-          </p>
-        </div>
-      </div>
+    <div class="md:px-6 md:py-3">
+      <p class="text-zinc-600 mb-1 dark:text-zinc-200">Conversion rate</p>
+      <h4 class="text-4xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight">2.2<sup class="text-xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight pl-1">%</sup></h4>
     </div>
-
-    <div class="col-span-12 flex items-center">
-      <div class="h-px w-1/2 bg-gradient-to-l from-slate-200 dark:from-slate-600"></div>
-      <div class="h-px w-1/2 bg-gradient-to-r from-slate-200 dark:from-slate-600"></div>
+    <div class="md:px-6 md:py-3">
+      <p class="text-zinc-600 mb-1 dark:text-zinc-200">Bookings</p>
+      <h4 class="text-4xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight">16</h4>
     </div>
-
-    <div
-      class="lg:col-span-7 md:col-span-6 col-span-12 rounded-lg shadow-xs border border-slate-200 bg-white dark:bg-slate-800 dark:border-none p-6 dark:text-slate-300">
-      <div class="flex items-start justify-between pb-10">
-        <div class="flex-1">
-          <h4 class="h6">Deal revenue forecast
-          </h4>
-        </div>
-        <select name="revenue_period" id="revenue_period"
-          class="form-select w-1/5 shadow-none bg-slate-50 border-none text-sm dark:bg-slate-900">
-          <option value="month">Year</option>
-          <option value="quarter">Quarter</option>
-          <option value="annual">Month</option>
-        </select>
-      </div>
-      <div class="grid grid-cols-12 items-start" data-controller="dashboard">
-        <div class="lg:col-span-4 col-span-12">
-          <div>
-            <p class="mb-3 text-slate-700 dark:text-slate-300">Company goals</p>
-            <div id="company_goals" data-dashboard-target="companygoals"></div>
-          </div>
-        </div>
-        <div class="lg:col-span-8 col-span-12">
-          <div>
-            <p class="mb-3 text-slate-700 dark:text-slate-300">Team goals</p>
-            <div id="team_goals" class="w-full -ml-6 -mt-4" data-dashboard-target="teamgoals"></div>
-          </div>
-        </div>
-      </div>
+    <div class="md:pl-4 md:py-3">
+      <p class="text-zinc-600 mb-1 dark:text-zinc-200">Response time</p>
+      <h4 class="text-4xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight">~1<sup class="text-xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight pl-1">hr</sup></h4>
     </div>
+  </div>
+</div>
 
-    <div
-      class="lg:col-span-5 md:col-span-6 col-span-12 rounded-lg shadow-xs border border-slate-200 bg-white dark:bg-slate-800 dark:border-none p-6">
-      <div class="flex items-center justify-between">
-        <h4 class="h6">New contacts</h4>
-        <%= link_to "View all", "#", class: "font-medium text-sm hover:text-primary-600 text-slate-600 dark:text-slate-400 dark:hover:text-primary-300" %>
+<div class="container mx-auto px-4 py-24">
+  <h3 class="mb-6 font-semibold text-zinc-700 dark:text-zinc-50">Resources</h3>
+
+  <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 lg:gap-6 md:gap-4 gap-4">
+    <%= link_to rui_contact_path, class: "border border-zinc-300/80 shadow-xs shadow-zinc-300/25 hover:shadow flex items-center rounded-lg px-4 py-5 space-x-3 focus:ring-4 focus:ring-zinc-100/80 group transition ease-in-out duration-200 dark:bg-zinc-800/90 dark:border-zinc-600/80 dark:focus:ring-zinc-600/30 dark:focus:border-zinc-600 dark:shadow-zinc-950/30" do %>
+      <div class="size-10 rounded-full border border-primary-300/80 flex items-center justify-center bg-white shrink-0-0 transition ease-in-out duration-200 group-hover:bg-primary-50/50 dark:bg-zinc-800/90 dark:group-hover:bg-primary-600/20 dark:border-primary-600/80">
+        <%= icon "lifebuoy", class: "size-6 text-primary-600 shrink-0-0" %>
       </div>
-
-      <ul class="divide-y mt-6 text-slate-600 dark:text-slate-300 dark:divide-slate-600">
-        <% [
-        {
-          name: "John Smith",
-          email: "john.smith@example.com",
-          tel: "5551234567",
-          tag: "New Lead",
-          tag_class: "bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-300",
-          img: { id: "23", variant: "men" }
-        },
-        {
-          name: "Emily Johnson",
-          email: "emily.johnson@example.com",
-          tel: "5559876543",
-          tag: "Qualified Lead",
-          tag_class: "bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-300/80",
-          img: { id: "32", variant: "women" }
-        },
-        {
-          name: "Michael Davis",
-          email: "michael.davis@example.com",
-          tel: "5554567890",
-          tag: "New Lead",
-          tag_class: "bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-300",
-          img: { id: "45", variant: "men" }
-        },
-        {
-          name: "Sarah Thompson",
-          email: "sarah.thompson@example.com",
-          tel: "5557890123",
-          tag: "Contacted",
-          tag_class: "bg-yellow-100 text-yellow-800 dark:bg-yellow-300/10 dark:text-yellow-500/80",
-          img: { id: "54", variant: "women" }
-        },
-        {
-          name: "Jennifer Brown",
-          email: "jennifer.brown@example.com",
-          tel: "5558765432",
-          tag: "Contacted",
-          tag_class: "bg-yellow-100 text-yellow-800 dark:bg-yellow-300/10 dark:text-yellow-500/80",
-          img: { id: "76", variant: "women" }
-        }].each do |contact| %>
-          <li class="flex flex-wrap justify-between items-start py-3">
-            <div class="flex items-start gap-3">
-              <%= link_to "#", class: "flex items-center sm:mb-0 mb-1" do %>
-                <%= image_tag demo_avatar_url(id: contact[:img][:id], variant: contact[:img][:variant]), alt: contact[:name], class: "size-11 rounded-full" %>
-              <% end %>
-              <div>
-                <%= link_to contact[:name], "#", class: "font-semibold text-slate-700 dark:text-slate-100 block" %>
-                <div class="flex items-center gap-2">
-                  <%= link_to "Call", "#", class: "text-sm text-slate-500/90 dark:text-slate-400 font-medium underline" %>
-                  <%= link_to "Message", "#", class: "text-sm text-slate-500/90 dark:text-slate-400 font-medium underline" %>
-                </div>
-              </div>
-            </div>
-            <div>
-              <span
-                  class="<%= contact[:tag_class] %> rounded  font-medium px-2 py-1 text-xs"><%= contact[:tag] %></span>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-
-    <div
-      class="lg:col-span-6 md:cols-span-12 col-span-12 rounded-lg shadow-xs border border-slate-200 bg-white dark:bg-slate-800 dark:border-none p-6">
-      <div class="flex items-center justify-between mb-4">
-        <h4 class="h6">Open deals</h4>
-        <%= link_to "View all", rui_projects_path, class: "font-medium text-sm hover:text-primary-600 text-slate-600 dark:text-slate-400 dark:hover:text-primary-300" %>
+      <div>
+        <h5 class="text-base font-medium font-heading text-zinc-700 dark:text-zinc-100 tracking-tight">Get support</h5>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">Contact our support team chat.</p>
       </div>
+    <% end %>
 
-      <div class="space-y-4 divide-y dark:divide-slate-600">
-        <% [
-          {
-            img: {id: "85", variant: "women"},
-            name: "Jackie Hacky",
-            tag: "Contacted",
-            tag_class: "bg-yellow-100 text-yellow-800 font-medium px-2 py-1 leading-tight text-xs inline-block sm:mb-0 rounded md:ml-9 dark:bg-yellow-300/10 dark:text-yellow-500/80",
-            address: "123 Easy Street",
-            close_date: "Jan 18, 2024"
-          },
-          {
-            img: {id: "83", variant: "women"},
-            name: "Jane Myers",
-            tag: "Contacted",
-            tag_class: "bg-yellow-100 text-yellow-800 font-medium px-2 py-1 leading-tight text-xs inline-block sm:mb-0 rounded md:ml-9 dark:bg-yellow-300/10 dark:text-yellow-500/80",
-            address: "456 Sunny Estate",
-            close_date: "Jan 18, 2024"
-          },
-          {
-            img: {id: "32", variant: "men"},
-            name: "Josh Scandal",
-            tag: "Qualified Lead",
-            tag_class: "bg-green-100 text-green-800 font-medium px-2 py-1 leading-tight text-xs inline-block sm:mb-0 rounded md:ml-9 dark:bg-green-500/20 dark:text-green-300/80",
-            address: "563 Saucy Ave",
-            close_date: "Jan 18, 2024"
-          }
-        ].each do | deal | %>
-          <%= link_to "#", class: "p-2 flex flex-wrap items-center group" do %>
-            <div class="md:flex-1 md:block flex justify-between w-full">
-              <div class="flex items-center gap-3">
-                <%= image_tag demo_avatar_url(id: deal[:img][:id], variant: deal[:img][:variant]), alt: deal[:name], class: "rounded-full md:size-6 size-8" %>
-                <p class="font-medium hover:text-primary-600 flex-1"><%= deal[:name] %></p>
-              </div>
-              <div class="text-left">
-                <span class="<%= deal[:tag_class] %>"><%= deal[:tag] %></span>
-              </div>
-            </div>
-
-            <div
-              class="md:text-right text-left md:group-hover:-translate-x-1 md:group-hover:transition duration-200 md:group-hover:transform md:w-auto w-full md:pt-0 pt-3">
-              <p class="font-medium text-slate-600 dark:text-slate-300"><%= deal[:address] %></p>
-              <p class="text-xs text-slate-500 dark:text-slate-400">Closing date: <%= deal[:close_date] %></p>
-            </div>
-            <div
-              class="opacity-0 group-hover:opacity-100 transition ease-in-out group-hover:transform group-hover:translate-x-1 md:block hidden">
-              <%= icon "chevron-right", class: "size-4 text-slate-500 group-hover:text-primary-600 dark:group-hover:text-primary-300" %>
-            </div>
-          <% end %>
-        <% end %>
+    <%= link_to rui_help_center_path, class: "border border-zinc-300/80 shadow-xs shadow-zinc-300/25 hover:shadow flex items-center rounded-lg px-4 py-5 space-x-3 focus:ring-4 focus:ring-zinc-100/80 group transition ease-in-out duration-200 dark:border-zinc-600/80 dark:focus:ring-zinc-600/30 dark:focus:border-zinc-600 dark:shadow-zinc-950/30 dark:bg-zinc-800/90" do %>
+      <div class="size-10 rounded-full border border-secondary-300/80 flex items-center justify-center bg-white shrink-0-0 group-hover:bg-secondary-50/50 transition ease-in-out duration-200 dark:bg-zinc-800/90 dark:group-hover:bg-secondary-600/20 dark:border-secondary-600/80">
+        <%= icon "user-group", class: "size-6 shrink-0-0 text-secondary-500" %>
       </div>
-    </div>
-    <div
-      class="lg:col-span-6 md:cols-span-12 col-span-12 rounded-lg shadow-xs border border-slate-200 bg-white dark:bg-slate-800 dark:border-none p-6">
-      <div class="flex items-center justify-between mb-4">
-        <h4 class="h6">Recent projects</h4>
-        <%= link_to "View all", rui_projects_path, class: "font-medium text-sm hover:text-primary-600 text-slate-600 dark:text-slate-400 dark:hover:text-primary-300" %>
+      <div>
+        <h5 class="text-base font-medium font-heading text-zinc-700 dark:text-zinc-100 tracking-tight">Join the forum</h5>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">Network with fellow hosts.</p>
       </div>
+    <% end %>
 
-      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <% [
-        {
-          title: "Enhanced User Authentication System",
-          description: "Implement a robust multi-factor authentication system with biometric integration, enhancing security and user experience across all platforms.",
-        },
-        {
-          title: "Automated Data Migration Tool",
-          description: "Develop a powerful tool to seamlessly transfer data between different database systems, ensuring data integrity and minimizing downtime during migrations.",
-        },
-        {
-          title: "Real-time Data Visualization Dashboard",
-          description: "Create an interactive dashboard that presents complex data sets in easily digestible visual formats, enabling quick insights and informed decision-making.",
-        },
-        {
-          title: "Intelligent Chatbot for Customer Support",
-          description: "Design an AI-powered chatbot capable of handling customer inquiries, resolving common issues, and seamlessly escalating complex problems to human agents when necessary."
-        }
-      ].each do |project| %>
-          <li>
-            <%= link_to rui_project_path, class: "border border-slate-300/80 hover:border-slate-400/70 rounded-lg shadow-xs p-4 focus:ring-4 focus:ring-primary-200/50 bg-white block group dark:bg-slate-700 dark:border-none dark:focus:ring-slate-500/20" do %>
-              <p class="font-medium dark:group-hover:text-primary-300 group-hover:text-primary-600 line-clamp-1 mb-2"><%= project[:title] %></p>
-              <p class="line-clamp-2 text-sm text-slate-500"><%= project[:description] %></p>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+    <%= link_to rui_help_center_path, class: "border border-zinc-300/80 shadow-xs shadow-zinc-300/25 hover:shadow flex items-center rounded-lg px-4 py-5 space-x-3 focus:ring-4 focus:ring-zinc-100/80 group transition ease-in-out duration-200 dark:bg-zinc-800/90 dark:border-zinc-600/80 dark:focus:ring-zinc-600/30 dark:focus:border-zinc-600 dark:shadow-zinc-950/30" do %>
+      <div class="size-10 rounded-full border border-zinc-400/80 flex items-center justify-center bg-white shrink-0-0 transition ease-in-out duration-200 group-hover:bg-zinc-50/80 dark:bg-zinc-800/90 dark:group-hover:bg-zinc-700/70">
+        <%= icon "tv", class: "text-zinc-500 size-6 shrink-0-0 dark:group-hover:text-zinc-400" %>
+      </div>
+      <div>
+        <h5 class="text-base font-medium font-heading text-zinc-700 dark:text-zinc-100 tracking-tight">Watch tutorials</h5>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">Watch video tutorials to learn.</p>
+      </div>
+    <% end %>
+
+    <%= link_to rui_help_center_path, class: "border border-zinc-300/80 shadow-xs shadow-zinc-300/25 hover:shadow flex items-center rounded-lg px-4 py-5 space-x-3 focus:ring-4 focus:ring-zinc-100/80 transition ease-in-out duration-200 group dark:bg-zinc-800/90 dark:border-zinc-600/80 dark:focus:ring-zinc-600/30 dark:focus:border-zinc-600 dark:shadow-zinc-950/30" do %>
+      <div class="size-10 rounded-full border border-violet-500/80 dark:border-violet-600/70 flex items-center justify-center bg-white shrink-0-0 transition ease-in-out duration-200 group-hover:bg-violet-50/50 dark:bg-zinc-800/90 dark:group-hover:bg-violet-600/20">
+        <%= icon "queue-list", class: "text-violet-500 dark:group-hover:text-violet-400/80 size-6 shrink-0-0" %>
+      </div>
+      <div>
+        <h5 class="text-base font-medium font-heading text-zinc-700 dark:text-zinc-100 tracking-tight">Product updates</h5>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">Read about upcoming changes.</p>
+      </div>
+    <% end %>
   </div>
 </div>
