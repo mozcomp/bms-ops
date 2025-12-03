@@ -351,13 +351,13 @@
   - Test instance uniqueness constraint error messages
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 9.7_
 
-- [ ] 15. Update dashboard and navigation
-- [ ] 15.1 Add instances to dashboard
+- [x] 15. Update dashboard and navigation
+- [x] 15.1 Add instances to dashboard
   - Add instances count and recent instances to dashboard
   - Add navigation link to instances
   - _Requirements: 9.1_
 
-- [ ] 15.2 Update navigation menu
+- [x] 15.2 Update navigation menu
   - Add Instances link to main navigation
   - Ensure all resource links are present
   - _Requirements: 9.1_

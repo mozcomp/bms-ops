@@ -81,30 +81,47 @@
       <!-- Recent Activity -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
-          <div class="p-6 border-b border-slate-200 dark:border-slate-700">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Recent Deployments</h3>
+          <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Recent Instances</h3>
+            <%= link_to instances_path, class: "text-sm text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 font-medium" do %>
+              View all
+            <% end %>
           </div>
           <div class="p-6">
-            <div class="space-y-4">
-              <% [
-                { service: "BMS Core API", version: "v2.4.1", status: "success", time: "5 mins ago" },
-                { service: "Auth Service", version: "v1.8.3", status: "success", time: "2 hours ago" },
-                { service: "Analytics Engine", version: "v3.1.0", status: "success", time: "5 hours ago" }
-              ].each do |deployment| %>
-                <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
-                  <div class="flex items-center gap-3">
-                    <div class="bg-green-100 dark:bg-green-900/30 rounded-full p-2">
-                      <%= icon "check-circle", class: "size-5 text-green-600 dark:text-green-400" %>
+            <% recent_instances = Instance.includes(:tenant, :app, :service).order(created_at: :desc).limit(5) %>
+            <% if recent_instances.any? %>
+              <div class="space-y-4">
+                <% recent_instances.each do |instance| %>
+                  <%= link_to instance, class: "block p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition" do %>
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-3 min-w-0 flex-1">
+                        <div class="bg-orange-100 dark:bg-orange-900/30 rounded-full p-2 flex-shrink-0">
+                          <%= icon "cube", class: "size-5 text-orange-600 dark:text-orange-400" %>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                          <p class="font-medium text-slate-900 dark:text-slate-100 truncate"><%= instance.tenant.name %></p>
+                          <p class="text-sm text-slate-600 dark:text-slate-400 truncate"><%= instance.app.name %> · <%= instance.environment_label %></p>
+                        </div>
+                      </div>
+                      <span class="px-2 py-1 text-xs font-semibold rounded-full flex-shrink-0 <%= instance.environment == 'production' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' : instance.environment == 'staging' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400' %>">
+                        <%= instance.environment %>
+                      </span>
                     </div>
-                    <div>
-                      <p class="font-medium text-slate-900 dark:text-slate-100"><%= deployment[:service] %></p>
-                      <p class="text-sm text-slate-600 dark:text-slate-400"><%= deployment[:version] %></p>
-                    </div>
-                  </div>
-                  <span class="text-sm text-slate-500 dark:text-slate-400"><%= deployment[:time] %></span>
+                  <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center py-8">
+                <div class="inline-flex items-center justify-center size-12 bg-slate-100 dark:bg-slate-700 rounded-full mb-3">
+                  <%= icon "cube", class: "size-6 text-slate-400" %>
                 </div>
-              <% end %>
-            </div>
+                <p class="text-sm text-slate-600 dark:text-slate-400">No instances yet</p>
+                <%= link_to new_instance_path, class: "inline-flex items-center gap-2 text-sm text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 font-medium mt-2" do %>
+                  <%= icon "plus", class: "size-4" %>
+                  <span>Create first instance</span>
+                <% end %>
+              </div>
+            <% end %>
           </div>
         </div>
 
