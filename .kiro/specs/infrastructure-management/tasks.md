@@ -362,5 +362,5 @@
   - Ensure all resource links are present
   - _Requirements: 9.1_
 
-- [ ] 16. Final checkpoint - Complete test suite
+- [x] 16. Final checkpoint - Complete test suite
   - Ensure all tests pass, ask the user if questions arise.

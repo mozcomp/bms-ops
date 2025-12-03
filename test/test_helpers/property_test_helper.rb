@@ -46,7 +46,8 @@ module PropertyTestHelper
   def generate_service_name
     prefix = "bms"
     tenant = Rantly { sized(range(3, 10)) { string(:alnum) } }.downcase
-    "#{prefix}-#{tenant}-service"
+    suffix = SecureRandom.hex(4)
+    "#{prefix}-#{tenant}-service-#{suffix}"
   end
 
   # Generate a random AWS region

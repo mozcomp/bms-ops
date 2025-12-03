@@ -2,6 +2,9 @@ require "test_helper"
 
 class AwsErrorHandlingTest < ActionDispatch::IntegrationTest
   class TestController < ApplicationController
+    allow_unauthenticated_access
+    include Rails.application.routes.url_helpers
+    
     def trigger_credentials_error
       raise AwsService::CredentialsError, "AWS credentials not configured"
     end
@@ -16,7 +19,18 @@ class AwsErrorHandlingTest < ActionDispatch::IntegrationTest
   end
 
   setup do
+    @user = User.create!(email_address: "test@example.com", password: "password123", first_name: "Test", last_name: "User")
+    sign_in_as(@user)
+    
+    @original_routes = Rails.application.routes.routes.dup
     Rails.application.routes.draw do
+      root "dashboard#index"
+      resource :session
+      resources :tenants
+      resources :services
+      resources :apps
+      resources :databases
+      resources :instances
       get "test/credentials_error" => "aws_error_handling_test/test#trigger_credentials_error"
       get "test/configuration_error" => "aws_error_handling_test/test#trigger_configuration_error"
       get "test/service_error" => "aws_error_handling_test/test#trigger_service_error"
