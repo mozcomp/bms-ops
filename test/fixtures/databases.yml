@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  connection: 
-  schema_version: MyString
+  name: Database One
+  connection: {}
+  schema_version: "1.0"
 
 two:
-  name: MyString
-  connection: 
-  schema_version: MyString
+  name: Database Two
+  connection: {}
+  schema_version: "2.0"

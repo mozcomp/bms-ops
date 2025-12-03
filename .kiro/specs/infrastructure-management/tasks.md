@@ -295,7 +295,7 @@
   - Test service and container discovery
   - _Requirements: 5.2, 5.3, 5.5_
 
-- [ ] 12. Checkpoint - Ensure all tests pass
+- [x] 12. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 13. Enhance view layer

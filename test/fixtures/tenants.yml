@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  code: MyString
-  name: MyString
-  configuration: 
+  code: tenant_one
+  name: Tenant One
+  configuration: {}
 
 two:
-  code: MyString
-  name: MyString
-  configuration: 
+  code: tenant_two
+  name: Tenant Two
+  configuration: {} 

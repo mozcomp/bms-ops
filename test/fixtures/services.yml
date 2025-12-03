@@ -1,23 +1,19 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  image: MyString
-  registry: MyString
-  version: MyString
-  task_definitions: 
-  service_definition: 
-  service_task: MyString
-  string: MyString
-  environment: 
+  name: Service One
+  image: service-one
+  registry: registry.example.com
+  version: v1.0.0
+  task_definitions: {}
+  service_definition: {}
+  environment: {}
 
 two:
-  name: MyString
-  image: MyString
-  registry: MyString
-  version: MyString
-  task_definitions: 
-  service_definition: 
-  service_task: MyString
-  string: MyString
-  environment: 
+  name: Service Two
+  image: service-two
+  registry: registry.example.com
+  version: v2.0.0
+  task_definitions: {}
+  service_definition: {}
+  environment: {} 
