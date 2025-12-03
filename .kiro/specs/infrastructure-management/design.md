@@ -4,7 +4,9 @@
 
 The BMS Ops Infrastructure Management System is a Rails-based web application that provides a centralized interface for managing multi-tenant AWS infrastructure. The system follows a traditional MVC architecture with ActiveRecord models, RESTful controllers, and Tailwind-styled views. The application manages five core entities: Tenants, Apps, Services, Databases, and Instances, each with CRUD operations and specialized business logic for AWS integration.
 
-The system integrates with AWS services (ECS, S3, EC2, ECR, ELB, CloudWatch Logs, Route53) to provide real-time infrastructure management capabilities. Data is persisted in SQLite (development) and MySQL (production) with JSON fields for flexible configuration storage.
+Instances are the central connecting entity that links Tenants (clients), Apps (codebases), Services (ECS services), and Environments (production/staging/development) together, representing a specific deployment configuration with a virtual host.
+
+The system integrates with AWS services (ECS, S3, EC2, ECR, ELB, CloudWatch Logs, Route53) to provide real-time infrastructure management capabilities. Data is persisted in SQLite (development) and MySQL (production) with JSON fields for flexible configuration storage and foreign keys for maintaining referential integrity between entities.
 
 ## Architecture
 
@@ -48,9 +50,17 @@ The system integrates with AWS services (ECS, S3, EC2, ECR, ELB, CloudWatch Logs
 ### Component Responsibilities
 
 - **Controllers**: Handle HTTP requests, parameter validation, and response rendering
-- **Models**: Encapsulate business logic, validations, and data persistence
+- **Models**: Encapsulate business logic, validations, data persistence, and associations between entities
 - **Services**: Provide AWS integration and complex resource management
 - **Views**: Render HTML with Tailwind CSS styling and Stimulus controllers for interactivity
+
+### Key Relationships
+
+- **Instance** belongs to **Tenant**, **App**, and **Service**
+- **Tenant** has many **Instances**
+- **App** has many **Instances**
+- **Service** has many **Instances**
+- Each Instance represents a unique combination of Tenant + App + Environment
 
 ## Components and Interfaces
 
@@ -121,6 +131,56 @@ end
 #### Instance Model
 ```ruby
 class Instance < ApplicationRecord
+  # Attributes: tenant_id, app_id, service_id, environment, virtual_host, env_vars (JSON)
+  
+  belongs_to :tenant
+  belongs_to :app
+  belongs_to :service
+  
+  validates :tenant_id, presence: true
+  validates :app_id, presence: true
+  validates :service_id, presence: true
+  validates :environment, presence: true, inclusion: { in: %w[production staging development] }
+  validates :virtual_host, presence: true
+  
+  before_validation :set_default_virtual_host, on: :create
+  before_save :ensure_env_vars
+  
+  # Virtual attributes for JSON field editing
+  def env_vars_json
+    env_vars.to_json if env_vars.present?
+  end
+  
+  def env_vars_json=(value)
+    self.env_vars = value.present? ? JSON.parse(value) : {}
+  rescue JSON::ParserError
+    self.env_vars = {}
+  end
+  
+  # Methods
+  def environment_label # Returns human-readable environment name
+  def full_url # Returns complete URL with protocol
+  
+  private
+  
+  def set_default_virtual_host
+    return if virtual_host.present?
+    return unless tenant.present?
+    
+    subdomain = tenant.subdomain
+    subdomain = "#{environment}-#{subdomain}" unless environment == 'production'
+    self.virtual_host = "#{subdomain}.bmserp.com"
+  end
+  
+  def ensure_env_vars
+    self.env_vars ||= {}
+  end
+end
+```
+
+#### Instance Model
+```ruby
+class Instance < ApplicationRecord
   # Attributes: tenant_id, app_id, service_id, environment, virtual_host
   
   belongs_to :tenant
@@ -152,6 +212,15 @@ All controllers follow RESTful conventions with standard actions:
 
 Controllers use strong parameters for mass assignment protection and handle validation errors by re-rendering forms with error messages.
 
+#### InstancesController
+The InstancesController manages the relationships between Tenants, Apps, Services, and Environments:
+- Uses eager loading (`includes`) to efficiently load associations
+- Provides filtering capabilities by tenant_id and service_id
+- Validates environment values through the model
+- Handles virtual_host generation automatically via model callbacks
+- Handles env_vars JSON parsing through virtual attributes
+- Strong parameters: `tenant_id`, `app_id`, `service_id`, `environment`, `virtual_host` (optional), `env_vars_json` (optional)
+
 ### AWS Integration Services
 
 #### AwsService Module
@@ -179,6 +248,28 @@ Views use:
 - Partial forms for DRY form rendering
 - Flash messages for user feedback
 - Icon helpers for consistent iconography
+
+#### Instance Views
+Instance views provide a comprehensive interface for managing tenant-app-service relationships:
+- **Index**: Table view with columns for tenant, app, service, environment, and virtual_host
+  - Environment badges with color coding (production: green, staging: yellow, development: blue)
+  - Filtering by tenant or service
+  - Links to associated records
+- **Show**: Detailed view displaying all association information
+  - Tenant details with link
+  - App details with repository information
+  - Service details with image information
+  - Environment and virtual_host
+  - Full URL display
+  - Environment variables display in formatted key-value pairs
+- **Form**: Select dropdowns for associations
+  - Tenant select (populated from Tenant.all)
+  - App select (populated from App.all)
+  - Service select (populated from Service.all)
+  - Environment select (production, staging, development)
+  - Optional virtual_host field with auto-generation preview
+  - Textarea for env_vars JSON with syntax highlighting and validation
+  - Helper text showing example JSON format
 
 ## Data Models
 
@@ -226,9 +317,14 @@ instances
   - app_id: integer (foreign key, not null)
   - service_id: integer (foreign key, not null)
   - environment: string (not null)
-  - virtual_host: string
+  - virtual_host: string (not null)
+  - env_vars: json
   - created_at: datetime
   - updated_at: datetime
+  - index on tenant_id
+  - index on app_id
+  - index on service_id
+  - index on environment
   - unique index on [tenant_id, app_id, environment]
 ```
 
@@ -248,7 +344,7 @@ instances
 #### Service Environment
 ```json
 {
-  "DATABASE_URL": "postgresql://...",
+  "DATABASE_URL": "mysql2://...",
   "REDIS_URL": "redis://...",
   "RAILS_ENV": "production"
 }
@@ -258,10 +354,23 @@ instances
 ```json
 {
   "host": "localhost",
-  "port": 5432,
+  "port": 3306,
   "database": "bms_acme_production",
   "username": "postgres",
-  "adapter": "postgresql"
+  "adapter": "mysql2"
+}
+```
+
+#### Instance Environment Variables
+```json
+{
+  "DATABASE_URL": "mysql2://user:pass@host:3306/bms_acme_production",
+  "REDIS_URL": "redis://localhost:6379/0",
+  "RAILS_ENV": "production",
+  "SECRET_KEY_BASE": "...",
+  "AWS_REGION": "ap-southeast-2",
+  "S3_BUCKET": "bms-acme-production",
+  "TENANT_CODE": "acme"
 }
 ```
 
@@ -349,6 +458,38 @@ ess Properties
 ### Property 20: SSH to HTTPS URL conversion
 *For any* repository URL in SSH format (git@host:owner/repo), converting to display URL should produce a valid HTTPS format (https://host/owner/repo).
 **Validates: Requirements 8.5**
+
+### Property 21: Instance creation with associations
+*For any* valid instance with tenant, app, service, and environment, creating the instance should persist it with all associations intact.
+**Validates: Requirements 9.1**
+
+### Property 22: Environment validation
+*For any* instance, the environment field should only accept the values "production", "staging", or "development", rejecting any other values.
+**Validates: Requirements 9.2**
+
+### Property 23: Instance associations query
+*For any* tenant or service, querying for associated instances should return all instances linked to that tenant or service.
+**Validates: Requirements 9.4, 9.5**
+
+### Property 24: Instance deletion preserves associations
+*For any* instance, deleting it should remove only the instance record while preserving the associated tenant, app, and service records.
+**Validates: Requirements 9.6**
+
+### Property 25: Virtual host generation
+*For any* instance created without a virtual_host, the system should generate a default virtual host based on tenant subdomain and environment (prefixing with environment for non-production).
+**Validates: Requirements 9.7**
+
+### Property 26: Instance env_vars JSON round-trip
+*For any* valid JSON environment variables data, storing it in an instance's env_vars field and then retrieving it should return equivalent data.
+**Validates: Requirements 9.8**
+
+### Property 27: Instance env_vars JSON parsing error handling
+*For any* invalid JSON string provided to the env_vars field, the system should gracefully default the field to an empty JSON object without raising an exception.
+**Validates: Requirements 9.9**
+
+### Property 28: Instance env_vars initialization
+*For any* instance created without env_vars, the system should initialize the env_vars field as an empty JSON object.
+**Validates: Requirements 9.8**
 
 ### Property 21: Instance creation with associations
 *For any* valid instance with tenant, app, service, and environment, creating the instance should persist it with all associations intact.

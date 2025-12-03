@@ -20,7 +20,7 @@ class Database < ApplicationRecord
   end
 
   def port
-    connection&.dig("port") || 5432
+    connection&.dig("port") || 3306
   end
 
   def database_name
@@ -32,7 +32,7 @@ class Database < ApplicationRecord
   end
 
   def adapter
-    connection&.dig("adapter") || "postgresql"
+    connection&.dig("adapter") || "mysql2"
   end
 
   # Build connection string for display

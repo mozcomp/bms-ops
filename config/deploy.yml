@@ -98,7 +98,7 @@ builder:
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:
 #   db:
-#     image: mysql:8.0
+#     image: mysql2:8.0
 #     host: 192.168.0.2
 #     # Change to 3306 to expose port to the world instead of just local network.
 #     port: "127.0.0.1:3306:3306"
@@ -108,10 +108,10 @@ builder:
 #       secret:
 #         - MYSQL_ROOT_PASSWORD
 #     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
+#       - config/mysql2/production.cnf:/etc/mysql2/my.cnf
 #       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
 #     directories:
-#       - data:/var/lib/mysql
+#       - data:/var/lib/mysql2
 #   redis:
 #     image: valkey/valkey:8
 #     host: 192.168.0.2

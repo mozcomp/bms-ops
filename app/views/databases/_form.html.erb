@@ -46,9 +46,9 @@
       <div>
         <%= form.label :connection_json, "Connection Details", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
         <%= form.text_area :connection_json, rows: 12, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: '{
-  "adapter": "postgresql",
+  "adapter": "mysql2",
   "host": "localhost",
-  "port": 5432,
+  "port": 3306,
   "database": "bms_production",
   "username": "bms_user",
   "password": "secure_password",
@@ -63,7 +63,7 @@
             <div class="text-sm text-blue-800 dark:text-blue-300">
               <p class="font-medium mb-1">Common connection parameters:</p>
               <ul class="list-disc list-inside space-y-0.5 text-blue-700 dark:text-blue-400 text-xs">
-                <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">adapter</code> - Database type (postgresql, mysql2, sqlite3)</li>
+                <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">adapter</code> - Database type (mysql2, mysql2, sqlite3)</li>
                 <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">host</code> - Database server hostname</li>
                 <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">port</code> - Connection port</li>
                 <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">database</code> - Database name</li>

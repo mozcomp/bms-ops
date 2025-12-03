@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The BMS Ops Infrastructure Management System provides a centralized platform for managing multi-tenant AWS infrastructure. The system enables operations teams to manage tenants, applications, services, and databases across AWS ECS environments. Each tenant operates with isolated database schemas while sharing containerized services that run specific versions of applications sourced from GitHub repositories.
+The BMS Ops Infrastructure Management System provides a centralized platform for managing multi-tenant AWS infrastructure. The system enables operations teams to manage tenants, applications, services, databases, and instances across AWS ECS environments. Each tenant operates with isolated database schemas while sharing containerized services that run specific versions of applications sourced from GitHub repositories. Instances represent the deployment of a specific app for a tenant in a particular environment (production, staging, or development), serviced by a designated service.
 
 ## Glossary
 
@@ -16,8 +16,9 @@ The BMS Ops Infrastructure Management System provides a centralized platform for
 - **Container**: A Docker container instance running on AWS ECS
 - **Schema**: A database namespace isolating tenant data
 - **Configuration**: JSON-formatted settings for tenants, services, and databases
-- **Instance**: A virtual host representing a Tenant running an App in a specific environment (production, staging, development) serviced by a Service
+- **Instance**: A virtual host representing a Tenant running an App in a specific environment (production, staging, development) serviced by a Service, including environment variables required for the app to run
 - **Environment**: The deployment environment level (production, staging, or development)
+- **Environment Variables**: JSON-formatted key-value pairs containing configuration settings required for an app instance to run
 
 ## Requirements
 
@@ -66,7 +67,7 @@ The BMS Ops Infrastructure Management System provides a centralized platform for
 1. WHEN an administrator creates a database with a name, THEN the System SHALL persist the database with an empty connection JSON object
 2. WHEN an administrator provides connection JSON with host, port, database, username, and adapter fields, THEN the System SHALL parse and store the connection details
 3. WHEN an administrator views a database, THEN the System SHALL display a formatted connection string showing adapter, username, host, port, and database name
-4. WHEN connection JSON is not provided, THEN the System SHALL display default values of localhost for host and 5432 for port
+4. WHEN connection JSON is not provided, THEN the System SHALL display default values of localhost for host and 3306 for port
 5. WHEN a database name is duplicated, THEN the System SHALL reject the creation and display a validation error
 
 ### Requirement 5
@@ -116,6 +117,23 @@ The BMS Ops Infrastructure Management System provides a centralized platform for
 3. WHEN a repository URL includes a .git suffix, THEN the System SHALL extract the repository name without the suffix
 4. WHEN a repository URL is from GitHub, GitLab, or Bitbucket, THEN the System SHALL identify the correct platform
 5. WHEN a repository URL is in SSH format, THEN the System SHALL convert it to a clean HTTPS URL for display
+
+### Requirement 9
+
+**User Story:** As an operations administrator, I want to manage instance configurations, so that I can track which tenants are running which apps in which environments and which services are handling them.
+
+#### Acceptance Criteria
+
+1. WHEN an administrator creates an instance with a tenant, app, service, and environment, THEN the System SHALL persist the instance record with all associations
+2. WHEN an administrator specifies an environment for an instance, THEN the System SHALL validate that the environment is one of production, staging, or development
+3. WHEN an administrator views an instance, THEN the System SHALL display the tenant name, app name, service name, environment, and virtual host
+4. WHEN an administrator queries instances by tenant, THEN the System SHALL return all instances associated with that tenant
+5. WHEN an administrator queries instances by service, THEN the System SHALL return all instances serviced by that service
+6. WHEN an administrator deletes an instance, THEN the System SHALL remove the instance record without affecting the associated tenant, app, or service
+7. WHEN an instance is created without a virtual host, THEN the System SHALL generate a default virtual host based on tenant subdomain and environment
+8. WHEN an administrator provides environment variables as JSON, THEN the System SHALL parse and store the environment variables in the env_vars field
+9. WHEN environment variables JSON parsing fails, THEN the System SHALL default the env_vars field to an empty JSON object
+10. WHEN an administrator views an instance, THEN the System SHALL display the environment variables in a readable form
 
 ### Requirement 9
 

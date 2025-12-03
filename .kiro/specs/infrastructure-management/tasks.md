@@ -1,27 +1,27 @@
 # Implementation Plan
 
-- [ ] 1. Set up property-based testing framework
+- [x] 1. Set up property-based testing framework
   - Install and configure the `rantly` gem for property-based testing
   - Create test helper utilities for generating random test data
   - Set up test directory structure for property tests
   - _Requirements: All properties_
 
-- [ ] 2. Implement and test Tenant model enhancements
-- [ ] 2.1 Enhance Tenant model with robust JSON handling
+- [x] 2. Implement and test Tenant model enhancements
+- [x] 2.1 Enhance Tenant model with robust JSON handling
   - Ensure configuration JSON field has proper default initialization
   - Add comprehensive virtual attribute methods for configuration access
   - Implement URL computation logic
   - _Requirements: 1.1, 1.2, 1.3_
 
-- [ ] 2.2 Write property test for tenant creation with defaults
+- [x] 2.2 Write property test for tenant creation with defaults
   - **Property 1: Tenant creation with defaults**
   - **Validates: Requirements 1.1**
 
-- [ ] 2.3 Write property test for tenant computed fields
+- [x] 2.3 Write property test for tenant computed fields
   - **Property 3: Tenant computed fields presence**
   - **Validates: Requirements 1.3**
 
-- [ ] 2.4 Write unit tests for tenant model
+- [x] 2.4 Write unit tests for tenant model
   - Test validation rules (presence, uniqueness)
   - Test virtual attribute getters and setters
   - Test URL computation edge cases
@@ -156,13 +156,26 @@
   - **Property 27: Instance uniqueness per tenant-app-environment**
   - **Validates: Requirements 9.7**
 
-- [ ] 6.10 Write unit tests for instance model
+- [ ] 6.10 Write property test for instance env_vars JSON round-trip
+  - **Property 28: Instance env_vars JSON round-trip**
+  - **Validates: Requirements 9.8**
+
+- [ ] 6.11 Write property test for instance env_vars error handling
+  - **Property 29: Instance env_vars JSON parsing error handling**
+  - **Validates: Requirements 9.9**
+
+- [ ] 6.12 Write property test for instance env_vars initialization
+  - **Property 30: Instance env_vars initialization**
+  - **Validates: Requirements 9.8**
+
+- [ ] 6.13 Write unit tests for instance model
   - Test association setup
   - Test environment validation
   - Test uniqueness constraint
   - Test computed methods
+  - Test env_vars JSON parsing and storage
   - Test scopes for querying by tenant and environment
-  - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7_
+  - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 9.10_
 
 - [ ] 7. Implement cross-model property tests
 - [ ] 7.1 Write property test for JSON round-trip
@@ -191,17 +204,18 @@
 - [ ] 9. Implement InstancesController
 - [ ] 9.1 Create InstancesController with CRUD actions
   - Implement index, show, new, create, edit, update, destroy actions
-  - Add strong parameters for instance attributes
+  - Add strong parameters for instance attributes including env_vars_json
   - Implement filtering by tenant and environment
   - Add proper error handling and flash messages
-  - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7_
+  - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 9.10_
 
 - [ ] 9.2 Create instance views
   - Create index view with filtering options
-  - Create show view displaying all associations
+  - Create show view displaying all associations and env_vars
   - Create form partial with tenant, app, service, and environment selects
+  - Add textarea for env_vars JSON with helper text and example
   - Add proper error display
-  - _Requirements: 9.1, 9.2, 9.3_
+  - _Requirements: 9.1, 9.2, 9.3, 9.8, 9.10_
 
 - [ ] 9.3 Add instances routes
   - Add resources :instances to routes.rb
@@ -211,7 +225,8 @@
   - Test CRUD operations
   - Test filtering by tenant and environment
   - Test validation error handling
-  - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7_
+  - Test env_vars JSON handling in forms
+  - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 9.10_
 
 - [ ] 10. Enhance controller implementations
 - [ ] 10.1 Review and enhance TenantsController
