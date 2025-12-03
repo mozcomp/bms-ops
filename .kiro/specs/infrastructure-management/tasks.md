@@ -69,26 +69,26 @@
   - Test URL conversion logic
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 8.1, 8.2, 8.3, 8.4, 8.5_
 
-- [ ] 4. Implement and test Service model enhancements
-- [ ] 4.1 Enhance Service model JSON handling
+- [x] 4. Implement and test Service model enhancements
+- [x] 4.1 Enhance Service model JSON handling
   - Ensure all JSON fields initialize to empty objects
   - Implement robust JSON parsing with error handling
   - Add full_image computation logic
   - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-- [ ] 4.2 Write property test for service JSON initialization
+- [x] 4.2 Write property test for service JSON initialization
   - **Property 10: Service JSON field initialization**
   - **Validates: Requirements 3.1, 4.1**
 
-- [ ] 4.3 Write property test for full image computation
+- [x] 4.3 Write property test for full image computation
   - **Property 11: Full image reference computation**
   - **Validates: Requirements 3.3**
 
-- [ ] 4.4 Write property test for JSON parsing error handling
+- [x] 4.4 Write property test for JSON parsing error handling
   - **Property 12: JSON parsing error handling**
   - **Validates: Requirements 3.4, 6.3**
 
-- [ ] 4.5 Write unit tests for service model
+- [x] 4.5 Write unit tests for service model
   - Test JSON field initialization
   - Test full_image computation with various inputs
   - Test JSON parsing error scenarios
