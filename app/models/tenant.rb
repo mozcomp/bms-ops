@@ -1,7 +1,7 @@
 class Tenant < ApplicationRecord
   has_many :instances, dependent: :destroy
 
-  validates :code, presence: true, uniqueness: true
+  validates :code, presence: true, uniqueness: { message: "has already been taken. Each tenant must have a unique code." }
   validates :name, presence: true
 
   after_initialize :ensure_configuration

@@ -12,7 +12,7 @@ class DatabaseTest < ActiveSupport::TestCase
     Database.create!(name: "test_db", connection: {})
     duplicate = Database.new(name: "test_db", connection: {})
     assert_not duplicate.valid?
-    assert_includes duplicate.errors[:name], "has already been taken"
+    assert_includes duplicate.errors[:name], "has already been taken. Each database must have a unique name."
   end
 
   # Connection JSON parsing tests

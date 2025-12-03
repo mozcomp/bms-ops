@@ -18,7 +18,7 @@ class AppTest < ActiveSupport::TestCase
     App.create!(name: "Unique App", repository: "https://github.com/owner/repo1")
     app = App.new(name: "Unique App", repository: "https://github.com/owner/repo2")
     assert_not app.valid?
-    assert_includes app.errors[:name], "has already been taken"
+    assert_includes app.errors[:name], "has already been taken. Each app must have a unique name."
   end
 
   # Repository URL format validation tests

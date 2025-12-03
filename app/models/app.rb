@@ -16,7 +16,7 @@ class App < ApplicationRecord
     \z
   }ix
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { message: "has already been taken. Each app must have a unique name." }
   validates :repository, presence: true, format: { 
     with: REPO_REGEX, 
     message: "must be a valid GitHub, GitLab, or Bitbucket repository URL in HTTPS, SSH, or short format" 

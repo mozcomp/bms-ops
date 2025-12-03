@@ -18,7 +18,7 @@ class ServiceTest < ActiveSupport::TestCase
     Service.create!(name: "Unique Service", image: "test-image")
     duplicate = Service.new(name: "Unique Service", image: "another-image")
     assert_not duplicate.valid?
-    assert_includes duplicate.errors[:name], "has already been taken"
+    assert_includes duplicate.errors[:name], "has already been taken. Each service must have a unique name."
   end
   
   test "should be valid with name and image" do

@@ -120,6 +120,68 @@
               </div>
             </div>
           <% end %>
+
+          <!-- Associated Instances -->
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <div class="flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Associated Instances</h2>
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400">
+                  <%= @service.instances.count %>
+                </span>
+              </div>
+            </div>
+            <div class="px-6 py-4">
+              <% if @service.instances.any? %>
+                <div class="space-y-3">
+                  <% @service.instances.includes(:tenant, :app).each do |instance| %>
+                    <%= link_to instance, class: "block p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition" do %>
+                      <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0">
+                          <div class="flex items-center gap-2 mb-1">
+                            <span class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
+                              <%= instance.tenant.name %> - <%= instance.app.name %>
+                            </span>
+                            <% if instance.environment == "production" %>
+                              <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
+                                Production
+                              </span>
+                            <% elsif instance.environment == "staging" %>
+                              <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400">
+                                Staging
+                              </span>
+                            <% else %>
+                              <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400">
+                                Development
+                              </span>
+                            <% end %>
+                          </div>
+                          <div class="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
+                            <span class="flex items-center gap-1">
+                              <%= icon "globe-alt", class: "size-3" %>
+                              <%= instance.virtual_host %>
+                            </span>
+                          </div>
+                        </div>
+                        <%= icon "chevron-right", class: "size-5 text-slate-400 flex-shrink-0" %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="text-center py-8">
+                  <div class="inline-flex items-center justify-center size-12 bg-slate-100 dark:bg-slate-700 rounded-full mb-3">
+                    <%= icon "server", class: "size-6 text-slate-400" %>
+                  </div>
+                  <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">No instances using this service</p>
+                  <%= link_to new_instance_path(service_id: @service.id), class: "btn btn-primary inline-flex items-center gap-2" do %>
+                    <%= icon "plus", class: "size-4" %>
+                    <span>Create Instance</span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
 
         <!-- Sidebar -->

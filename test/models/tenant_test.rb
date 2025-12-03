@@ -20,7 +20,7 @@ class TenantTest < ActiveSupport::TestCase
     duplicate = Tenant.new(code: "unique", name: "Second Tenant")
     
     assert_not duplicate.valid?
-    assert_includes duplicate.errors[:code], "has already been taken"
+    assert_includes duplicate.errors[:code], "has already been taken. Each tenant must have a unique code."
   end
   
   test "should allow different codes" do

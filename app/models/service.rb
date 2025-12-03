@@ -1,7 +1,7 @@
 class Service < ApplicationRecord
   has_many :instances, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { message: "has already been taken. Each service must have a unique name." }
   validates :image, presence: true
 
   before_save :ensure_json_fields

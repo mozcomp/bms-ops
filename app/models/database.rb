@@ -1,5 +1,5 @@
 class Database < ApplicationRecord
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { message: "has already been taken. Each database must have a unique name." }
 
   before_save :ensure_connection
 

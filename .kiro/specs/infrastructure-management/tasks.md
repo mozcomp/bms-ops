@@ -298,54 +298,54 @@
 - [x] 12. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 13. Enhance view layer
-- [ ] 13.1 Review tenant views
+- [x] 13. Enhance view layer
+- [x] 13.1 Review tenant views
   - Verify form includes all configuration fields
   - Verify show page displays all computed fields
   - Add section showing associated instances
   - Verify error message display
   - _Requirements: 1.1, 1.2, 1.3, 9.4_
 
-- [ ] 13.2 Review app views
+- [x] 13.2 Review app views
   - Verify repository URL format hints
   - Verify computed fields display
   - Add section showing associated instances
   - Verify error message display
   - _Requirements: 2.1, 2.2, 2.3, 9.4_
 
-- [ ] 13.3 Review service views
+- [x] 13.3 Review service views
   - Verify JSON field editing interface
   - Verify full_image display
   - Add section showing associated instances
   - Verify error message display
   - _Requirements: 3.1, 3.2, 3.3, 9.4_
 
-- [ ] 13.4 Review database views
+- [x] 13.4 Review database views
   - Verify connection JSON editing
   - Verify connection string display
   - Verify error message display
   - _Requirements: 4.1, 4.2, 4.3_
 
-- [ ] 13.5 Review instance views
+- [x] 13.5 Review instance views
   - Verify form has proper select dropdowns for associations
   - Verify environment dropdown has only valid values
   - Verify show page displays all association details
   - Verify filtering works on index page
   - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
 
-- [ ] 13.6 Review index views for all resources
+- [x] 13.6 Review index views for all resources
   - Verify ordering by created_at descending
   - Verify empty state messages
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
-- [ ] 14. Add comprehensive error handling
-- [ ] 14.1 Add global error handling for AWS operations
+- [x] 14. Add comprehensive error handling
+- [x] 14.1 Add global error handling for AWS operations
   - Implement rescue blocks for AWS SDK errors
   - Add user-friendly error messages
   - Add error logging
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-- [ ] 14.2 Add validation error handling improvements
+- [x] 14.2 Add validation error handling improvements
   - Ensure all validation errors display field-specific messages
   - Verify error styling is consistent
   - Test instance uniqueness constraint error messages
