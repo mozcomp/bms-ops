@@ -266,30 +266,30 @@
   - Test flash messages and redirects
   - _Requirements: 1.1-1.5, 2.1-2.5, 3.1-3.5, 4.1-4.5, 9.1-9.7_
 
-- [ ] 11. Enhance AWS integration services
-- [ ] 11.1 Review and enhance AwsService module
+- [x] 11. Enhance AWS integration services
+- [x] 11.1 Review and enhance AwsService module
   - Verify all AWS clients are properly initialized
   - Add error handling for missing credentials
   - Add logging for AWS operations
   - _Requirements: 5.1, 5.4_
 
-- [ ] 11.2 Enhance Resources class with pagination
+- [x] 11.2 Enhance Resources class with pagination
   - Implement complete pagination for service ARNs
   - Implement complete pagination for container ARNs
   - Add error handling for missing cluster configuration
   - Add logging for resource discovery
   - _Requirements: 5.2, 5.3, 5.5_
 
-- [ ] 11.3 Write unit tests for AWS service initialization
+- [x] 11.3 Write unit tests for AWS service initialization
   - Test client creation for all AWS services
   - Test error handling for missing credentials
   - _Requirements: 5.1, 5.4_
 
-- [ ] 11.4 Write property test for AWS pagination
+- [x] 11.4 Write property test for AWS pagination
   - **Property 14: AWS pagination completeness**
   - **Validates: Requirements 5.2, 5.3**
 
-- [ ] 11.5 Write unit tests for Resources class
+- [x] 11.5 Write unit tests for Resources class
   - Test pagination logic with mocked AWS responses
   - Test error handling for missing cluster name
   - Test service and container discovery

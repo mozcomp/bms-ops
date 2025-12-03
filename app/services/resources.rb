@@ -11,10 +11,17 @@
 class Resources
   include AwsService
 
+  class ConfigurationError < StandardError; end
+
   def initialize
     @settings = Settings.new
 
-    raise "No cluster_name in settings" unless @settings.ecs_cluster.present?
+    unless @settings.ecs_cluster.present?
+      log_error("Missing cluster configuration")
+      raise ConfigurationError, "No cluster_name in settings. Please configure the ECS cluster name."
+    end
+
+    log_operation("Initializing Resources with cluster: #{@settings.ecs_cluster}")
     @cluster = Resource::Cluster.new(@settings.ecs_cluster)
 
     @services = []
@@ -130,24 +137,66 @@ class Resources
   end
 
   def service_arns
-    return [] if cluster_arn.blank?
-    services = ecs.list_services(cluster: cluster_arn)
-    list_service_arns = services.service_arns
-    while services.next_token != nil
-      services = ecs.list_services(cluster: cluster_arn, next_token: services.next_token)
-      list_service_arns += services.service_arns
+    if cluster_arn.blank?
+      log_error("Cannot list services: cluster_arn is blank")
+      return []
     end
+
+    log_operation("Fetching service ARNs for cluster: #{cluster_arn}")
+    list_service_arns = []
+    next_token = nil
+
+    begin
+      loop do
+        params = { cluster: cluster_arn }
+        params[:next_token] = next_token if next_token
+
+        response = ecs.list_services(params)
+        list_service_arns += response.service_arns
+        next_token = response.next_token
+
+        log_operation("Fetched #{response.service_arns.size} service ARNs (total: #{list_service_arns.size})")
+
+        break if next_token.nil?
+      end
+    rescue StandardError => e
+      log_error("Failed to fetch service ARNs", e)
+      raise
+    end
+
+    log_operation("Completed fetching #{list_service_arns.size} service ARNs")
     list_service_arns
   end
 
   def container_arns
-    return [] if cluster_arn.blank?
-    containers = ecs.list_container_instances(cluster: cluster_arn)
-    list_container_arns = containers.container_instance_arns
-    while containers.next_token != nil
-      containers = ecs.list_container_instances(cluster: cluster_arn, next_token: containers.next_token)
-      list_container_arns += containers.container_instance_arns
+    if cluster_arn.blank?
+      log_error("Cannot list containers: cluster_arn is blank")
+      return []
     end
+
+    log_operation("Fetching container instance ARNs for cluster: #{cluster_arn}")
+    list_container_arns = []
+    next_token = nil
+
+    begin
+      loop do
+        params = { cluster: cluster_arn }
+        params[:next_token] = next_token if next_token
+
+        response = ecs.list_container_instances(params)
+        list_container_arns += response.container_instance_arns
+        next_token = response.next_token
+
+        log_operation("Fetched #{response.container_instance_arns.size} container ARNs (total: #{list_container_arns.size})")
+
+        break if next_token.nil?
+      end
+    rescue StandardError => e
+      log_error("Failed to fetch container instance ARNs", e)
+      raise
+    end
+
+    log_operation("Completed fetching #{list_container_arns.size} container instance ARNs")
     list_container_arns
   end
 
@@ -155,5 +204,21 @@ class Resources
   end
 
   def restore_resources_from_s3
+  end
+
+  private
+
+  def log_operation(message)
+    Rails.logger.info("[Resources] #{message}") if defined?(Rails)
+  end
+
+  def log_error(message, error = nil)
+    if defined?(Rails)
+      if error
+        Rails.logger.error("[Resources ERROR] #{message}: #{error.class} - #{error.message}")
+      else
+        Rails.logger.error("[Resources ERROR] #{message}")
+      end
+    end
   end
 end
