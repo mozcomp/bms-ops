@@ -82,4 +82,4 @@ group :test do
   gem "rantly"
 end
 
-gem "railsui", "~> 3.3"
+gem "railsui"
