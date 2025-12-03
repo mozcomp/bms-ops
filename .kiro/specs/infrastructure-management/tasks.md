@@ -27,43 +27,43 @@
   - Test URL computation edge cases
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-- [ ] 3. Implement and test App model enhancements
-- [ ] 3.1 Enhance App model repository parsing logic
+- [x] 3. Implement and test App model enhancements
+- [x] 3.1 Enhance App model repository parsing logic
   - Refine repository URL validation regex
   - Implement robust parsing for HTTPS, SSH, and short formats
   - Add platform detection logic
   - Add URL conversion methods
   - _Requirements: 2.1, 2.2, 2.3, 2.5, 8.1, 8.2, 8.3, 8.4, 8.5_
 
-- [ ] 3.2 Write property test for app creation and persistence
+- [x] 3.2 Write property test for app creation and persistence
   - **Property 6: App creation and persistence**
   - **Validates: Requirements 2.1**
 
-- [ ] 3.3 Write property test for repository URL format acceptance
+- [x] 3.3 Write property test for repository URL format acceptance
   - **Property 7: Repository URL format acceptance**
   - **Validates: Requirements 2.2**
 
-- [ ] 3.4 Write property test for app computed fields
+- [x] 3.4 Write property test for app computed fields
   - **Property 8: App computed fields correctness**
   - **Validates: Requirements 2.3**
 
-- [ ] 3.5 Write property test for invalid repository rejection
+- [x] 3.5 Write property test for invalid repository rejection
   - **Property 9: Invalid repository rejection**
   - **Validates: Requirements 2.5, 6.4**
 
-- [ ] 3.6 Write property test for repository URL parsing
+- [x] 3.6 Write property test for repository URL parsing
   - **Property 18: Repository URL parsing completeness**
   - **Validates: Requirements 8.1, 8.2, 8.3**
 
-- [ ] 3.7 Write property test for repository platform detection
+- [x] 3.7 Write property test for repository platform detection
   - **Property 19: Repository platform detection**
   - **Validates: Requirements 8.4**
 
-- [ ] 3.8 Write property test for SSH to HTTPS conversion
+- [x] 3.8 Write property test for SSH to HTTPS conversion
   - **Property 20: SSH to HTTPS URL conversion**
   - **Validates: Requirements 8.5**
 
-- [ ] 3.9 Write unit tests for app model
+- [x] 3.9 Write unit tests for app model
   - Test repository parsing edge cases
   - Test platform detection for various URLs
   - Test URL conversion logic
