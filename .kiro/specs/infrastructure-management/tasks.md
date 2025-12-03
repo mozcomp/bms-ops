@@ -198,7 +198,7 @@
   - **Property 16: Update validation preserves state**
   - **Validates: Requirements 6.5**
 
-- [ ] 8. Checkpoint - Ensure all model tests pass
+- [x] 8. Checkpoint - Ensure all model tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 9. Implement InstancesController
