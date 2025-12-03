@@ -1,4 +1,6 @@
 class Service < ApplicationRecord
+  has_many :instances, dependent: :destroy
+
   validates :name, presence: true, uniqueness: true
   validates :image, presence: true
 

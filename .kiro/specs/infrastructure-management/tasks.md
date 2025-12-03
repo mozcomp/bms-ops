@@ -113,8 +113,8 @@
   - Test edge cases (nil, empty connection)
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [ ] 6. Implement and test Instance model
-- [ ] 6.1 Create Instance model with associations
+- [x] 6. Implement and test Instance model
+- [x] 6.1 Create Instance model with associations
   - Generate migration for instances table with foreign keys
   - Implement Instance model with belongs_to associations
   - Add validations for required fields and environment enum
@@ -122,53 +122,53 @@
   - Implement computed methods (full_url, environment_label)
   - _Requirements: 9.1, 9.2, 9.3, 9.6, 9.7_
 
-- [ ] 6.2 Add associations to related models
+- [x] 6.2 Add associations to related models
   - Add has_many :instances to Tenant model
   - Add has_many :instances to App model
   - Add has_many :instances to Service model
   - _Requirements: 9.1, 9.4, 9.5, 9.6_
 
-- [ ] 6.3 Write property test for instance creation
+- [x] 6.3 Write property test for instance creation
   - **Property 21: Instance creation with associations**
   - **Validates: Requirements 9.1**
 
-- [ ] 6.4 Write property test for environment validation
+- [x] 6.4 Write property test for environment validation
   - **Property 22: Environment validation**
   - **Validates: Requirements 9.2**
 
-- [ ] 6.5 Write property test for instance computed fields
+- [x] 6.5 Write property test for instance computed fields
   - **Property 23: Instance computed fields**
   - **Validates: Requirements 9.3**
 
-- [ ] 6.6 Write property test for instance querying by tenant
+- [x] 6.6 Write property test for instance querying by tenant
   - **Property 24: Instance querying by tenant**
   - **Validates: Requirements 9.4**
 
-- [ ] 6.7 Write property test for instance querying by environment
+- [x] 6.7 Write property test for instance querying by environment
   - **Property 25: Instance querying by environment**
   - **Validates: Requirements 9.5**
 
-- [ ] 6.8 Write property test for instance deletion
+- [x] 6.8 Write property test for instance deletion
   - **Property 26: Instance deletion preserves associations**
   - **Validates: Requirements 9.6**
 
-- [ ] 6.9 Write property test for instance uniqueness
+- [x] 6.9 Write property test for instance uniqueness
   - **Property 27: Instance uniqueness per tenant-app-environment**
   - **Validates: Requirements 9.7**
 
-- [ ] 6.10 Write property test for instance env_vars JSON round-trip
+- [x] 6.10 Write property test for instance env_vars JSON round-trip
   - **Property 28: Instance env_vars JSON round-trip**
   - **Validates: Requirements 9.8**
 
-- [ ] 6.11 Write property test for instance env_vars error handling
+- [x] 6.11 Write property test for instance env_vars error handling
   - **Property 29: Instance env_vars JSON parsing error handling**
   - **Validates: Requirements 9.9**
 
-- [ ] 6.12 Write property test for instance env_vars initialization
+- [x] 6.12 Write property test for instance env_vars initialization
   - **Property 30: Instance env_vars initialization**
   - **Validates: Requirements 9.8**
 
-- [ ] 6.13 Write unit tests for instance model
+- [x] 6.13 Write unit tests for instance model
   - Test association setup
   - Test environment validation
   - Test uniqueness constraint

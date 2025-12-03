@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one:
+  tenant: one
+  app: one
+  service: one
+  environment: production
+  virtual_host: acme.bmserp.com
+  env_vars: {}
+
+two:
+  tenant: one
+  app: one
+  service: one
+  environment: staging
+  virtual_host: staging-acme.bmserp.com
+  env_vars: {}

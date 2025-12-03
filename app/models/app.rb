@@ -1,4 +1,6 @@
 class App < ApplicationRecord
+  has_many :instances, dependent: :destroy
+
   # Comprehensive regex for repository URL validation
   # Supports:
   # - HTTPS: https://github.com/owner/repo or https://github.com/owner/repo.git

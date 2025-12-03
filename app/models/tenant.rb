@@ -1,4 +1,6 @@
 class Tenant < ApplicationRecord
+  has_many :instances, dependent: :destroy
+
   validates :code, presence: true, uniqueness: true
   validates :name, presence: true
 

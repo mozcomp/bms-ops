@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_26_075032) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_03_094015) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -76,6 +76,22 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_26_075032) do
     t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
+  create_table "instances", force: :cascade do |t|
+    t.integer "app_id", null: false
+    t.datetime "created_at", null: false
+    t.json "env_vars"
+    t.string "environment", null: false
+    t.integer "service_id", null: false
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.string "virtual_host", null: false
+    t.index ["app_id"], name: "index_instances_on_app_id"
+    t.index ["environment"], name: "index_instances_on_environment"
+    t.index ["service_id"], name: "index_instances_on_service_id"
+    t.index ["tenant_id", "app_id", "environment"], name: "index_instances_on_tenant_app_environment", unique: true
+    t.index ["tenant_id"], name: "index_instances_on_tenant_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.json "environment"
@@ -122,5 +138,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_26_075032) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "identities", "users"
+  add_foreign_key "instances", "apps"
+  add_foreign_key "instances", "services"
+  add_foreign_key "instances", "tenants"
   add_foreign_key "sessions", "users"
 end
