@@ -130,6 +130,15 @@
               <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Quick Actions</h2>
             </div>
             <div class="px-6 py-4 space-y-2">
+              <%= link_to instances_path(app_id: @app.id), class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                <%= icon "server", class: "size-5 text-slate-500" %>
+                <div class="flex-1 flex items-center justify-between">
+                  <span class="text-sm font-medium">View Instances</span>
+                  <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400">
+                    <%= @app.instances.count %>
+                  </span>
+                </div>
+              <% end %>
               <%= link_to @app.repository_url, target: "_blank", class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
                 <%= icon "arrow-top-right-on-square", class: "size-5 text-slate-500" %>
                 <span class="text-sm font-medium">Open Repository</span>

@@ -50,6 +50,13 @@
             <span class="font-medium">Databases</span>
           <% end %>
         </li>
+        
+        <li>
+          <%= link_to instances_path, class: "flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-700 dark:hover:bg-slate-800 rounded-lg transition-colors group #{current_page?(instances_path) || current_page?(controller: 'instances') ? 'bg-slate-700 dark:bg-slate-800 text-white' : ''}" do %>
+            <%= icon "cube", class: "size-5 stroke-current" %>
+            <span class="font-medium">Instances</span>
+          <% end %>
+        </li>
       </ul>
 
       <div class="mt-8 pt-8 border-t border-slate-700 dark:border-slate-800">
@@ -137,6 +144,12 @@
           <%= link_to databases_path, class: "flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-700 dark:hover:bg-slate-800 rounded-lg transition-colors group #{current_page?(databases_path) || current_page?(controller: 'databases') ? 'bg-slate-700 dark:bg-slate-800 text-white' : ''}" do %>
             <%= icon "circle-stack", class: "size-5 stroke-current" %>
             <span class="font-medium">Databases</span>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to instances_path, class: "flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-700 dark:hover:bg-slate-800 rounded-lg transition-colors group #{current_page?(instances_path) || current_page?(controller: 'instances') ? 'bg-slate-700 dark:bg-slate-800 text-white' : ''}" do %>
+            <%= icon "cube", class: "size-5 stroke-current" %>
+            <span class="font-medium">Instances</span>
           <% end %>
         </li>
       </ul>

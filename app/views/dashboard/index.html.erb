@@ -11,58 +11,71 @@
       </div>
 
       <!-- Stats Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <%= link_to tenants_path, class: "bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition" do %>
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Active Tenants</p>
-              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2">24</p>
+              <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Tenants</p>
+              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2"><%= Tenant.count %></p>
             </div>
             <div class="bg-primary-100 dark:bg-primary-900/30 rounded-full p-3">
               <%= icon "users", class: "size-6 text-primary-600 dark:text-primary-400" %>
             </div>
           </div>
-          <p class="text-sm text-green-600 dark:text-green-400 mt-4">+3 this month</p>
-        </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">Active clients</p>
+        <% end %>
 
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700">
+        <%= link_to services_path, class: "bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition" do %>
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Running Services</p>
-              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2">12</p>
+              <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Services</p>
+              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2"><%= Service.count %></p>
             </div>
             <div class="bg-green-100 dark:bg-green-900/30 rounded-full p-3">
               <%= icon "server", class: "size-6 text-green-600 dark:text-green-400" %>
             </div>
           </div>
-          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">All healthy</p>
-        </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">ECS services</p>
+        <% end %>
 
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700">
+        <%= link_to apps_path, class: "bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition" do %>
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Applications</p>
-              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2">8</p>
+              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2"><%= App.count %></p>
             </div>
             <div class="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3">
               <%= icon "code-bracket", class: "size-6 text-blue-600 dark:text-blue-400" %>
             </div>
           </div>
-          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">2 updates available</p>
-        </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">Repositories</p>
+        <% end %>
 
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700">
+        <%= link_to databases_path, class: "bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition" do %>
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Databases</p>
-              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2">36</p>
+              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2"><%= Database.count %></p>
             </div>
             <div class="bg-purple-100 dark:bg-purple-900/30 rounded-full p-3">
               <%= icon "circle-stack", class: "size-6 text-purple-600 dark:text-purple-400" %>
             </div>
           </div>
-          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">24 tenant schemas</p>
-        </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">Configurations</p>
+        <% end %>
+
+        <%= link_to instances_path, class: "bg-white dark:bg-slate-800 rounded-lg shadow p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition" do %>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Instances</p>
+              <p class="text-3xl font-bold text-slate-900 dark:text-slate-100 mt-2"><%= Instance.count %></p>
+            </div>
+            <div class="bg-orange-100 dark:bg-orange-900/30 rounded-full p-3">
+              <%= icon "cube", class: "size-6 text-orange-600 dark:text-orange-400" %>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-4">Deployments</p>
+        <% end %>
       </div>
 
       <!-- Recent Activity -->

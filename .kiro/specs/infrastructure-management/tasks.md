@@ -201,15 +201,15 @@
 - [x] 8. Checkpoint - Ensure all model tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Implement InstancesController
-- [ ] 9.1 Create InstancesController with CRUD actions
+- [x] 9. Implement InstancesController
+- [x] 9.1 Create InstancesController with CRUD actions
   - Implement index, show, new, create, edit, update, destroy actions
   - Add strong parameters for instance attributes including env_vars_json
   - Implement filtering by tenant and environment
   - Add proper error handling and flash messages
   - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 9.10_
 
-- [ ] 9.2 Create instance views
+- [x] 9.2 Create instance views
   - Create index view with filtering options
   - Create show view displaying all associations and env_vars
   - Create form partial with tenant, app, service, and environment selects
@@ -217,50 +217,50 @@
   - Add proper error display
   - _Requirements: 9.1, 9.2, 9.3, 9.8, 9.10_
 
-- [ ] 9.3 Add instances routes
+- [x] 9.3 Add instances routes
   - Add resources :instances to routes.rb
   - _Requirements: 9.1_
 
-- [ ] 9.4 Write controller tests for instances
+- [x] 9.4 Write controller tests for instances
   - Test CRUD operations
   - Test filtering by tenant and environment
   - Test validation error handling
   - Test env_vars JSON handling in forms
   - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 9.10_
 
-- [ ] 10. Enhance controller implementations
-- [ ] 10.1 Review and enhance TenantsController
+- [x] 10. Enhance controller implementations
+- [x] 10.1 Review and enhance TenantsController
   - Verify strong parameters include all configuration fields
   - Ensure proper error handling and flash messages
   - Verify redirect behavior
   - Add link to view tenant instances
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-- [ ] 10.2 Review and enhance AppsController
+- [x] 10.2 Review and enhance AppsController
   - Verify strong parameters
   - Ensure proper validation error handling
   - Verify index ordering
   - Add link to view app instances
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 7.2_
 
-- [ ] 10.3 Review and enhance ServicesController
+- [x] 10.3 Review and enhance ServicesController
   - Verify strong parameters include JSON fields
   - Ensure proper error handling
   - Verify index ordering
   - Add link to view service instances
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 7.3_
 
-- [ ] 10.4 Review and enhance DatabasesController
+- [x] 10.4 Review and enhance DatabasesController
   - Verify strong parameters
   - Ensure proper error handling
   - Verify index ordering
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 7.4_
 
-- [ ] 10.5 Write property test for index ordering
+- [x] 10.5 Write property test for index ordering
   - **Property 17: Index ordering consistency**
   - **Validates: Requirements 7.1, 7.2, 7.3, 7.4**
 
-- [ ] 10.6 Write controller integration tests
+- [x] 10.6 Write controller integration tests
   - Test full CRUD cycles for each controller
   - Test form submissions with valid and invalid data
   - Test flash messages and redirects
