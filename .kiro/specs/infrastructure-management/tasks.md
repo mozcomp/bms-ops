@@ -177,24 +177,24 @@
   - Test scopes for querying by tenant and environment
   - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 9.10_
 
-- [ ] 7. Implement cross-model property tests
-- [ ] 7.1 Write property test for JSON round-trip
+- [x] 7. Implement cross-model property tests
+- [x] 7.1 Write property test for JSON round-trip
   - **Property 2: Configuration JSON round-trip**
   - **Validates: Requirements 1.2, 3.2, 4.2**
 
-- [ ] 7.2 Write property test for deletion
+- [x] 7.2 Write property test for deletion
   - **Property 4: Deletion removes records**
   - **Validates: Requirements 1.4**
 
-- [ ] 7.3 Write property test for uniqueness validation
+- [x] 7.3 Write property test for uniqueness validation
   - **Property 5: Uniqueness validation**
   - **Validates: Requirements 1.5, 2.4, 3.5, 4.5, 6.2**
 
-- [ ] 7.4 Write property test for required field validation
+- [x] 7.4 Write property test for required field validation
   - **Property 15: Required field validation**
   - **Validates: Requirements 6.1**
 
-- [ ] 7.5 Write property test for update validation
+- [x] 7.5 Write property test for update validation
   - **Property 16: Update validation preserves state**
   - **Validates: Requirements 6.5**
 
