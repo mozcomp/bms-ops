@@ -77,9 +77,9 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  
+
   # Property-based testing [https://github.com/rantly-rb/rantly]
   gem "rantly"
 end
 
-gem "railsui"
+gem "railsui", git: "https://github.com/getrailsui/railsui_pro.git", branch: "main"
