@@ -1,47 +1,113 @@
 @utility h1 {
-  @apply text-5xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-5xl text-4xl font-semibold leading-tight tracking-tight;
 }
 
 @utility h2 {
-  @apply text-4xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-4xl text-3xl font-semibold leading-tight tracking-tight;
 }
 
 @utility h3 {
-  @apply text-3xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-3xl text-2xl font-semibold leading-tight tracking-tight;
 }
 
 @utility h4 {
-  @apply text-2xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-2xl text-xl font-semibold leading-tight tracking-tight;
 }
 
 @utility h5 {
-  @apply text-xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-xl text-lg font-semibold leading-tight tracking-tight;
 }
 
 @utility h6 {
-  @apply text-base font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply text-base font-semibold leading-tight tracking-tight;
 }
 
 @utility display-1 {
-  @apply text-9xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-9xl text-7xl font-semibold leading-tight tracking-tighter bg-clip-text text-transparent bg-clip-text text-transparent;
+
+  background-image: linear-gradient(
+    270.09deg,
+    var(--color-primary-500) 4.34%,
+    var(--color-secondary-800) 122.47%
+  );
+
+  @variant dark {
+    background-image: none;
+    color: var(--color-white);
+  }
 }
 
 @utility display-2 {
-  @apply text-8xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-8xl text-6xl font-semibold leading-tight tracking-tighter bg-clip-text text-transparent;
+
+  background-image: linear-gradient(
+    270.09deg,
+    var(--color-primary-500) 4.34%,
+    var(--color-secondary-800) 122.47%
+  );
+
+  @variant dark {
+    background-image: none;
+    color: var(--color-white);
+  }
 }
 
 @utility display-3 {
-  @apply text-7xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-7xl text-6xl font-semibold leading-tight tracking-tight bg-clip-text text-transparent;
+
+  background-image: linear-gradient(
+    270.09deg,
+    var(--color-primary-500) 4.34%,
+    var(--color-secondary-800) 122.47%
+  );
+
+  @variant dark {
+    background-image: none;
+    color: var(--color-white);
+  }
 }
 
 @utility display-4 {
-  @apply text-6xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-6xl text-5xl font-semibold leading-tight tracking-tight bg-clip-text text-transparent;
+
+  background-image: linear-gradient(
+    270.09deg,
+    var(--color-primary-500) 4.34%,
+    var(--color-secondary-800) 122.47%
+  );
+
+  @variant dark {
+    background-image: none;
+    color: var(--color-white);
+  }
 }
 
 @utility display-5 {
-  @apply text-5xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-5xl text-4xl font-semibold leading-tight tracking-tight bg-clip-text text-transparent;
+
+  background-image: linear-gradient(
+    270.09deg,
+    var(--color-primary-500) 4.34%,
+    var(--color-secondary-800) 122.47%
+  );
+
+  @variant dark {
+    background-image: none;
+    color: var(--color-white);
+  }
 }
 
 @utility display-6 {
-  @apply text-4xl font-semibold text-zinc-900 dark:text-zinc-100 leading-tight tracking-tighter font-heading;
+  @apply md:text-4xl text-3xl font-semibold leading-tight tracking-tight bg-clip-text text-transparent;
+
+  background-image: linear-gradient(
+    270.09deg,
+    var(--color-primary-500) 4.34%,
+    var(--color-secondary-800) 122.47%
+  );
+
+  @variant dark {
+    background-image: none;
+    color: var(--color-white);
+  }
 }

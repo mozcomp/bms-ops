@@ -1,0 +1,228 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Breadcrumbs -->
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <% @breadcrumbs.each_with_index do |breadcrumb, index| %>
+            <li class="inline-flex items-center">
+              <% if index > 0 %>
+                <%= icon "chevron-right", class: "size-4 text-slate-400 mx-2" %>
+              <% end %>
+              <% if breadcrumb[:path] %>
+                <%= link_to breadcrumb[:name], breadcrumb[:path], class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" %>
+              <% else %>
+                <span class="text-slate-900 dark:text-slate-100 text-sm font-medium"><%= breadcrumb[:name] %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <% if @folder %>
+            <%= link_to folder_path(@folder), class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+              <%= icon "arrow-left", class: "size-6" %>
+            <% end %>
+          <% else %>
+            <%= link_to documents_path, class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+              <%= icon "arrow-left", class: "size-6" %>
+            <% end %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">New Document</h1>
+            <p class="text-slate-600 dark:text-slate-400">
+              <% if @folder %>
+                Create a new document in <%= @folder.name %>
+              <% else %>
+                Create a new document
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Form -->
+      <%= form_with(model: [@folder, @document].compact, class: "space-y-6") do |form| %>
+        <!-- Error messages -->
+        <% if @document.errors.any? %>
+          <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <div class="flex items-start gap-3">
+              <%= icon "exclamation-circle", class: "size-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" %>
+              <div class="flex-1">
+                <h3 class="text-sm font-medium text-red-800 dark:text-red-400 mb-2">
+                  <%= pluralize(@document.errors.count, "error") %> prohibited this document from being saved:
+                </h3>
+                <ul class="list-disc list-inside text-sm text-red-700 dark:text-red-400 space-y-1">
+                  <% @document.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Basic Information -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Basic Information</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Document title and metadata</p>
+          </div>
+          <div class="px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+              <%= form.label :title, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+              <%= form.text_field :title, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "Enter document title" %>
+            </div>
+            
+            <div class="md:col-span-2">
+              <%= form.label :excerpt, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+              <%= form.text_area :excerpt, rows: 2, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "Brief description of the document (optional)" %>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">This will be shown in document listings</p>
+            </div>
+
+            <div>
+              <%= form.label :published, class: "flex items-center gap-2" do %>
+                <%= form.check_box :published, class: "form-checkbox rounded border-slate-300 dark:border-slate-600 text-primary-600 focus:ring-primary-500" %>
+                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Published</span>
+              <% end %>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Make this document visible to all users</p>
+            </div>
+
+            <div>
+              <%= form.label :visibility, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+              <%= form.select :visibility, 
+                  options_for_select([
+                    ['Public - Visible to all users', 'public'],
+                    ['Private - Visible to authenticated users', 'private'],
+                    ['Admin Only - Visible only to administrators', 'admin_only']
+                  ], @document.visibility || 'public'),
+                  {},
+                  { class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" } %>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Control who can view this document</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- File Attachments -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Attachments</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Upload images and files to include in your document</p>
+          </div>
+          <div class="px-6 py-6">
+            <div class="space-y-4">
+              <div>
+                <%= form.label :attachments, "Upload Files", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+                <%= form.file_field :attachments, multiple: true, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", accept: "image/*,.pdf,.txt,.md,.csv,.json,.xml,.zip,.doc,.docx,.xls,.xlsx" %>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  Supported formats: Images (JPEG, PNG, GIF, WebP, SVG), Documents (PDF, Word, Excel), Text files (TXT, MD, CSV, JSON, XML), Archives (ZIP). Maximum size: 10MB per file.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Editor -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Content</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Write your document content using Markdown</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" id="editor-tab" class="px-3 py-1 text-sm font-medium text-primary-600 dark:text-primary-400 border-b-2 border-primary-600 dark:border-primary-400">
+                  Editor
+                </button>
+                <button type="button" id="preview-tab" class="px-3 py-1 text-sm font-medium text-slate-600 dark:text-slate-400 border-b-2 border-transparent hover:text-slate-900 dark:hover:text-slate-100">
+                  Preview
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="px-6 py-6">
+            <div id="editor-content">
+              <%= form.text_area :content, rows: 20, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: "# Document Title\n\nStart writing your document content here using Markdown...\n\n## Section Heading\n\nYour content here." %>
+            </div>
+            <div id="preview-content" class="hidden">
+              <div class="prose prose-slate dark:prose-invert max-w-none min-h-[500px] p-4 border border-slate-200 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900">
+                <p class="text-slate-500 dark:text-slate-400 italic">Preview will appear here as you type...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form actions -->
+        <div class="flex items-center justify-end gap-3">
+          <% if @folder %>
+            <%= link_to "Cancel", folder_path(@folder), class: "btn btn-white" %>
+          <% else %>
+            <%= link_to "Cancel", documents_path, class: "btn btn-white" %>
+          <% end %>
+          <%= form.submit "Create Document", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </main>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const editorTab = document.getElementById('editor-tab');
+  const previewTab = document.getElementById('preview-tab');
+  const editorContent = document.getElementById('editor-content');
+  const previewContent = document.getElementById('preview-content');
+  const contentTextarea = document.querySelector('textarea[name="document[content]"]');
+
+  function showEditor() {
+    editorTab.classList.add('text-primary-600', 'dark:text-primary-400', 'border-primary-600', 'dark:border-primary-400');
+    editorTab.classList.remove('text-slate-600', 'dark:text-slate-400', 'border-transparent');
+    previewTab.classList.remove('text-primary-600', 'dark:text-primary-400', 'border-primary-600', 'dark:border-primary-400');
+    previewTab.classList.add('text-slate-600', 'dark:text-slate-400', 'border-transparent');
+    editorContent.classList.remove('hidden');
+    previewContent.classList.add('hidden');
+  }
+
+  function showPreview() {
+    previewTab.classList.add('text-primary-600', 'dark:text-primary-400', 'border-primary-600', 'dark:border-primary-400');
+    previewTab.classList.remove('text-slate-600', 'dark:text-slate-400', 'border-transparent');
+    editorTab.classList.remove('text-primary-600', 'dark:text-primary-400', 'border-primary-600', 'dark:border-primary-400');
+    editorTab.classList.add('text-slate-600', 'dark:text-slate-400', 'border-transparent');
+    editorContent.classList.add('hidden');
+    previewContent.classList.remove('hidden');
+    
+    // Simple markdown preview (basic implementation)
+    const content = contentTextarea.value;
+    const previewDiv = previewContent.querySelector('.prose');
+    
+    if (content.trim()) {
+      // Basic markdown to HTML conversion
+      let html = content
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+        .replace(/`(.*?)`/gim, '<code>$1</code>')
+        .replace(/\n\n/gim, '</p><p>')
+        .replace(/\n/gim, '<br>');
+      
+      previewDiv.innerHTML = '<p>' + html + '</p>';
+    } else {
+      previewDiv.innerHTML = '<p class="text-slate-500 dark:text-slate-400 italic">Preview will appear here as you type...</p>';
+    }
+  }
+
+  editorTab.addEventListener('click', showEditor);
+  previewTab.addEventListener('click', showPreview);
+});
+</script>

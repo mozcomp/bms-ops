@@ -1,0 +1,88 @@
+<div data-controller="list-grid" data-list-grid-active-type-value="grid">
+  <%= render "rui/shared/theme/title", title: "Servers" %>
+
+  <div class="mb-6">
+    <ul class="flex items-center overflow-x-auto overflow-y-hidden snap-x snap-start border-b border-gray-200/80 dark:border-gray-700/80 -mb-px">
+      <li>
+        <%= link_to "Active", "#", class: "border-b-2 border-primary-500 px-4 py-3 block text-primary-500 font-medium text-[15px] transition ease-in-out duration-300 hover:border-primary-600 rounded-t  dark:hover:text-white" %>
+      </li>
+      <li>
+        <%= link_to "Inactive", "#", class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300" %>
+      </li>
+      <li class="flex-1"></li>
+      <li class="flex flex-col items-center justify-center pr-3">
+        <button type="button" class="group btn btn-transparent px-1.5 py-1.5" data-action="click->list-grid#toggle"
+          data-list-grid-target="listButton">
+          <%= icon "list-bullet", class: "size-6 stroke-current text-gray-500 group-hover:text-primary-500 pointer-events-none
+          dark:text-gray-400
+          select-none" %>
+        </button>
+      </li>
+      <li class="flex flex-col items-center justify-center pr-3">
+        <button type="button" class="group btn btn-transparent px-1.5 py-1.5" data-action="click->list-grid#toggle" data-list-grid-target="gridButton">
+          <%= icon "squares-2x2", class: "size-6 stroke-current text-gray-500 group-hover:text-primary-500 pointer-events-none
+          dark:text-gray-400 select-none" %>
+        </button>
+      </li>
+      <li>
+        <%= link_to "Create server", "#", class: "btn btn-primary" %>
+      </li>
+    </ul>
+  </div>
+
+  <!-- GRID -->
+  <div data-list-grid-target="grid" class="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5">
+
+    <%= render "rui/shared/theme/servers/card", title: "autumn-sun-6428", stats: "NYC1 / 4GB / 50GB Disk", ip: "123.32.76.23", active: true, app_count: 1 %>
+
+    <%= render "rui/shared/theme/servers/card", title: "winter-moon-7523", stats: "LON1 / 16GB / 200GB Disk", ip: "198.51.100.2", active: true, app_count: 2 %>
+
+    <%= render "rui/shared/theme/servers/card", title: "spring-breeze-8654", stats: "AMS1 / 32GB / 500GB Disk", ip: "203.0.113.15", active: true, app_count: 4 %>
+
+    <%= render "rui/shared/theme/servers/card", title: "summer-star-9132", stats: "SYD1 / 64GB / 1TB Disk", ip: "172.16.20.50", active: true, app_count: 1 %>
+
+    <%= render "rui/shared/theme/servers/card", title: "golden-leaves-5279", stats: "NYC1 / 4GB / 50GB Disk", ip: "172.31.0.1", active: true, app_count: 2 %>
+
+    <%= render "rui/shared/theme/servers/card", title: "radiant-sky-7684", stats: "MUM1 / 1TB / 16TB Disk", ip: "10.0.0.32", active: false, app_count: 2 %>
+
+    <%= render "rui/shared/theme/servers/card", title: "harvest-fields-4159", stats: "CHI1 / 2TB / 32TB Disk", ip: "192.168.0.100", active: false, app_count: 1 %>
+  </div>
+
+  <div data-list-grid-target="list" class="hidden mt-2 h-full md:overflow-visible overflow-x-auto pb-32 md:pb-0">
+    <table class="table text-left h-full w-full overflow-auto">
+      <thead>
+        <th
+          class="text-[15px] font-semibold text-gray-700 py-2 border-b-2 border-gray-200/80 dark:border-gray-700/80 dark:text-gray-300">
+          Title</th>
+        <th
+          class="text-[15px] font-semibold text-gray-700 p-2 border-b-2 border-gray-200/80 dark:border-gray-700/80 dark:text-gray-300">
+          Stats</th>
+        <th
+          class="text-[15px] font-semibold text-gray-700 p-2 border-b-2 border-gray-200/80 dark:border-gray-700/80 dark:text-gray-300">
+          IP</th>
+        <th
+          class="text-[15px] font-semibold text-gray-700 p-2 border-b-2 border-gray-200/80 dark:border-gray-700/80 dark:text-gray-300">
+          Status</th>
+        <th
+          class="text-[15px] font-semibold text-gray-700 p-2 border-b-2 border-gray-200/80 dark:border-gray-700/80 dark:text-gray-300">
+        </th>
+      </thead>
+
+      <%= render "rui/shared/theme/servers/list", title: "autumn-sun-6428", stats: "NYC1 / 4GB / 50GB Disk", ip: "123.32.76.23", active: true %>
+
+      <%= render "rui/shared/theme/servers/list", title: "winter-moon-7523", stats: "LON1 / 16GB / 200GB Disk", ip: "198.51.100.2", active: true %>
+
+      <%= render "rui/shared/theme/servers/list", title: "spring-breeze-8654", stats: "AMS1 / 32GB / 500GB Disk", ip: "203.0.113.15", active: true %>
+
+      <%= render "rui/shared/theme/servers/list", title: "summer-star-9132", stats: "SYD1 / 64GB / 1TB Disk", ip: "172.16.20.50", active: true %>
+
+      <%= render "rui/shared/theme/servers/list", title: "golden-leaves-5279", stats: "NYC1 / 4GB / 50GB Disk", ip: "172.31.0.1", active: true %>
+
+      <%= render "rui/shared/theme/servers/list", title: "frosty-morning-3691", stats: "TOK1 / 256GB / 4TB Disk", ip: "192.0.2.128", active: true %>
+
+      <%= render "rui/shared/theme/servers/list", title: "radiant-sky-7684", stats: "MUM1 / 1TB / 16TB Disk", ip: "10.0.0.32", active: false %>
+
+      <%= render "rui/shared/theme/servers/list", title: "harvest-fields-4159", stats: "CHI1 / 2TB / 32TB Disk", ip: "192.168.0.100", active: false %>
+    </table>
+  </div>
+</div>

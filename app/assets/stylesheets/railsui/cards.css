@@ -1,0 +1,5 @@
+@layer components {
+  .card {
+    @apply bg-white rounded-lg border border-gray-300 p-7 shadow-xs shadow-gray-300/10 dark:bg-gray-900 dark:border-gray-600 dark:shadow-xl dark:shadow-gray-950/80;
+  }
+}

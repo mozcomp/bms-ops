@@ -1,0 +1,291 @@
+<h1 class="h2 mb-2">Overview</h1>
+
+<p class="text-gray-700 mb-4 dark:text-gray-400">Today's stats</p>
+
+<div class="grid md:grid-cols-4 grid-cols-2 items-center justify-between md:divide-x md:gap-0 gap-6 divide-gray-300/70 dark:divide-gray-700/80 py-4">
+
+  <%= render "rui/shared/admin/simple_stat", title: "New apps", direction: "up", amount: "13", change:"+1%" %>
+
+  <%= render "rui/shared/admin/simple_stat", title: "Revenue", direction: "up", amount: "254.33", change:"+0.12%" %>
+
+  <%= render "rui/shared/admin/simple_stat", title: "Refunds", direction: "down", amount: "0", change:"-1%" %>
+
+  <%= render "rui/shared/admin/simple_stat", title: "New customers", direction: "up", amount: "9", change:"+1.3%" %>
+</div>
+
+<div class="py-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="pt-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-300">Monthly recurring revenue</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-xs">Last 30 days</p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-baseline gap-2">
+          <p class="h2 mb-0 font-medium">$95,302.32</p>
+          <div class="flex items-center gap-1">
+            <%= icon "arrow-up", class: "size-3 text-green-600 stroke-current" %>
+            <span class="text-green-600 text-xs font-medium">+2.3%</span>
+          </div>
+        </div>
+      </div>
+
+      <div data-controller="mrr-chart"></div>
+    </div>
+
+    <div class="pt-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-300">Net revenue</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-xs"><span>Last 365 days</span></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-baseline gap-2">
+          <p class="h2 font-medium">$265,122.46</p>
+
+          <div class="flex items-center gap-1">
+            <%= icon "arrow-up", class: "size-3 text-green-600 stroke-current" %>
+            <span class="text-green-600 text-xs font-medium">+1.3%</span>
+          </div>
+        </div>
+      </div>
+      <div data-controller="revenue-chart"></div>
+    </div>
+  </div>
+</div>
+
+<div class="flex md:flex-row flex-col items-start py-8 gap-6">
+  <div class="md:w-1/2 w-full">
+    <div class="flex items-end justify-between pb-4">
+      <div class="flex-1">
+        <h3 class="h5">Recent activity</h3>
+        <p class="text-sm dark:text-gray-400 text-gray-600">Last day</p>
+        </div>
+      <%= link_to "View all", "#", class: "btn-link text-sm" %>
+    </div>
+
+    <ul class="divide-y divide-gray-200/80 dark:divide-gray-700/80">
+    <% [{
+        name: "John",
+        avatar_variant: "men",
+        avatar_id: "2",
+        copy: "updated their profile."
+      },
+      {
+        name: "Jane",
+        avatar_variant: "women",
+        avatar_id: "2",
+        copy: "created a new server."
+      },
+      {
+        name: "David",
+        avatar_variant: "men",
+        avatar_id: "6",
+        copy: "deleted an app."
+      },
+      {
+        name: "Sarah",
+        avatar_variant: "women",
+        avatar_id: "9",
+        copy: "removed a server."
+      },
+      {
+        name: "Michael",
+        avatar_variant: "men",
+        avatar_id: "92",
+        copy: "updated their profile."
+      },
+      {
+        name: "Jake",
+        avatar_variant: "men",
+        avatar_id: "52",
+        copy: "invited a new user."
+      },
+      {
+        name: "Michelle",
+        avatar_variant: "women",
+        avatar_id: "42",
+        copy: "shared an application."
+      },
+      {
+        name: "Amy",
+        avatar_variant: "women",
+        avatar_id: "56",
+        copy: "updated a report."
+      }].each do |item| %>
+
+      <li class="flex items-center justify-between py-2.5 last:pb-0">
+        <div class="flex-1 flex items-center gap-2">
+          <%= image_tag demo_avatar_url(variant: item[:avatar_variant], id: item[:avatar_id]), class: "size-8 rounded-full object-center object-cover hover:ring-2 hover:ring-primary-500/50 transition duration-200 ease-in-out", alt: item[:name] %>
+          <div><%= item[:name] %> <%= item[:copy] %></div>
+        </div>
+        <div class="text-right">
+          <%= link_to "View", "#", class: "btn-link text-sm" %>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="md:w-1/2 w-full">
+    <div class="flex items-end justify-between pb-4">
+      <div class="flex-1">
+        <h3 class="h5">Invoices</h3>
+        <p class="text-sm dark:text-gray-400 text-gray-600">Last 29 days</p>
+      </div>
+      <%= link_to "View all", "#", class: "btn-link text-sm" %>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="table w-full">
+        <tbody>
+          <% [
+            {
+              name: "Jane Doe",
+              id: "8600635",
+              date: "05/18/24",
+              amount: "$1,023.32"
+            },
+            {
+              name: "John Smith",
+              id: "8600636",
+              date: "05/19/24",
+              amount: "$789.89"
+            },
+            {
+              name: "Sarah Johnson",
+              id: "86000637",
+              date: "05/20/24",
+              amount: "$599.00",
+            },
+            {
+              name: "Michael Brown",
+              id: "8600638",
+              date: "05/21/24",
+              amount: "$1,299.99"
+            },
+            {
+              name: "Emily Davis",
+              id: "8600639",
+              date: "05/22/24",
+              amount: "$499.50"
+            },
+            {
+              name: "David Wilson",
+              id: "8600640",
+              date: "05/23/24",
+              amount: "$799.23"
+            },
+            {
+              name: "Jennifer Miller",
+              id: "8600640",
+              date: "05/24/24",
+              amount: "$299.99"
+            },
+            {
+              name: "Chris Anderson",
+              id: "8600642",
+              date: "05/25/24",
+              amount: "$382.32"
+            }].each do |invoice| %>
+            <tr>
+              <td
+                class="py-3.5 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 text-sm underline underline-offset-2">
+                <%= link_to invoice[:id], "#", class: "btn-link" %>
+              </td>
+              <td class="py-3.5 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1"><%= invoice[:date] %></td>
+              <td class="py-3.5 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1"><%= invoice[:name] %></td>
+              <td class="text-right py-3.5 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1"><%= invoice[:amount] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="py-8">
+  <div class="flex items-center justify-between pb-4">
+    <div class="flex-1">
+      <h3 class="h5">Support requests</h3>
+      <p class="text-sm dark:text-gray-400 text-gray-600">Last 29 days</p>
+    </div>
+    <%= link_to "View all", "#", class: "btn-link text-sm" %>
+  </div>
+  <div class="overflow-x-auto w-full">
+    <table class="table text-left w-full">
+      <thead>
+        <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Name</th>
+        <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Email</th>
+        <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Server name</th>
+        <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Date</th>
+        <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1"></th>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">John Smith</td>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1"> john.smith@example.com</td>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 font-mono text-sm text-primary-500 whitespace-nowrap px-1">
+            autumn-sun-6428</td>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">05/21/23</td>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">
+            <%= link_to "View", "#", class: "btn-link text-sm" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">Jane Doe</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">jane.doe@example.com</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 font-mono text-sm text-primary-500 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">crimson-dawn-7932</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">05/21/23</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">
+            <%= link_to "View", "#", class: "btn-link text-sm" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Michael Johnson</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">michael.johnson@example.com</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 font-mono text-sm text-primary-500 whitespace-nowrap px-1"> golden-moon-9176</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">05/19/23</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">
+            <%= link_to "View", "#", class: "btn-link text-sm" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">Sarah Williams</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">sarah.williams@example.com</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 font-mono text-sm text-primary-500 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">crystal-peak-2354</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">05/19/23</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 bg-gray-50 dark:bg-gray-800">
+            <%= link_to "View", "#", class: "btn-link text-sm" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">David Brown</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">david.brown@example.com</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 font-mono text-sm text-primary-500 whitespace-nowrap px-1">snowy-summit-8462</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">05/18/23</td>
+
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">
+            <%= link_to "View", "#", class: "btn-link text-sm" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

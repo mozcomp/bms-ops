@@ -1,0 +1,55 @@
+<%= render "rui/shared/theme/title", title: "Notifications" %>
+
+<ul class="mt-6 space-y-4">
+  <% [{
+      title: "Successful deploy",
+      body: "Deployment 'v1.34' has successfully launched on the
+  production environment.",
+      name: "Alex Morgan",
+      avatar_variant: "men",
+      avatar_id: "29",
+      path: "#"
+    },
+    {
+      title: "Security update",
+      body: "A new security patch was installed for your runtime environment.",
+      name: "Priya Signh",
+      avatar_variant: "men",
+      avatar_id: "58",
+      path: "#"
+    },
+    {
+      title: "CPU usage limit increased",
+      body: "CPU usage limit was changed. Your plan details
+  have been updated.",
+      name: "Jordan Peel",
+      avatar_variant: "women",
+      avatar_id: "85",
+      path: "#"
+    },
+    {
+      title: "Billing information updated",
+      body: "A new payment method was added to your
+  account.",
+      name: "Sam Thompson",
+      avatar_variant: "men",
+      avatar_id: "22",
+      path: "#"
+    },
+    {
+      title: "API request limited reached",
+      body: "You have reached 85% of your API request
+  limit for the server summer-star-9132",
+      name: "Tara Brooks",
+      avatar_variant: "women",
+      avatar_id: "74",
+      path: "#"
+    }].each do |notification| %>
+
+    <%= render "rui/shared/theme/notifications/notification", title: notification[:title], body: notification[:body], name: notification[:name], avatar_variant: notification[:avatar_variant], avatar_id: notification[:avatar_id], path: notification[:path] %>
+  <% end %>
+</ul>
+
+<div class="flex items-center pt-8">
+  <button class="btn btn-white">Load more...</button>
+</div>

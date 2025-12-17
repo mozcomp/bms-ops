@@ -1,0 +1,210 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Breadcrumbs -->
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <% @breadcrumbs.each_with_index do |breadcrumb, index| %>
+            <li class="inline-flex items-center">
+              <% if index > 0 %>
+                <%= icon "chevron-right", class: "size-4 text-slate-400 mx-2" %>
+              <% end %>
+              <% if breadcrumb[:path] %>
+                <%= link_to breadcrumb[:name], breadcrumb[:path], class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" %>
+              <% else %>
+                <span class="text-slate-900 dark:text-slate-100 text-sm font-medium"><%= breadcrumb[:name] %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <%= link_to versions_document_path(@document), class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+            <%= icon "arrow-left", class: "size-6" %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">Compare Versions</h1>
+            <p class="text-slate-600 dark:text-slate-400">
+              <% if @version1 && @version2 %>
+                Comparing Version <%= @version1.version_number %> with Version <%= @version2.version_number %>
+              <% elsif @version1 %>
+                Comparing Version <%= @version1.version_number %> with Current Version
+              <% else %>
+                Select versions to compare
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Version Selection -->
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 mb-6">
+        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Select Versions</h2>
+        </div>
+        <div class="px-6 py-4">
+          <%= form_with url: compare_versions_document_path(@document), method: :get, local: true, class: "flex items-end gap-4" do |form| %>
+            <div class="flex-1">
+              <%= form.label :version1_id, "Version 1", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+              <%= form.select :version1_id, 
+                  options_from_collection_for_select(@document.document_versions.ordered, :id, ->(v) { "Version #{v.version_number} (#{v.created_at.strftime('%b %d, %Y')})" }, params[:version1_id]),
+                  { prompt: "Select first version" },
+                  { class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" } %>
+            </div>
+            <div class="flex-1">
+              <%= form.label :version2_id, "Version 2", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+              <%= form.select :version2_id, 
+                  options_from_collection_for_select(@document.document_versions.ordered, :id, ->(v) { "Version #{v.version_number} (#{v.created_at.strftime('%b %d, %Y')})" }, params[:version2_id]) + 
+                  [["Current Version", ""]],
+                  { prompt: "Select second version" },
+                  { class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" } %>
+            </div>
+            <div>
+              <%= form.submit "Compare", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Comparison Results -->
+      <% if @version1_content.present? || @version2_content.present? %>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Version 1 -->
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                  <% if @version1 %>
+                    Version <%= @version1.version_number %>
+                  <% else %>
+                    Original
+                  <% end %>
+                </h3>
+                <% if @version1 %>
+                  <div class="text-sm text-slate-600 dark:text-slate-400">
+                    <%= time_tag @version1.created_at, @version1.created_at.strftime("%b %d, %Y") %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="px-6 py-4">
+              <div class="prose prose-slate dark:prose-invert max-w-none text-sm">
+                <% if @version1_content.present? %>
+                  <pre class="whitespace-pre-wrap font-mono text-xs bg-slate-50 dark:bg-slate-900 p-4 rounded border overflow-x-auto"><%= @version1_content %></pre>
+                <% else %>
+                  <p class="text-slate-500 dark:text-slate-400 italic">No content</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Version 2 -->
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                  <% if @version2 %>
+                    Version <%= @version2.version_number %>
+                  <% else %>
+                    Current Version
+                  <% end %>
+                </h3>
+                <% if @version2 %>
+                  <div class="text-sm text-slate-600 dark:text-slate-400">
+                    <%= time_tag @version2.created_at, @version2.created_at.strftime("%b %d, %Y") %>
+                  </div>
+                <% else %>
+                  <div class="text-sm text-slate-600 dark:text-slate-400">
+                    Current
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="px-6 py-4">
+              <div class="prose prose-slate dark:prose-invert max-w-none text-sm">
+                <% if @version2_content.present? %>
+                  <pre class="whitespace-pre-wrap font-mono text-xs bg-slate-50 dark:bg-slate-900 p-4 rounded border overflow-x-auto"><%= @version2_content %></pre>
+                <% else %>
+                  <p class="text-slate-500 dark:text-slate-400 italic">No content</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diff Analysis -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 mt-6">
+          <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Differences</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Basic comparison of content changes</p>
+          </div>
+          <div class="px-6 py-4">
+            <% 
+              version1_lines = @version1_content.to_s.lines
+              version2_lines = @version2_content.to_s.lines
+              max_lines = [version1_lines.length, version2_lines.length].max
+            %>
+            
+            <% if version1_lines == version2_lines %>
+              <div class="text-center py-8">
+                <div class="inline-flex items-center justify-center size-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
+                  <%= icon "check-circle", class: "size-8 text-green-600 dark:text-green-400" %>
+                </div>
+                <h4 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">No Differences</h4>
+                <p class="text-slate-600 dark:text-slate-400">The selected versions have identical content.</p>
+              </div>
+            <% else %>
+              <div class="space-y-2">
+                <% (0...max_lines).each do |i| %>
+                  <% 
+                    line1 = version1_lines[i]&.chomp
+                    line2 = version2_lines[i]&.chomp
+                  %>
+                  <% if line1 != line2 %>
+                    <div class="border border-slate-200 dark:border-slate-600 rounded">
+                      <% if line1.present? %>
+                        <div class="bg-red-50 dark:bg-red-900/20 px-3 py-2 border-b border-slate-200 dark:border-slate-600">
+                          <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-red-600 dark:text-red-400">-</span>
+                            <span class="text-sm font-mono text-red-800 dark:text-red-300"><%= line1 %></span>
+                          </div>
+                        </div>
+                      <% end %>
+                      <% if line2.present? %>
+                        <div class="bg-green-50 dark:bg-green-900/20 px-3 py-2">
+                          <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-green-600 dark:text-green-400">+</span>
+                            <span class="text-sm font-mono text-green-800 dark:text-green-300"><%= line2 %></span>
+                          </div>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="px-6 py-8 text-center">
+            <div class="inline-flex items-center justify-center size-16 bg-slate-100 dark:bg-slate-700 rounded-full mb-4">
+              <%= icon "document-duplicate", class: "size-8 text-slate-400" %>
+            </div>
+            <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">Select Versions to Compare</h3>
+            <p class="text-slate-600 dark:text-slate-400">Choose two versions from the form above to see their differences.</p>
+          </div>
+        </div>
+      <% end %>
+    </main>
+  </div>
+</div>

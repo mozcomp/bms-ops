@@ -1,0 +1,75 @@
+<%= render "rui/shared/theme/settings/nav" %>
+
+<%= render "rui/shared/theme/settings/section", title: "Notification preferences", subcopy: "Manage your notification settings on a per account basis." do %>
+<form action="#">
+  <div class="form-group">
+    <div class="flex items-center gap-2">
+      <input class="form-input-checkbox" type="checkbox" id="emailNotifications" checked>
+      <label class="form-label mb-0" for="emailNotifications">Enable email notifications</label>
+    </div>
+    <div class="prose prose-sm prose-gray dark:prose-invert pl-6">
+      <p>Enable this setting to receive email settings as actions happen.</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="flex items-center gap-2">
+      <input class="form-input-checkbox" type="checkbox" id="pushNotifications">
+      <label class="form-label mb-0" for="pushNotifications">Enable push notifications</label>
+    </div>
+    <div class="prose prose-sm prose-gray dark:prose-invert pl-6">
+      <p>Enable this setting to receive push notifications on your mobile device.</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="flex items-center gap-2">
+      <input class="form-input-checkbox" type="checkbox" id="smsNotifications">
+      <label class="form-label mb-0" for="smsNotifications">Enable SMS notifications</label>
+    </div>
+    <div class="prose prose-sm prose-gray dark:prose-invert pl-6">
+      <p>Enable this setting to receive text notifications on your mobile device.</p>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+<% end %>
+
+<hr class="my-6 border-gray-200 dark:border-gray-700" />
+
+<%= render "rui/shared/theme/settings/section", title: "Other preferences", subcopy: "App marketing related emails or similar communication channels." do %>
+
+<form action="#">
+  <div class="form-group">
+    <div class="flex items-center gap-2">
+      <input class="form-input-checkbox" type="checkbox" id="emailDigest" checked>
+      <label class="form-label mb-0" for="emailDigest">Weekly Digest</label>
+    </div>
+    <div class="prose prose-sm prose-gray dark:prose-invert pl-6">
+      <p>A weekly email with curated topics and tips.</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="flex items-center gap-2">
+      <input class="form-input-checkbox" type="checkbox" id="newFeatures">
+      <label class="form-label mb-0" for="newFeatures">New features</label>
+    </div>
+    <div class="prose prose-sm prose-gray dark:prose-invert pl-6">
+      <p>Learn about new features as we are working on them.</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="flex items-center gap-2">
+      <input class="form-input-checkbox" type="checkbox" id="productAnnouncements">
+      <label class="form-label mb-0" for="productAnnouncements">Product announcements</label>
+    </div>
+    <div class="prose prose-sm prose-gray dark:prose-invert pl-6">
+      <p>Learn when new features launch before the masses.</p>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+<% end %>

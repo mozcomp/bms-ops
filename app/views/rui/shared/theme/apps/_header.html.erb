@@ -1,0 +1,80 @@
+<nav role="breadcrumb" class="mb-6">
+  <ul class="flex items-center space-x-3 text-sm font-medium">
+    <li>
+      <%= link_to "Apps", rui_apps_path, class: "hover:text-primary-500" %>
+    </li>
+    <span class="opacity-25">/</span>
+    <li>
+      <%= link_to "Github", rui_app_path %>
+    </li>
+  </ul>
+</nav>
+
+<div class="md:flex items-start justify-between mb-6">
+  <div class="flex items-center gap-6">
+    <%= image_tag "railsui/github.png", alt: "GitHub", class: "size-24 rounded-lg object-cover object-top border border-gray-300/70 shadow dark:border-gray-600/80" %>
+    <div>
+      <h1 class="md:h1 h3">GitHub</h1>
+      <p class="text-sm">Last deploy May 24, 2024 <span class="text-gray-400">&bull;</span> <span class="font-mono text-gray-600 dark:text-gray-400"><%= fake_git_hash %></span></p>
+
+      <div class="flex items-center -space-x-2 pt-3">
+        <%= image_tag demo_avatar_url(variant: "women", id: "46"), alt: "User Doe", class: "size-7 rounded-full object-cover object-center ring-2 ring-white/40" %>
+        <%= image_tag demo_avatar_url(variant: "men", id: "33"), alt: "User Doe", class: "size-7 rounded-full object-cover object-center ring-2 ring-white/40" %>
+        <%= image_tag demo_avatar_url(variant: "men", id: "14"), alt: "User Doe", class: "size-7 rounded-full object-cover object-center ring-2 ring-white/40" %>
+        <%= image_tag demo_avatar_url(variant: "women", id: "78"), alt: "User Doe", class: "size-7 rounded-full object-cover object-center ring-2 ring-white/40" %>
+        <%= image_tag demo_avatar_url(variant: "men", id: "35"), alt: "User Doe", class: "size-7 rounded-full object-cover object-center ring-2 ring-white/40" %>
+        <%= image_tag demo_avatar_url(variant: "women", id: "42"), alt: "User Doe", class: "size-7 rounded-full object-cover object-center ring-2 ring-white/40" %>
+        <div class="size-7 bg-white/95 rounded-full flex items-center justify-center text-[9px] text-gray-600/80 ring-2 ring-gray-200/30 font-medium flex-shrink-0 dark:bg-gray-900 dark:text-gray-300">+15</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center gap-4 md:mt-0 mt-4">
+    <div>
+      <%= link_to "https://github.com", target: :_blank, class: "btn dark:btn-white btn-secondary flex gap-2 items-center" do %>
+        <span>View site</span>
+        <%= icon "arrow-up-right", class: "size-3 stroke-current" %>
+      <% end %>
+    </div>
+    <div data-controller="railsui-dropdown" class="relative">
+      <div class="flex items-center justify-between relative">
+        <%= link_to "Deploy", "#", class: "h-[34.5px] btn btn-white rounded-r-none border-r-0 flex items-center" %>
+        <button type="button" data-action="click->railsui-dropdown#toggle click@window->railsui-dropdown#hide" class="border-l-none h-[34.5px] px-2 btn btn-white rounded-l-none">
+          <%= icon "chevron-down", class: "size-4 text-gray-500 stroke-current dark:text-gray-400" %>
+        </button>
+      </div>
+
+      <ul data-railsui-dropdown-target="menu" class="md:right-0 right-auto left-0 md:left-auto top-10 md:w-[208px] w-[220px] dropdown-menu" data-transition-enter-active="transition ease-out duration-50"
+      data-transition-enter-from="transform opacity-0 scale-95"
+      data-transition-enter-to="transform opacity-100 scale-100"
+      data-transition-leave-active="transition ease-in duration-100"
+      data-transition-leave-from="transform opacity-100 scale-100"
+      data-transition-leave-to="transform opacity-0 scale-95">
+        <li>
+          <%= link_to "Restart", "#", class: "dropdown-item" %>
+        </li>
+        <li>
+          <%= link_to "Rollback", "#", class: "dropdown-item" %>
+        </li>
+        <li>
+          <%= link_to "Backup", "#", class: "dropdown-item" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Sub pages -->
+<div class="mb-6">
+  <ul class="flex items-center overflow-x-auto overflow-y-hidden snap-x snap-start border-b border-gray-200/80 dark:border-gray-700/80 -mb-px scrollable">
+
+    <%= nav_link_to "Overview", rui_app_path, active_class: "border-b-2 border-primary-500 px-4 py-3 block text-primary-500 font-medium text-[15px] transition ease-in-out duration-300 hover:border-primary-600 rounded-t whitespace-nowrap dark:text-primary-400 dark:border-primary-400 hover:text-primary-500 dark:hover:text-primary-400", inactive_class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap" %>
+
+    <%= nav_link_to "Activity", rui_app_activity_path, active_class: "border-b-2 border-primary-500 px-4 py-3 block text-primary-500 font-medium text-[15px] transition ease-in-out duration-300 hover:border-primary-600 rounded-t whitespace-nowrap dark:text-primary-400 dark:border-primary-400 hover:text-primary-500 dark:hover:text-primary-400", inactive_class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap" %>
+
+    <%= nav_link_to "Domains", rui_app_domains_path, active_class: "border-b-2 border-primary-500 px-4 py-3 block text-primary-500 font-medium text-[15px] transition ease-in-out duration-300 hover:border-primary-600 rounded-t whitespace-nowrap dark:text-primary-400 dark:border-primary-400 hover:text-primary-500 dark:hover:text-primary-400", inactive_class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap" %>
+
+    <%= nav_link_to "Access", rui_app_access_path, active_class: "border-b-2 border-primary-500 px-4 py-3 block text-primary-500 font-medium text-[15px] transition ease-in-out duration-300 hover:border-primary-600 rounded-t whitespace-nowrap dark:text-primary-400 dark:border-primary-400 hover:text-primary-500 dark:hover:text-primary-400", inactive_class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap" %>
+
+    <%= nav_link_to "Settings", rui_app_settings_path, active_class: "border-b-2 border-primary-500 px-4 py-3 block text-primary-500 font-medium text-[15px] transition ease-in-out duration-300 hover:border-primary-600 rounded-t whitespace-nowrap dark:text-primary-400 dark:border-primary-400 hover:text-primary-500 dark:hover:text-primary-400", inactive_class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap" %>
+  </ul>
+</div>

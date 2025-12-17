@@ -1,0 +1,123 @@
+<%= render "rui/shared/theme/title", title: "Users" %>
+
+<div class="prose dark:prose-invert">
+  <p>Displaying 16 of 243 users.</p>
+</div>
+
+<ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700/80">
+  <% [{
+    name: "Stacey Brown",
+    title: "Software Engineer",
+    status: "Active",
+    avatar_variant: "women",
+    avatar_id: "1"
+  },
+  {
+    name: "Adam Johnson",
+    title: "Product Lead",
+    status: "Active",
+    avatar_variant: "men",
+    avatar_id: "28"
+  },
+  {
+    name: "Benjamin Patel",
+    title: "Software Engineer",
+    status: "Active",
+    avatar_variant: "men",
+    avatar_id: "29"
+  },
+  {
+    name: "Mia Gupta",
+    title: "UX Designer",
+    status: "Active",
+    avatar_variant: "men",
+    avatar_id: "2"
+  },
+  {
+    name: "Ave Sharma",
+    title: "Product Designer",
+    status: "Active",
+    avatar_variant: "women", avatar_id: "33"
+  },
+  {
+    name: "Nathan Rodriguez",
+    title: "Senior Software Architect",
+    status: "Active",
+    avatar_variant: "women",
+    avatar_id: "22"
+  },
+  {
+    name: "Lily Cooper",
+    title: "Software Engineer",
+    status: "Active",
+    avatar_variant: "women",
+    avatar_id: "34"
+  },
+  {
+    name: "Isabella Anderson",
+    title: "Designer",
+    status: "Inactive",
+    avatar_variant: "women",
+    avatar_id: "38"
+  },
+  {
+    name: "Chris Davis",
+    title: "Frontend Developer",
+    status: "Active",
+    avatar_variant: "men",
+    avatar_id: "15"
+  },
+  {
+    name: "Emily White",
+    title: "UI/UX Specialist",
+    status: "Active",
+    avatar_variant: "women",
+    avatar_id: "12"
+  },
+  {
+    name: "Daniel Lewis",
+    title: "Software Engineer",
+    status: "Active",
+    avatar_variant: "men",
+    avatar_id: "5"
+  },
+  {
+    name: "Sophia Brown",
+    title: "Product Manager",
+    status: "Active",
+    avatar_variant: "women",
+    avatar_id: "18"
+  },
+  {
+    name: "Elijah Chen",
+    title: "DevOps Engineer",
+    status: "Active",
+    avatar_variant: "men",
+    avatar_id: "7"
+  },
+  {
+    name: "Zachary Taylor",
+    title: "Software Developer",
+    status: "Active",
+    avatar_variant: "men",
+    avatar_id: "14"
+  },
+  {
+    name: "Aria Nguyen",
+    title: "UX Researcher",
+    status: "Inactive",
+    avatar_variant: "women",
+    avatar_id: "29"
+  },
+  {
+    name: "Jackson Fergo",
+    title: "Writer",
+    status: "Active",
+    avatar_variant: "men",
+    avatar_id: "85"
+  }].each do |user| %>
+    <%= render "rui/shared/user", name: user[:name], title: user[:title], status: user[:status], avatar_variant: user[:avatar_variant], avatar_id: user[:avatar_id] %>
+  <% end %>
+</ul>
+
+<%= render "rui/shared/pagination", align: "right" %>

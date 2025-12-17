@@ -1,0 +1,144 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Breadcrumbs -->
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <% @breadcrumbs.each_with_index do |breadcrumb, index| %>
+            <li class="inline-flex items-center">
+              <% if index > 0 %>
+                <%= icon "chevron-right", class: "size-4 text-slate-400 mx-2" %>
+              <% end %>
+              <% if breadcrumb[:path] %>
+                <%= link_to breadcrumb[:name], breadcrumb[:path], class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" %>
+              <% else %>
+                <span class="text-slate-900 dark:text-slate-100 text-sm font-medium"><%= breadcrumb[:name] %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <%= link_to admin_path, class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+            <%= icon "arrow-left", class: "size-6" %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">User Management</h1>
+            <p class="text-slate-600 dark:text-slate-400">Manage user accounts and administrator privileges</p>
+          </div>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Users Table -->
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">All Users</h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            <%= pluralize(@users.count, 'user') %> registered
+          </p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+            <thead class="bg-slate-50 dark:bg-slate-900">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  User
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Role
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Documents Created
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Joined
+                </th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
+              <% @users.each do |user| %>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 size-10">
+                        <div class="size-10 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center">
+                          <span class="text-sm font-medium text-primary-600 dark:text-primary-400">
+                            <%= user.first_name&.first || user.email_address.first.upcase %>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
+                          <%= user.full_name %>
+                        </div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400">
+                          <%= user.email_address %>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <% if user.admin? %>
+                      <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400">
+                        <%= icon "shield-check", class: "size-3 mr-1" %>
+                        Administrator
+                      </span>
+                    <% else %>
+                      <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300">
+                        <%= icon "user", class: "size-3 mr-1" %>
+                        User
+                      </span>
+                    <% end %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900 dark:text-slate-100">
+                    <%= user.created_documents.count %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                    <%= time_tag user.created_at, user.created_at.strftime("%b %d, %Y") %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div class="flex items-center justify-end gap-2">
+                      <% if user != Current.user %>
+                        <% if user.admin? %>
+                          <%= button_to admin_update_user_admin_path(user), 
+                              method: :patch, 
+                              params: { admin: false },
+                              data: { turbo_confirm: "Are you sure you want to revoke administrator privileges for #{user.full_name}?" },
+                              class: "text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 text-sm font-medium" do %>
+                            Revoke Admin
+                          <% end %>
+                        <% else %>
+                          <%= button_to admin_update_user_admin_path(user), 
+                              method: :patch, 
+                              params: { admin: true },
+                              data: { turbo_confirm: "Are you sure you want to grant administrator privileges to #{user.full_name}?" },
+                              class: "text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 text-sm font-medium" do %>
+                            Make Admin
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <span class="text-slate-400 text-sm">Current User</span>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

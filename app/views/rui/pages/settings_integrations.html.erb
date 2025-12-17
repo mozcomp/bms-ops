@@ -1,0 +1,23 @@
+<%= render "rui/shared/theme/settings/nav" %>
+
+<ul>
+  <!-- Zapier -->
+  <%= render "rui/shared/theme/settings/integration", title: "Zapier", enabled: true, email: "saasquatch@railsui.com", logo: "zapier" do %>
+    <p>Integrate with Zapier to automate thousands of integrations between your favorite apps and services.</p>
+  <% end %>
+
+  <!-- Google Analytics -->
+  <%= render "rui/shared/theme/settings/integration", title: "Google Analytics", enabled: false, email: "saasquatch@railsui.com", logo: "google_analytics" do %>
+    <p>Track your website's performance with Google Analytics.</p>
+  <% end %>
+
+  <!-- Mailchimp -->
+  <%= render "rui/shared/theme/settings/integration", title: "Mailchimp", enabled: false, email: "saasquatch@railsui.com", logo: "mailchimp" do %>
+    <p>Build a one-of-a-kind newsletter business with Mailchimp.</p>
+  <% end %>
+
+  <!-- Stripe -->
+  <%= render "rui/shared/theme/settings/integration", title: "Stripe", enabled: true, email: "saasquatch@railsui.com", logo: "stripe" do %>
+  <p>Process payments on your customer's behalf using Stripe Connect.</p>
+  <% end %>
+</ul>

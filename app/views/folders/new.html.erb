@@ -1,0 +1,129 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Breadcrumbs -->
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <% @breadcrumbs.each_with_index do |breadcrumb, index| %>
+            <li class="inline-flex items-center">
+              <% if index > 0 %>
+                <%= icon "chevron-right", class: "size-4 text-slate-400 mx-2" %>
+              <% end %>
+              <% if breadcrumb[:path] %>
+                <%= link_to breadcrumb[:name], breadcrumb[:path], class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" %>
+              <% else %>
+                <span class="text-slate-900 dark:text-slate-100 text-sm font-medium"><%= breadcrumb[:name] %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <% if @parent_folder %>
+            <%= link_to folder_path(@parent_folder), class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+              <%= icon "arrow-left", class: "size-6" %>
+            <% end %>
+          <% else %>
+            <%= link_to folders_path, class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+              <%= icon "arrow-left", class: "size-6" %>
+            <% end %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">
+              <% if @parent_folder %>
+                New Subfolder
+              <% else %>
+                New Folder
+              <% end %>
+            </h1>
+            <p class="text-slate-600 dark:text-slate-400">
+              <% if @parent_folder %>
+                Create a new subfolder in <%= @parent_folder.name %>
+              <% else %>
+                Create a new root folder
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Form -->
+      <%= form_with(model: @folder, class: "space-y-6") do |form| %>
+        <%= form.hidden_field :parent_id, value: @parent_folder&.id %>
+        
+        <!-- Error messages -->
+        <% if @folder.errors.any? %>
+          <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <div class="flex items-start gap-3">
+              <%= icon "exclamation-circle", class: "size-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" %>
+              <div class="flex-1">
+                <h3 class="text-sm font-medium text-red-800 dark:text-red-400 mb-2">
+                  <%= pluralize(@folder.errors.count, "error") %> prohibited this folder from being saved:
+                </h3>
+                <ul class="list-disc list-inside text-sm text-red-700 dark:text-red-400 space-y-1">
+                  <% @folder.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Folder Information -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Folder Information</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Basic folder details and organization</p>
+          </div>
+          <div class="px-6 py-6 space-y-6">
+            <div>
+              <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+              <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "Enter folder name" %>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">This will be used in the navigation and URLs</p>
+            </div>
+            
+            <div>
+              <%= form.label :description, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+              <%= form.text_area :description, rows: 3, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "Brief description of what this folder contains (optional)" %>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">This will be shown in folder listings</p>
+            </div>
+
+            <% if @parent_folder %>
+              <div class="bg-slate-50 dark:bg-slate-900 rounded-lg p-4">
+                <div class="flex items-center gap-3">
+                  <div class="size-8 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <%= icon "folder", class: "size-4 text-yellow-600 dark:text-yellow-400" %>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-slate-900 dark:text-slate-100">Parent Folder</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400"><%= @parent_folder.name %></p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Form actions -->
+        <div class="flex items-center justify-end gap-3">
+          <% if @parent_folder %>
+            <%= link_to "Cancel", folder_path(@parent_folder), class: "btn btn-white" %>
+          <% else %>
+            <%= link_to "Cancel", folders_path, class: "btn btn-white" %>
+          <% end %>
+          <%= form.submit "Create Folder", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </main>
+  </div>
+</div>

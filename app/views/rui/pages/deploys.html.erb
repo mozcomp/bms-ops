@@ -1,0 +1,33 @@
+<%= render "rui/shared/theme/title", title: "Deploys" %>
+
+<ul class="divide-y divide-gray-200/80 mt-6 dark:divide-gray-700/80">
+  <% [{path: "#", name: "Jason Doe", avatar_variant: "men", avatar_id: "32", time: "Deployed 3m ago", environment: "staging", account: "getrailsui", branch: "retriever", status: "live", commit: "fake_git_hash", server: "autumn-sun-6428" },
+    { path: "#", name: "Janice Walters", avatar_variant: "women", avatar_id: "60", time: "Deployed 1h ago", environment: "production", account: "rails", branch: "activesupport-goodies", status: "pending", commit: "265d412c", server: "spring-breeze-8654" },
+    { path: "#", name: "Alice Johnson", avatar_variant: "women", avatar_id: "62", time: "Deployed 2h ago", environment: "staging", account: "react", branch: "frontend-updates", status: "live", commit: "a1b2c3d4", server: "autumn-sun-6428" },
+    { path: "#", name: "David Smith", avatar_variant: "men", avatar_id: "45", time: "Deployed 30m ago", environment: "development", account: "node", branch: "feature-auth", status: "failed", commit: "98765432", server: "winter-moon-7523" },
+    { path: "#", name: "Emily Turner", avatar_variant: "women", avatar_id: "78", time: "Deployed 45m ago", environment: "testing", account: "angular", branch: "bugfix-ui", status: "live", commit: "abcd1234", server: "golden-leaves-5279" },
+    { path: "#", name: "Michael Brown", avatar_variant: "men", avatar_id: "52", time: "Deployed 3h ago", environment: "production", account: "django", branch: "database-optimization", status: "pending", commit: "1a2b3c4d", server: "frosty-morning-3691" },
+    { path: "#", name: "Olivia Davis", avatar_variant: "women", avatar_id: "32", time: "Deployed 1h ago", environment: "staging", account: "rails", branch: "api-endpoints", status: "live", commit: "qwe123", server: "golden-leaves-5279" },
+    { path: "#", name: "Daniel Miller", avatar_variant: "men", avatar_id: "28", time: "Deployed 2h ago", environment: "production", account: "react", branch: "redux-updates", status: "failed", commit: "zxc789", server: "summer-star-9132" },
+    { path: "#", name: "Sophia Martinez", avatar_variant: "women", avatar_id: "45", time: "Deployed 1h ago", environment: "development", account: "node", branch: "bugfix-server", status: "live", commit: "6543xyz", server: "winter-moon-7523" },
+    { path: "#", name: "Ryan Johnson", avatar_variant: "men", avatar_id: "38", time: "Deployed 1h ago", environment: "staging", account: "angular", branch: "performance-optimization", status: "pending", commit: "abc456", server: "summer-star-9132" },
+    { path: "#", name: "Ella White", avatar_variant: "women", avatar_id: "56", time: "Deployed 2h ago", environment: "production", account: "django", branch: "security-updates", status: "live", commit: "123xyz", server: "autumn-sun-6428" },
+    { path: "#", name: "Chris Adams", avatar_variant: "men", avatar_id: "41", time: "Deployed 30m ago", environment: "testing", account: "react", branch: "frontend-refactor", status: "failed", commit: "789qwe", server: "" },
+    { path: "#", name: "Grace Taylor", avatar_variant: "women", avatar_id: "42", time: "Deployed 45m ago", environment: "development", account: "rails", branch: "feature-pagination", status: "live", commit: "456asd", server: "golden-leaves-5279" },
+    { path: "#", name: "Tyler Harris", avatar_variant: "men", avatar_id: "49", time: "Deployed 3h ago", environment: "staging", account: "node", branch: "graphql-updates", status: "pending", commit: "ijk789", server: "spring-breeze-8654" }].each do |deploy| %>
+      <%= render "rui/shared/theme/deploys/deploy",
+      path: deploy[:path],
+      name: deploy[:name],
+      avatar_variant: deploy[:avatar_variant],
+      avatar_id: deploy[:avatar_id],
+      time: deploy[:time],
+      environment: deploy[:environment],
+      account: deploy[:account],
+      branch: deploy[:branch],
+      status: deploy[:status],
+      commit: deploy[:commit],
+      server: deploy[:server] %>
+  <% end %>
+</ul>
+
+<%= render "rui/shared/pagination", align: "right" %>

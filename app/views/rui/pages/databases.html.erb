@@ -1,0 +1,97 @@
+<%= render "rui/shared/theme/title", title: "Databases" %>
+
+<div class="mb-6">
+  <ul class="flex items-center overflow-x-auto overflow-y-hidden snap-x snap-start border-b border-gray-200/80 dark:border-gray-700/80 -mb-px scrollable">
+    <li>
+      <%= link_to "All databases", "#", class: "border-b-2 border-primary-500 px-4 py-3 block text-primary-500 font-medium text-[15px] transition ease-in-out duration-300 hover:border-primary-600 rounded-t  dark:hover:text-white whitespace-nowrap" %>
+    </li>
+    <li>
+      <%= link_to "PostgreSQL", "#", class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap" %>
+    </li>
+    <li>
+      <%= link_to "MySQL", "#", class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap" %>
+    </li>
+    <li>
+      <%= link_to "Redis", "#", class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap" %>
+    </li>
+    <li>
+      <%= link_to "MongoDB", "#", class: "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap" %>
+    </li>
+  </ul>
+</div>
+
+<div class="overflow-x-auto scrollable">
+  <table class="w-full text-left">
+    <thead>
+      <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Name</th>
+      <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Server</th>
+      <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Application</th>
+      <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Type</th>
+    </thead>
+    <tbody>
+      <% [{
+            title: "railsui_production",
+            server: "autumn-sun-6428",
+            app: "railsui",
+            style:"postgresql"
+          },
+          {
+            title: "railsui_staging",
+            server: "winter-moon-7523",
+            app: "railsui",
+            style:"postgresql"
+          },
+          {
+            title: "echo-edge_production",
+            server: "spring-breeze-8654",
+            app: "echo-edge",
+            style:"mysql"
+          },
+          {
+            title: "echo-edge_staging",
+            server: "spring-breeze-8654",
+            app: "echo-edge",
+            style:"mysql"
+          },
+          {
+            title: "synth-sync_production",
+            server: "golden-leaves-5279",
+            app: "synth-sync",
+            style:"postgresql"
+          },
+          {
+            title: "synth-sync_staging",
+            server: "golden-leaves-5279",
+            app: "synth-sync",
+            style:"postgresql"
+          },
+          {
+            title: "spark-sphere",
+            server: "winter-moon-7523",
+            app: "spark-sphere",
+            style:"mongo"
+          }].each do |database| %>
+        <tr>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 font-medium">
+            <p>
+              <%= link_to database[:title], "#", class:"text-gray-700 dark:text-gray-300 font-medium text-[15px] p-0" %>
+            </p>
+          </td>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">
+            <p>
+              <%= link_to database[:server], rui_servers_path, class: "text-gray-700 dark:text-gray-300 font-medium text-[15px] p-0" %>
+            </p>
+          </td>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">
+            <p>
+              <%= link_to database[:app], rui_apps_path, class: "text-gray-700 font-medium text-[15px] p-0 dark:text-gray-300" %>
+            </p>
+          </td>
+          <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">
+            <%= icon database[:style], custom_path: "/railsui/brands/#{database[:style]}.svg", class: "size-6 text-gray-700 fill-current dark:text-gray-300" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

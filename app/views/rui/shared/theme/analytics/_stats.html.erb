@@ -1,0 +1,28 @@
+<div class="grid md:grid-cols-4 grid-cols-2 items-center justify-between md:divide-x md:gap-0 gap-6 divide-gray-300/70 dark:divide-gray-700/80">
+  <% [{
+        title: "Orders",
+        direction: "up",
+        amount: "12",
+        change: "+1%"
+      },
+      {
+        title: "Revenue",
+        direction: "up",
+        amount: "$3356.23",
+        change: "+0.12%"
+      },
+      {
+        title: "Deploys",
+        direction: "down",
+        amount: "403",
+        change: "-1%"
+      },
+      {
+        title: "Avg. deploy time",
+        direction: "down",
+        amount: "2.65 mins",
+        change: "-1.3%"
+      }].each do |stat| %>
+    <%= render "rui/shared/theme/analytics/stat", title: stat[:title], amount: stat[:amount], direction: stat[:direction], change: stat[:change] %>
+  <% end %>
+</div>

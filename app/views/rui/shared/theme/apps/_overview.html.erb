@@ -1,0 +1,77 @@
+<div class="pb-6">
+  <h3 class="h5 mb-4">Application</h3>
+  <% link_to "#", class: "flex items-center justify-start gap-3 mb-3" do %>
+    <div
+      class="flex items-center justify-center size-7 bg-gray-500/10 text-gray-700 rounded-md dark:text-gray-400 dark:bg-gray-900 dark:outline dark:outline-gray-700/80">
+      <%= icon "github", custom_path: "/railsui/brands/github.svg", class: "size-4 text-neutral-800 dark:text-neutral-400 fill-current" %>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <p>Repo</p>
+      <%= icon "arrow-up-right", class: "size-3 text-gray-600 dark:text-gray-400 stroke-current" %>
+    </div>
+  <% end %>
+
+  <%= link_to "#", class: "flex items-center justify-start gap-3 mb-3" do %>
+    <div
+      class="flex items-center justify-center size-7 bg-primary-500/10 text-primary-700 rounded-md dark:bg-primary-500/25 dark:text-primary-400">
+      <%= icon "server", class: "size-4 stroke-current" %>
+    </div>
+    <p>autumn-sun-6428</p>
+  <% end %>
+
+  <%= link_to "#", class: "flex items-center justify-start gap-3 mb-3" do %>
+    <div
+      class="flex items-center justify-center size-7 bg-[#D30001]/10 text-[#D30001] rounded-md dark:bg-[#D30001]/25 dark:text-[#D30001]">
+      <%= icon "rails", custom_path: "/railsui/brands/rails.svg", class: "size-4 fill-current" %>
+    </div>
+    <div>
+      <p>Ruby on Rails</p>
+    </div>
+  <% end %>
+</div>
+
+<div class="py-6">
+  <h3 class="h5 mb-4">Config</h3>
+
+  <ul>
+    <li class="flex items-center gap-3 pb-3">
+      <div
+        class="flex items-center justify-center size-7 bg-purple-500/10 text-purple-700 rounded-md dark:bg-purple-500/25 dark:text-purple-400">
+        <%= icon "lock-closed", class: "size-4 stroke-current" %>
+      </div>
+      <p>SSL</p>
+      <div class="bg-emerald-500/10 text-emerald-600 rounded-md text-[13px] relative top-px font-medium px-1.5">
+        Active</div>
+    </li>
+
+    <li class="flex items-center gap-3 pb-3">
+      <div
+        class="flex items-center justify-center size-7 bg-orange-500/10 text-orange-700 rounded-md dark:bg-orange-500/25 dark:text-orange-400">
+        <%= icon "variable", class: "size-4 stroke-current" %>
+      </div>
+      <p>6 ENV Variables</p>
+    </li>
+
+    <li class="flex items-center gap-3 pb-3">
+      <div
+        class="flex items-center justify-center size-7 bg-primary-500/10 text-primary-700 rounded-md dark:bg-primary-500/25 dark:text-primary-400">
+        <%= icon "server", class: "size-4 stroke-current" %>
+      </div>
+      <p>1 Puma web server</p>
+    </li>
+  </ul>
+</div>
+
+<div class="py-6">
+  <h3 class="h5 mb-4">Add-ons</h3>
+
+  <ul>
+    <li class="flex items-center gap-3 pb-3">
+      <div
+        class="flex items-center justify-center size-7 bg-sky-500/10 text-sky-700 rounded-md dark:bg-sky-500/25 dark:text-sky-400">
+        <%= icon "square-3-stack-3d", class: "size-4 stroke-current" %>
+      </div>
+      <p>Sidekiq</p>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,294 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Breadcrumbs -->
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <% @breadcrumbs.each_with_index do |breadcrumb, index| %>
+            <li class="inline-flex items-center">
+              <% if index > 0 %>
+                <%= icon "chevron-right", class: "size-4 text-slate-400 mx-2" %>
+              <% end %>
+              <% if breadcrumb[:path] %>
+                <%= link_to breadcrumb[:name], breadcrumb[:path], class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" %>
+              <% else %>
+                <span class="text-slate-900 dark:text-slate-100 text-sm font-medium"><%= breadcrumb[:name] %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <%= link_to documents_path, class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+            <%= icon "arrow-left", class: "size-6" %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">Search Documentation</h1>
+            <% if @query.present? %>
+              <p class="text-slate-600 dark:text-slate-400">
+                <%= pluralize(@total_results, 'result') %> for "<%= @query %>"
+              </p>
+            <% else %>
+              <p class="text-slate-600 dark:text-slate-400">Search through all documentation</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Search Form -->
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 mb-6">
+        <div class="px-6 py-6">
+          <%= form_with url: search_documents_path, method: :get, local: true, class: "space-y-4" do |form| %>
+            <!-- Main Search -->
+            <div class="flex gap-4">
+              <div class="flex-1 relative">
+                <%= form.text_field :q, value: @query, 
+                    class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", 
+                    placeholder: "Search documents by title or content...",
+                    data: { 
+                      controller: "search-autocomplete",
+                      search_autocomplete_url_value: search_suggestions_documents_path,
+                      action: "input->search-autocomplete#search"
+                    } %>
+                <!-- Autocomplete dropdown -->
+                <div data-search-autocomplete-target="dropdown" class="absolute z-10 w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg mt-1 hidden">
+                  <div data-search-autocomplete-target="results" class="max-h-60 overflow-y-auto">
+                    <!-- Results will be populated by Stimulus -->
+                  </div>
+                </div>
+              </div>
+              <%= form.submit "Search", class: "btn btn-primary flex items-center gap-2" %>
+            </div>
+
+            <!-- Advanced Filters (Collapsible) -->
+            <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+              <button type="button" 
+                      data-controller="toggle" 
+                      data-action="click->toggle#toggle"
+                      data-toggle-target="button"
+                      class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100">
+                <%= icon "adjustments-horizontal", class: "size-4" %>
+                <span>Advanced Filters</span>
+                <%= icon "chevron-down", class: "size-4", data: { toggle_target: "icon" } %>
+              </button>
+              
+              <div data-toggle-target="content" class="hidden mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Folder Filter -->
+                <div>
+                  <%= form.label :folder_id, "Folder", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" %>
+                  <%= form.select :folder_id, 
+                      options_from_collection_for_select(@folders, :id, :full_path, @filters[:folder_id]),
+                      { prompt: "All folders" },
+                      { class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" } %>
+                </div>
+
+                <!-- Author Filter -->
+                <div>
+                  <%= form.label :author_id, "Author", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" %>
+                  <%= form.select :author_id,
+                      options_from_collection_for_select(@authors, :id, :full_name, @filters[:author_id]),
+                      { prompt: "All authors" },
+                      { class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" } %>
+                </div>
+
+                <!-- Date From -->
+                <div>
+                  <%= form.label :date_from, "From Date", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" %>
+                  <%= form.date_field :date_from, value: @filters[:date_from],
+                      class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
+                </div>
+
+                <!-- Date To -->
+                <div>
+                  <%= form.label :date_to, "To Date", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" %>
+                  <%= form.date_field :date_to, value: @filters[:date_to],
+                      class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sort Options -->
+            <div class="flex items-center gap-4 text-sm">
+              <span class="text-slate-600 dark:text-slate-400 font-medium">Sort by:</span>
+              <div class="flex gap-2">
+                <%= form.radio_button :sort_by, 'relevance', checked: @sort_by == 'relevance', class: "sr-only", id: "sort_relevance" %>
+                <%= form.label :sort_by_relevance, "Relevance", class: "px-3 py-1 rounded-full text-xs font-medium cursor-pointer #{'bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400' if @sort_by == 'relevance'} #{'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600' if @sort_by != 'relevance'}" %>
+                
+                <%= form.radio_button :sort_by, 'date_desc', checked: @sort_by == 'date_desc', class: "sr-only", id: "sort_date_desc" %>
+                <%= form.label :sort_by_date_desc, "Newest", class: "px-3 py-1 rounded-full text-xs font-medium cursor-pointer #{'bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400' if @sort_by == 'date_desc'} #{'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600' if @sort_by != 'date_desc'}" %>
+                
+                <%= form.radio_button :sort_by, 'title', checked: @sort_by == 'title', class: "sr-only", id: "sort_title" %>
+                <%= form.label :sort_by_title, "Title", class: "px-3 py-1 rounded-full text-xs font-medium cursor-pointer #{'bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400' if @sort_by == 'title'} #{'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600' if @sort_by != 'title'}" %>
+              </div>
+            </div>
+
+            <!-- Preserve filters in hidden fields -->
+            <% @filters.each do |key, value| %>
+              <%= form.hidden_field key, value: value %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Search Results -->
+      <% if @query.present? %>
+        <% if @documents.any? %>
+          <div class="space-y-4">
+            <% @documents.each do |document| %>
+              <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-lg transition">
+                <div class="p-6">
+                  <div class="flex items-start gap-4">
+                    <div class="size-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <%= icon "document-text", class: "size-5 text-blue-600 dark:text-blue-400" %>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex items-start justify-between mb-2">
+                        <div class="min-w-0 flex-1">
+                          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
+                            <%= link_to document.title, document_path(document), class: "hover:text-primary-600 dark:hover:text-primary-400" %>
+                          </h3>
+                          <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 mb-2">
+                            <% if document.folder %>
+                              <div class="flex items-center gap-1">
+                                <%= icon "folder", class: "size-4" %>
+                                <%= link_to document.folder.name, folder_path(document.folder), class: "hover:text-slate-900 dark:hover:text-slate-100" %>
+                              </div>
+                              <span>•</span>
+                            <% end %>
+                            <span>By <%= document.created_by.first_name %> <%= document.created_by.last_name %></span>
+                            <span>•</span>
+                            <span>Updated <%= time_tag document.updated_at, document.updated_at.strftime("%b %d, %Y") %></span>
+                          </div>
+                        </div>
+                        <% if document.published? %>
+                          <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
+                            Published
+                          </span>
+                        <% else %>
+                          <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300">
+                            Draft
+                          </span>
+                        <% end %>
+                      </div>
+                      
+                      <!-- Document Excerpt -->
+                      <% if document.excerpt.present? %>
+                        <p class="text-slate-700 dark:text-slate-300 text-sm mb-3 line-clamp-2">
+                          <%= highlight(document.excerpt, @query, highlighter: '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">\1</mark>') %>
+                        </p>
+                      <% else %>
+                        <!-- Show content preview if no excerpt -->
+                        <% content_preview = truncate(strip_tags(document.content), length: 200) %>
+                        <% if content_preview.present? %>
+                          <p class="text-slate-700 dark:text-slate-300 text-sm mb-3 line-clamp-2">
+                            <%= highlight(content_preview, @query, highlighter: '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">\1</mark>') %>
+                          </p>
+                        <% end %>
+                      <% end %>
+
+                      <!-- Breadcrumb Path -->
+                      <% if document.folder %>
+                        <div class="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 mb-3">
+                          <%= icon "home", class: "size-3" %>
+                          <span>Documentation</span>
+                          <% document.folder.ancestors.each do |ancestor| %>
+                            <%= icon "chevron-right", class: "size-3" %>
+                            <span><%= ancestor.name %></span>
+                          <% end %>
+                          <%= icon "chevron-right", class: "size-3" %>
+                          <span><%= document.folder.name %></span>
+                        </div>
+                      <% end %>
+
+                      <!-- Actions -->
+                      <div class="flex items-center gap-3">
+                        <%= link_to document_path(document), class: "text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 text-sm font-medium flex items-center gap-1" do %>
+                          <%= icon "eye", class: "size-4" %>
+                          <span>View Document</span>
+                        <% end %>
+                        <% if Current.user&.admin? %>
+                          <%= link_to edit_document_path(document), class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium flex items-center gap-1" do %>
+                            <%= icon "pencil", class: "size-4" %>
+                            <span>Edit</span>
+                          <% end %>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <!-- No Results -->
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="text-center py-12">
+              <div class="inline-flex items-center justify-center size-16 bg-slate-100 dark:bg-slate-700 rounded-full mb-4">
+                <%= icon "magnifying-glass", class: "size-8 text-slate-400" %>
+              </div>
+              <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">No results found</h3>
+              <p class="text-slate-600 dark:text-slate-400 mb-6">
+                We couldn't find any documents matching "<%= @query %>". Try different keywords or check your spelling.
+              </p>
+              
+              <% if @suggestions.present? %>
+                <div class="mb-6">
+                  <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Did you mean:</p>
+                  <div class="flex flex-wrap justify-center gap-2">
+                    <% @suggestions.each do |suggestion| %>
+                      <%= link_to search_documents_path(q: suggestion[:text]), 
+                          class: "px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400 rounded-full text-sm hover:bg-primary-200 dark:hover:bg-primary-900/50 transition" do %>
+                        <%= suggestion[:text] %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              
+              <div class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                <p><strong>Search tips:</strong></p>
+                <ul class="list-disc list-inside space-y-1 max-w-md mx-auto">
+                  <li>Try different or more general keywords</li>
+                  <li>Check your spelling</li>
+                  <li>Use fewer keywords</li>
+                  <li>Search for partial words or phrases</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <!-- Search Instructions -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="text-center py-12">
+            <div class="inline-flex items-center justify-center size-16 bg-slate-100 dark:bg-slate-700 rounded-full mb-4">
+              <%= icon "magnifying-glass", class: "size-8 text-slate-400" %>
+            </div>
+            <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">Search Documentation</h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-6">
+              Enter keywords to search through document titles and content.
+            </p>
+            <div class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <p><strong>You can search for:</strong></p>
+              <ul class="list-disc list-inside space-y-1 max-w-md mx-auto">
+                <li>Document titles and content</li>
+                <li>Specific terms or phrases</li>
+                <li>Technical concepts or procedures</li>
+                <li>Author names or topics</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </main>
+  </div>
+</div>

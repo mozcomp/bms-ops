@@ -1,0 +1,12 @@
+<%# locals: (title: , subcopy:) %>
+<div class="lg:flex items-start lg:gap-10 gap-6 py-16 first:pt-8 lg:first-of-type:pt-8 lg:last-of-type:pb-8 last-of-type:pb-4 first-of-type:pt-4">
+  <div class="lg:w-[320px] lg:mb-0 mb-6">
+    <h3 class="h6 mb-1"><%= title %></h3>
+    <p class="text-gray-700/80 dark:text-gray-400 text-sm"><%= subcopy %></p>
+  </div>
+  <div class="flex-1">
+    <div class="max-w-xl">
+      <%= yield %>
+    </div>
+  </div>
+</div>

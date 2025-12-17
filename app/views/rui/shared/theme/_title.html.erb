@@ -1,0 +1,39 @@
+<%# locals: (title: "Title") %>
+
+<div class="md:flex justify-between items-center mb-6">
+  <h1 class="md:h1 h2 md:mb-0 mb-4"><%= title %></h1>
+  <div class="flex items-center gap-3 relative">
+    <input type="text" class="form-input pl-8 text-[15px] md:min-w-[320px] w-full" placeholder="Search">
+    <span class="top-3 left-3 absolute">
+      <%= icon "magnifying-glass", class: "size-4 text-gray-400 stroke-current" %>
+    </span>
+
+    <div data-controller="railsui-dropdown">
+      <%= link_to "#", data: { action: "click->railsui-dropdown#toggle click@window->railsui-dropdown#hide" }, class: "btn btn-white flex items-center gap-2" do %>
+
+        <%= icon "bars-arrow-down", class: "size-4 text-gray-500 stroke-current select-none pointer-events-none
+        dark:text-gray-400" %>
+
+        <span class="select-none pointer-events-none">Sort</span>
+      <% end %>
+
+      <ul data-railsui-dropdown-target="menu"
+        class="hidden absolute top-10 right-0 dropdown-menu" data-transition-enter-active="transition ease-out duration-50"
+        data-transition-enter-from="transform opacity-0 scale-95"
+        data-transition-enter-to="transform opacity-100 scale-100"
+        data-transition-leave-active="transition ease-in duration-100"
+        data-transition-leave-from="transform opacity-100 scale-100"
+        data-transition-leave-to="transform opacity-0 scale-95">
+        <li>
+          <%= link_to "Most recent", "#", class: "dropdown-item" %>
+        </li>
+        <li>
+          <%= link_to "Title", "#", class: "dropdown-item" %>
+        </li>
+        <li>
+          <%= link_to "Status", "#", class: "dropdown-item" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,15 +1,24 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["price", "interval", "intervalBtn", "promotion"]
+  static targets = ["price", "interval", "monthBtn", "annualBtn", "promotion"]
 
   initialize() {
     this.interval = "month"
   }
 
   toggle(event) {
+    // Check the current interval for the specific button clicked
+    const currentInterval =
+      event.currentTarget === this.monthBtnTarget ? "month" : "year"
+
+    // If already on the selected interval, do nothing
+    if (this.interval === currentInterval) {
+      return
+    }
+
     // Toggle the interval
-    this.interval = this.interval === "month" ? "year" : "month"
+    this.interval = currentInterval
 
     // Update the plan prices and intervals
     this.priceTargets.forEach((price) => {
@@ -25,12 +34,12 @@ export default class extends Controller {
     })
 
     // Toggle button appearance
-    this.intervalBtnTargets.forEach((btn) => {
+    this.monthBtnTargets.concat(this.annualBtnTargets).forEach((btn) => {
       if (event.currentTarget === btn) {
         btn.classList.remove("btn", "btn-transparent")
-        btn.classList.add("btn", "btn-primary")
+        btn.classList.add("btn", "btn-white")
       } else {
-        btn.classList.remove("btn", "btn-primary")
+        btn.classList.remove("btn", "btn-white")
         btn.classList.add("btn", "btn-transparent")
       }
     })

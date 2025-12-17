@@ -1,0 +1,23 @@
+<%
+  active_class = "border-b-2 border-primary-500 px-4 py-3 block text-primary-500 font-medium text-[15px] transition ease-in-out duration-300 hover:border-primary-600 rounded-t  whitespace-nowrap dark:text-primary-400 dark:border-primary-400 hover:text-primary-500 dark:hover:text-primary-400"
+
+  inactive_class = "text-gray-700 font-medium px-4 py-3 border-b-2 border-transparent block hover:border-gray-200/50 text-[15px] transition ease-in-out duration-300 rounded-t dark:text-gray-300 whitespace-nowrap"
+%>
+<ul
+  class="flex items-center overflow-x-auto overflow-y-hidden snap-x snap-start border-b border-gray-200/80 dark:border-gray-700/80 scrollable mb-6">
+  <li>
+    <%= nav_link_to "Account", rui_settings_path, active_class: active_class, inactive_class: inactive_class %>
+  </li>
+  <li>
+    <%= nav_link_to "Notifications",rui_settings_notifications_path, active_class: active_class, inactive_class: inactive_class %>
+  </li>
+  <li>
+    <%= nav_link_to "Team", rui_settings_team_path, active_class: active_class, inactive_class: inactive_class %>
+  </li>
+  <li>
+    <%= nav_link_to "Billing", rui_settings_billing_path, active_class: active_class, inactive_class: inactive_class %>
+  </li>
+  <li>
+    <%= nav_link_to "Integrations", rui_settings_integrations_path, active_class: active_class, inactive_class: inactive_class %>
+  </li>
+</ul>

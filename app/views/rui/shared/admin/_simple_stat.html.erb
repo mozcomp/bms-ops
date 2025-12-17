@@ -1,0 +1,13 @@
+<%# locals: (direction: "up", title: "Stat name", change: "0%", amount: "13") %>
+
+<div class="relative md:px-4 py-4 md:first:pl-0 md:last:pr-0">
+  <div class="flex items-center justify-between">
+    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-300"><%= title %></h3>
+    <% if direction == "up" %>
+      <p class="text-green-600 text-xs font-medium"><%= change %></p>
+    <% else %>
+      <p class="text-red-600 text-xs font-medium"><%= change %></p>
+    <% end %>
+  </div>
+  <p class="h2 font-medium"><%= amount %></p>
+</div>

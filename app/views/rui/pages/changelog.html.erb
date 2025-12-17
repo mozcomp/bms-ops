@@ -1,57 +1,66 @@
-<div class="container mx-auto px-4 md:py-16 py-10 mb-24">
-  <div
-    class="prose prose-zinc font-heading mx-auto prose-headings:font-semibold text-center dark:prose-invert font-light">
-    <h1>Changelog</h1>
+<h1 class="md:h1 h2 mb-6">Changelog</h1>
 
-    <p>Take a look behind the scenes and see where we are headed.</p>
-  </div>
-
-  <ul class="max-w-2xl mx-auto py-10 divide-y divide-zinc-200 dark:divide-zinc-700 space-y-10">
+<div class="max-w-3xl">
+  <ul class="divide-gray-200/80 divide-y dark:divide-gray-700/80">
     <% [
       {
-        title: "Multi-language support",
-        body: "We've added support for multiple languages, making it easier for hosts and guests from around the world to use our platform.",
-        tag: "New features",
-        date: "Aug 1, 2024"
+        title: "Fixed rendering issue",
+        content: "Resolve a bug causing incorrect rendering on certain devices.",
+        label: "Bugfix",
+        time: "May 24, 2024"
       },
       {
-        title: "Calendar Sync Fix",
-        body: "We've resolved an issue where some bookings were not syncing correctly with hosts' calendars.",
-        tag: "Bug fix",
-        date: "Jul 24, 2024"
+        title: "Authentication error patch",
+        content: "Addressed a bug that was causing authentication errors for some users.",
+        label: "Bugfix",
+        time: "May 24, 2024"
       },
       {
-        title: "Enhanced Data Encryption",
-        body: "We've strengthened data encryption to safeguard user information and improve overall platform security.",
-        tag: "Enhancement",
-        date: "Jul 23, 2024"
+        title: "Performance optimization",
+        content: "Implemented optimizations to improve overall application performance.",
+        label: "Enhancement",
+        time: "April 20, 2024"
       },
       {
-        title: "Search Filter Accuracy",
-        body: "We've fixed a bug that was causing inaccurate search results when applying multiple filters.",
-        tag: "Bug fix",
-        date: "Jul 22, 2024"
-      }].each do |changelog| %>
+        title: "Security patch",
+        content: "Patched a security vulnerability related to user authentication.",
+        label: "Security",
+        time: "April 1, 2024"
+      },
+      {
+        title: "UI enhancements",
+        content: "Added subtle UI improvements for a better user experience.",
+        label: "Enhancement",
+        time: "March 25, 2024"
+      },
+      {
+        title: "Version 2.0 Release",
+        content: "Exciting new features, improved performance, and bug fixes in this major release!",
+        label: "Release",
+        time: "March 1, 2024"
+      }].each do |log| %>
+
       <li class="py-6">
-        <article>
-          <time class="text-sm font-sans text-zinc-600 dark:text-zinc-400"><%= changelog[:date] %></time>
-          <h1 class="my-2 text-xl font-semibold font-heading text-zinc-900 dark:text-zinc-100 tracking-tight"><%= changelog[:title] %></h1>
-          <div class="prose-sm prose-zinc font-heading font-light mb-2 dark:prose-invert">
-            <p><%= changelog[:body] %></p>
-          </div>
-          <div>
-            <% if changelog[:tag] == "New features" %>
-              <span class="text-xs font-medium rounded font-sans bg-blue-50 text-blue-600 px-2 py-1 tracking-tight dark:bg-blue-500/20 dark:text-blue-200">New features</span>
-            <% elsif changelog[:tag] == "Enhancement" %>
-              <span class="text-xs font-medium rounded font-sans bg-indigo-50 text-indigo-600 px-2 py-1 tracking-tight dark:bg-indigo-500/20 dark:text-indigo-200">Enhancement</span>
-            <% else %>
-              <span class="text-xs font-medium rounded font-sans bg-red-50 text-red-600 px-2 py-1 tracking-tight dark:bg-red-500/20 dark:text-red-200">Bug fix</span>
-            <% end %>
-          </div>
-        </article>
+        <% if log[:label] == "Enhancement" %>
+          <div class="bg-sky-500/10 text-sky-600 inline-block text-xs rounded px-1 py-0.5 font-medium dark:text-sky-300 dark:bg-sky-500/25">Enhancement</div>
+        <% elsif log[:label] == "Bugfix" %>
+          <div class="bg-orange-500/10 text-orange-600 inline-block text-xs rounded px-1 py-0.5 font-medium dark:bg-orange-500/25 dark:text-orange-300">Bugfix</div>
+        <% elsif log[:label] == "Release" %>
+          <div class="bg-primary-500/10 text-primary-600 inline-block text-xs rounded px-1 py-0.5 font-medium dark:bg-primary-500/25 dark:text-primary-300">Release</div>
+        <% elsif log[:label] == "Security" %>
+          <div class="bg-rose-500/10 text-rose-600 inline-block text-xs rounded px-1 py-0.5 font-medium dark:bg-rose-500/25 dark:text-rose-300">Security</div>
+        <% end %>
+        <%= link_to rui_changelog_detail_path do %>
+          <h3 class="h5 mt-3"><%= log[:title] %></h3>
+        <% end %>
+        <div class="prose prose-gray dark:prose-invert mb-2">
+          <p><%= log[:content] %></p>
+        </div>
+
+        <time class="text-sm text-gray-600 dark:text-gray-400" datetime=""><%= log[:time] %></time>
       </li>
     <% end %>
   </ul>
-</div>
 
-<%= render "rui/shared/footer" %>
+  <%= render "rui/shared/pagination" %>
+</div>

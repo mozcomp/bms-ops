@@ -1,0 +1,73 @@
+<%= render "rui/shared/theme/apps/header" %>
+
+<div class="grid grid-cols-1 md:grid-cols-12 gap-16 pt-6">
+  <div class="md:col-span-8 divide-y divide-gray-200/80 dark:divide-gray-700/80">
+    <%= render "rui/shared/theme/apps/overview" %>
+  </div>
+  <div class="md:col-span-4">
+    <div class="pb-6">
+      <div class="flex items-end justify-between mb-4">
+        <h3 class="h5">Recent activity</h3>
+        <%= link_to "View all", "#", class: "btn btn-link p-0 text-sm" %>
+      </div>
+      <ul>
+        <%= render "rui/shared/theme/apps/activity_item", type: "Deploy", time: "May 24, 2024", success: true %>
+        <%= render "rui/shared/theme/apps/activity_item", type: "Deploy", time: "May 24, 2024", success: true %>
+        <%= render "rui/shared/theme/apps/activity_item", type: "Deploy", time: "May 23, 2024", success: true %>
+        <%= render "rui/shared/theme/apps/activity_item", type: "Deploy", time: "May 23, 2024", success: false %>
+        <%= render "rui/shared/theme/apps/activity_item", type: "Restart", time: "May 23, 2024", success: true %>
+        <%= render "rui/shared/theme/apps/activity_item", type: "Deploy", time: "May 15, 2024", success: true %>
+        <%= render "rui/shared/theme/apps/activity_item", type: "Deploy", time: "May 14, 2024", success: true %>
+        <%= render "rui/shared/theme/apps/activity_item", type: "Backup", time: "May 13, 2024", success: true %>
+      </ul>
+    </div>
+
+    <div class="pt-6">
+      <div class="flex items-end justify-between mb-4">
+        <h3 class="h5">Contributors</h3>
+        <%= link_to "View all", rui_app_access_path, class: "btn btn-link p-0 text-sm" %>
+      </div>
+      <ul class="grid md:grid-cols-9 grid-cols-10 gap-1">
+        <% [
+          {variant: "men", id: "66"},
+          {variant: "men", id: "54"},
+          {variant: "women", id: "39"},
+          {variant: "men", id: "99"},
+          {variant: "women", id: "3"},
+          {variant: "women", id: "19"},
+          {variant: "men", id: "9"},
+          {variant: "men", id: "19"},
+          {variant: "men", id: "37"},
+          {variant: "men", id: "19"},
+          {variant: "men", id: "2"},
+          {variant: "women", id: "32"},
+          {variant: "women", id: "34"},
+          {variant: "men", id: "97"},
+          {variant: "men", id: "29"},
+          {variant: "men", id: "19"},
+          {variant: "women", id: "8"},
+          {variant: "women", id: "10"},
+          {variant: "men", id: "36"},
+          {variant: "men", id: "1"},
+          {variant: "men", id: "2"},
+          {variant: "women", id: "3"},
+          {variant: "men", id: "3"},
+          {variant: "men", id: "3"},
+          {variant: "women", id: "4"},
+          {variant: "women", id: "5"},
+          {variant: "men", id: "6"},
+          {variant: "men", id: "9"},
+          {variant: "men", id: "7"},
+          {variant: "women", id: "43"},
+          {variant: "women", id: "53"},
+          {variant: "men", id: "61"},
+          {variant: "men", id: "45"},
+          {variant: "men", id: "73"}].each do |contributor| %>
+          <li>
+            <%= image_tag demo_avatar_url(variant: contributor[:variant], id: contributor[:id]), class: "size-7 rounded-full object-center object-cover" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

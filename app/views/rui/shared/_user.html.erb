@@ -1,0 +1,20 @@
+<%# locals: (avatar_variant: "men", avatar_id: "32", name: "John Doe", title: "Rails Developer", status: "Active") %>
+<li class="flex flex-col md:flex-row justify-between flex-wrap md:gap-6 gap-3 py-6 md:items-center">
+  <div class="flex items-center gap-4 min-w-0 flex-1">
+    <%= image_tag demo_avatar_url(variant: avatar_variant, id: avatar_id), class: "size-12 rounded-full object-cover object-center shrink-0", alt: name %>
+    <div>
+      <p class="font-semibold"><%= name %></p>
+      <p class="text-sm text-gray-700 dark:text-gray-400"><%= title %></p>
+    </div>
+  </div>
+  <div>
+    <% if status == "Active" %>
+      <span class="px-1.5 py-1 rounded-md bg-green-500/5 text-green-600 font-semibold text-xs dark:bg-green-500/25 dark:text-green-200">Active</span>
+    <% else %>
+      <span class="px-1.5 py-1 rounded-md bg-gray-500/10 text-gray-500 font-semibold text-xs dark:bg-gray-500/25 dark:text-gray-100">Inactive</span>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to "Manage", "#", class: "btn btn-sm btn-white" %>
+  </div>
+</li>

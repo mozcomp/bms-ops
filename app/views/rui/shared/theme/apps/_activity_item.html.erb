@@ -1,0 +1,51 @@
+<%# locals: (type: "Deploy", time: nil, success: true) %>
+<li class="py-2 text-sm">
+  <%= link_to "#", class: "flex items-center justify-between group" do %>
+    <% if type == "Deploy" %>
+      <div class="flex gap-3 items-center">
+        <%= icon "arrow-up-tray", class: "size-5 stroke-current text-gray-500 group-hover:text-primary-500 dark:text-gray-400" %>
+        <div>
+          <p class="group-hover:text-primary-500 dark:group-hover:text-primary-400">Deploy</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400"><%= time %></p>
+        </div>
+      </div>
+    <% elsif type == "Restart" %>
+      <div class="flex gap-3 items-center">
+        <%= icon "arrow-path", class: "size-5 stroke-current text-gray-500 group-hover:text-primary-500 dark:text-gray-400" %>
+        <div>
+          <p class="group-hover:text-primary-500 dark:group-hover:text-primary-400">Restart</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400"><%= time %></p>
+        </div>
+      </div>
+    <% elsif type == "Backup" %>
+      <div class="flex gap-3 items-center">
+        <%= icon "cloud", class: "size-5 stroke-current text-gray-500 group-hover:text-primary-500 dark:text-gray-400" %>
+        <div>
+          <p class="group-hover:text-primary-500 dark:group-hover:text-primary-400">Backup</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400"><%= time %></p>
+        </div>
+      </div>
+    <% else %>
+      <!-- Fallback -->
+    <% end %>
+
+    <div>
+      <p class="font-mono text-[12.5px] text-gray-500 mb-0.5 dark:text-gray-400"><%= fake_git_hash %></p>
+      <% if success == true %>
+        <div class="flex justify-end">
+          <span
+          class="bg-green-500/20 backdrop-blur-sm size-3 rounded-full flex items-center justify-center dark:bg-green-500/25">
+            <%= icon "check", class: "stroke-current size-2 text-green-700 dark:text-green-400" %>
+          </span>
+        </div>
+      <% else %>
+        <div class="flex justify-end">
+          <span
+          class="bg-red-500/20 backdrop-blur-sm size-3 rounded-full flex items-center justify-center dark:bg-red-500/25">
+            <%= icon "x-mark", class: "stroke-current w-2 h-2 text-red-700 dark:text-red-400" %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</li>

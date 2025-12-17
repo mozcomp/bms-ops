@@ -1,7 +1,8 @@
-<%= nav_link_to "Dashboard", rui_dashboard_path, class: "rui-nav-link" %>
-<%= nav_link_to "Properties", rui_properties_path, class: "rui-nav-link" %>
-<%= nav_link_to "Calendar", rui_calendar_path, class: "rui-nav-link" %>
-<%= nav_link_to "Inbox", rui_inbox_path, class: "rui-nav-link" %>
-<%= nav_link_to "Insights", rui_insights_path, class: "rui-nav-link" %>
-<%= nav_link_to "Help", rui_help_center_path, class: "rui-nav-link" %>
-<%= nav_link_to "API", rui_api_path, class: "rui-nav-link" %>
+<!-- Add your own nav links here. Below are links to the default admin-basedpages installed with Rails UI for your active theme. -->
+<% Railsui::Pages.installed_pages.each do |page, details| %>
+  <% if respond_to?(details['path'].to_sym) && details['add_to_nav'] && details['namespace'] == 'admin' %>
+    <%= content_tag :li do %>
+      <%= nav_link_to details['title'], send(details['path'].to_sym), class: "rui-admin-nav-link" %>
+    <% end %>
+  <% end %>
+<% end %>

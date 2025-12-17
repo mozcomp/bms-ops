@@ -31,6 +31,15 @@ class AwsErrorHandlingTest < ActionDispatch::IntegrationTest
       resources :apps
       resources :databases
       resources :instances
+      # Documentation routes
+      resources :folders do
+        resources :documents, except: [:index]
+      end
+      resources :documents, only: [:index, :show, :edit, :update, :destroy] do
+        collection do
+          get :search
+        end
+      end
       get "test/credentials_error" => "aws_error_handling_test/test#trigger_credentials_error"
       get "test/configuration_error" => "aws_error_handling_test/test#trigger_configuration_error"
       get "test/service_error" => "aws_error_handling_test/test#trigger_service_error"

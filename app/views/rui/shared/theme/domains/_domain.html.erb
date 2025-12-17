@@ -1,0 +1,94 @@
+<%# locals: (tld: "github.com", ip: "123.32.76.23", app: "github", server: "autumn-sun-6428",
+gitprovider: "github", repo: "github/github", stack: "rails", branch: "main", commit: fake_git_hash, last_deploy: "1 hour ago", environment: "production", status: "live") %>
+
+<li class="py-3">
+  <div
+    class="rounded-md border-gray-300/70 shadow-xs shadow-gray-300/25 block dark:bg-gray-800/50 border dark:border-gray-700/80 dark:shadow-gray-950/25 bg-gradient-to-b from-gray-50/50 dark:from-gray-900">
+    <div class="p-5">
+      <div class="md:flex items-start justify-between">
+        <div class="flex-1">
+          <p class="font-semibold h5"><%= tld %></p>
+          <p class="text-sm text-gray-400"><code
+              class="text-[13px] text-gray-600 dark:text-gray-400"><%= server %></code> &bull; <code
+              class="text-[13px] text-gray-600 dark:text-gray-400"><%= ip %></code> &bull; <span
+              class="text-gray-600 dark:text-gray-400"><%= app %></span>
+          </p>
+        </div>
+        <%= link_to "#", class: "btn btn-white md:flex inline-flex items-center gap-2 mt-2 md:mt-0" do %>
+          <span>Visit site</span>
+          <%= icon "arrow-up-right", class: "w-3 h-3 stroke-current text-gray-500" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="py-3 px-5 bg-gradient-to-b from-white dark:from-gray-800/70 border-t dark:border-gray-700/80 border-gray-200/70 relative rounded-b-md md:flex items-center gap-4">
+      <div class="flex-1 flex flex-wrap md:justify-start justify-between items-center gap-4">
+        <div class="flex items-center gap-4">
+          <% if status == "live" %>
+            <div class="size-2 rounded-full bg-emerald-400 ring-4 ring-emerald-100/50 dark:ring-emerald-500/30 dark:bg-emerald-500"></div>
+          <% elsif status == "pending" %>
+            <div class="size-2 rounded-full bg-amber-300 ring-4 ring-amber-100/50 dark:bg-amber-400 dark:ring-amber-500/30"></div>
+          <% else %>
+            <div class="size-2 rounded-full bg-red-500 ring-4 ring-red-100/50 dark:bg-red-500 dark:ring-red-500/30"></div>
+          <% end %>
+
+          <% if environment == "staging" %>
+            <div class="rounded-md px-2 py-1 text-center inline-flex justify-center bg-secondary-50/30 font-medium text-xs border border-secondary-500/10 text-secondary-700 dark:bg-secondary-500/70 dark:text-secondary-50 dark:ring-1 dark:ring-secondary-300/60">Staging</div>
+          <% else %>
+            <div class="rounded-md px-2 py-1 text-center inline-flex justify-center bg-emerald-50/50 text-emerald-800 font-medium text-xs border border-emerald-500/20 dark:bg-emerald-500/20 dark:text-emerald-100">Production</div>
+          <% end %>
+        </div>
+
+        <div class="flex items-center -space-x-2">
+          <div class="bg-white rounded-full w-8 h-8 border flex items-center justify-center dark:bg-gray-900 dark:border-gray-700 shadow-xs shadow-gray-300/10 dark:shadow-gray-950/25">
+            <%= icon gitprovider, custom_path: "/railsui/brands/#{gitprovider}.svg", class: "size-5 fill-current" %>
+          </div>
+          <div class="bg-white rounded-full w-8 h-8 border flex items-center justify-center dark:bg-gray-900 dark:border-gray-700 shadow-xs shadow-gray-300/10 dark:shadow-gray-950/25">
+            <% brand_class = case stack
+              when "rails"
+                "text-[#D30001]"
+              when "laravel"
+                "text-[#FF2D20]"
+              when "node"
+                "text-[#339933]"
+              when "phoenix"
+                "text-[#FD4F00]"
+              when "django"
+                "text-[#092E20] dark:text-emerald-700"
+              else
+                "text-gray-600"
+              end %>
+
+            <%= icon stack, custom_path: "/railsui/brands/#{stack}.svg", class: "size-5 fill-current #{brand_class}" %>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 md:w-auto w-full">
+          <svg class="stroke-current size-4 text-gray-600 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg"
+            width="24" height="24" viewBox="0 0 24 24">
+            <title>git-merge</title>
+            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none">
+              <circle cx="18" cy="18" r="3"></circle>
+              <circle cx="6" cy="6" r="3"></circle>
+              <path d="M6 21V9a9 9 0 0 0 9 9"></path>
+            </g>
+          </svg>
+          <p class="font-semibold"><%= branch %></p>
+          <p><code class="text-sm"><%= commit %></code></p>
+        </div>
+      </div>
+
+      <div class="flex justify-end items-center gap-2">
+        <div class="flex items-center gap-2 flex-1">
+          <% if status == "failed" %>
+            <%= icon "x-mark", class: "size-4 stroke-current text-red-500" %>
+          <% else %>
+            <%= icon "check", class: "size-4 stroke-current text-emerald-500" %>
+          <% end %>
+          <p class="text-sm text-gray-600"><%= last_deploy %></p>
+        </div>
+        <%= link_to "View details", "#", class: "btn btn-link text-sm px-0" %>
+      </div>
+    </div>
+  </div>
+</li>

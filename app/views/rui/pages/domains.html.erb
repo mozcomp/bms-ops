@@ -1,0 +1,89 @@
+<%= render "rui/shared/theme/title", title: "Domains" %>
+
+<ul>
+  <%= render "rui/shared/theme/domains/domain",
+    tld: "railsui.com",
+    ip: "123.432.22.33",
+    app: "railsui",
+    server: "autumn-sun-6428",
+    gitprovider: "github",
+    repo: "getrailsui/railsui",
+    stack: "rails",
+    branch: "main",
+    commit: fake_git_hash,
+    last_deploy: "1 hour ago",
+    environment: "production",
+    status: "live" %>
+
+  <%= render "rui/shared/theme/domains/domain",
+    tld: "devtoolbox.io",
+    ip: "111.222.33.44",
+    app: "devtoolbox",
+    server: "code-wizard-1234",
+    gitprovider: "github",
+    repo: "devteamtools/devtoolbox",
+    stack: "laravel",
+    branch: "main",
+    commit: fake_git_hash,
+    last_deploy: "5 min ago",
+    environment: "staging",
+    status: "live" %>
+
+  <%= render "rui/shared/theme/domains/domain",
+    tld: "codeinsider.com",
+    ip: "987.654.32.10",
+    app: "codeinsider",
+    server: "nerdy-ninja-5678",
+    gitprovider: "gitlab",
+    repo: "codingphoenix/codeinsider",
+    stack: "phoenix",
+    branch: "feature",
+    commit: fake_git_hash,
+    last_deploy: "15 min ago",
+    environment: "staging",
+    status: "live" %>
+
+  <%= render "rui/shared/theme/domains/domain",
+    tld: "hackplayground.net",
+    ip: "555.666.77.88",
+    app: "hackplayground",
+    server: "geeky-guru-9012",
+    gitprovider: "gitlab",
+    repo: "hacker/hackplayground",
+    stack: "node",
+    branch: "main",
+    commit: fake_git_hash,
+    last_deploy: "20 min ago",
+    environment: "production",
+    status: "live" %>
+
+  <%= render "rui/shared/theme/domains/domain",
+    tld: "codenest.org",
+    ip: "789.012.34.56",
+    app: "codenest",
+    server: "code-architect-3456",
+    gitprovider: "github",
+    repo: "codeteam/codenest",
+    stack: "rails",
+    branch: "bugfix/123",
+    commit: fake_git_hash,
+    last_deploy: "8 min ago",
+    environment: "production",
+    status: "failed" %>
+
+  <%= render "rui/shared/theme/domains/domain",
+    tld: "devforge.com",
+    ip: "111.222.33.44",
+    app: "devforge",
+    server: "code-master-7890",
+    gitprovider: "github",
+    repo: "devteam/devforge",
+    stack: "django",
+    branch: "main",
+    commit: fake_git_hash,
+    last_deploy: "12 min ago",
+    environment: "production",
+    status: "live" %>
+</ul>
+
+<%= render "rui/shared/pagination", align: "right" %>

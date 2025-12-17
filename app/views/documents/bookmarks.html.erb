@@ -1,0 +1,171 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Breadcrumbs -->
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <% @breadcrumbs.each_with_index do |breadcrumb, index| %>
+            <li class="inline-flex items-center">
+              <% if index > 0 %>
+                <%= icon "chevron-right", class: "size-4 text-slate-400 mx-2" %>
+              <% end %>
+              <% if breadcrumb[:path] %>
+                <%= link_to breadcrumb[:name], breadcrumb[:path], class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" %>
+              <% else %>
+                <span class="text-slate-900 dark:text-slate-100 text-sm font-medium"><%= breadcrumb[:name] %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <%= link_to documents_path, class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+            <%= icon "arrow-left", class: "size-6" %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">Bookmarks</h1>
+            <p class="text-slate-600 dark:text-slate-400">Your saved documents for quick access</p>
+          </div>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Bookmarked Documents -->
+      <% if @documents.any? %>
+        <div class="space-y-4">
+          <% @documents.each do |document| %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-lg transition">
+              <div class="p-6">
+                <div class="flex items-start gap-4">
+                  <div class="size-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <%= icon "bookmark", class: "size-5 text-yellow-600 dark:text-yellow-400" %>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex items-start justify-between mb-2">
+                      <div class="min-w-0 flex-1">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
+                          <%= link_to document.title, document_path(document), class: "hover:text-primary-600 dark:hover:text-primary-400" %>
+                        </h3>
+                        <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 mb-2">
+                          <% if document.folder %>
+                            <div class="flex items-center gap-1">
+                              <%= icon "folder", class: "size-4" %>
+                              <%= link_to document.folder.name, folder_path(document.folder), class: "hover:text-slate-900 dark:hover:text-slate-100" %>
+                            </div>
+                            <span>•</span>
+                          <% end %>
+                          <span>By <%= document.created_by.first_name %> <%= document.created_by.last_name %></span>
+                          <span>•</span>
+                          <span>Updated <%= time_tag document.updated_at, document.updated_at.strftime("%b %d, %Y") %></span>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <% if document.published? %>
+                          <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
+                            Published
+                          </span>
+                        <% else %>
+                          <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300">
+                            Draft
+                          </span>
+                        <% end %>
+                        <!-- Remove bookmark button -->
+                        <button type="button" 
+                                data-controller="bookmark" 
+                                data-bookmark-document-id-value="<%= document.id %>"
+                                data-bookmark-bookmarked-value="true"
+                                data-bookmark-url-value="<%= toggle_bookmark_document_path(document) %>"
+                                class="text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition"
+                                title="Remove bookmark">
+                          <%= icon "x-mark", class: "size-4" %>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <!-- Document Excerpt -->
+                    <% if document.excerpt.present? %>
+                      <p class="text-slate-700 dark:text-slate-300 text-sm mb-3 line-clamp-2">
+                        <%= document.excerpt %>
+                      </p>
+                    <% else %>
+                      <!-- Show content preview if no excerpt -->
+                      <% content_preview = truncate(strip_tags(document.content), length: 200) %>
+                      <% if content_preview.present? %>
+                        <p class="text-slate-700 dark:text-slate-300 text-sm mb-3 line-clamp-2">
+                          <%= content_preview %>
+                        </p>
+                      <% end %>
+                    <% end %>
+
+                    <!-- Breadcrumb Path -->
+                    <% if document.folder %>
+                      <div class="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 mb-3">
+                        <%= icon "home", class: "size-3" %>
+                        <span>Documentation</span>
+                        <% document.folder.ancestors.each do |ancestor| %>
+                          <%= icon "chevron-right", class: "size-3" %>
+                          <span><%= ancestor.name %></span>
+                        <% end %>
+                        <%= icon "chevron-right", class: "size-3" %>
+                        <span><%= document.folder.name %></span>
+                      </div>
+                    <% end %>
+
+                    <!-- Actions -->
+                    <div class="flex items-center gap-3">
+                      <%= link_to document_path(document), class: "text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 text-sm font-medium flex items-center gap-1" do %>
+                        <%= icon "eye", class: "size-4" %>
+                        <span>View Document</span>
+                      <% end %>
+                      <% if Current.user&.admin? %>
+                        <%= link_to edit_document_path(document), class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium flex items-center gap-1" do %>
+                          <%= icon "pencil", class: "size-4" %>
+                          <span>Edit</span>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <!-- No Bookmarks -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="text-center py-12">
+            <div class="inline-flex items-center justify-center size-16 bg-slate-100 dark:bg-slate-700 rounded-full mb-4">
+              <%= icon "bookmark", class: "size-8 text-slate-400" %>
+            </div>
+            <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">No bookmarks yet</h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-6">
+              Bookmark documents to save them for quick access later.
+            </p>
+            <div class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <p><strong>How to bookmark:</strong></p>
+              <ul class="list-disc list-inside space-y-1 max-w-md mx-auto">
+                <li>Open any document</li>
+                <li>Click the "Bookmark" button in the header</li>
+                <li>Find your bookmarked documents here</li>
+              </ul>
+            </div>
+            <div class="mt-6">
+              <%= link_to documents_path, class: "btn btn-primary inline-flex items-center gap-2" do %>
+                <%= icon "document-text", class: "size-5" %>
+                <span>Browse Documentation</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </main>
+  </div>
+</div>

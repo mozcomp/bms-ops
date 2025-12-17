@@ -1,0 +1,44 @@
+<%= render "rui/shared/theme/apps/header" %>
+
+<%= render "rui/shared/theme/settings/section", title: "Information", subcopy: "Change your application's name" do %>
+<form>
+  <div class="form-group">
+    <label class="form-label">Appliction name</label>
+    <input type="text" class="form-input" value="github">
+  </div>
+</form>
+<% end %>
+
+<%= render "rui/shared/theme/settings/section", title: "Environment variables", subcopy: "Manage your application's ENV variables here." do %>
+<div data-controller="railsui-toggle">
+  <button class="btn btn-white" data-action="click->railsui-toggle#toggle">Reveal ENV variables</button>
+
+  <div data-railsui-toggle-target="toggleable" class="pt-6">
+    <div class="form-group flex items-center justify-between gap-4">
+      <input type="text" class="form-input" placeholder="KEY" name="env[key]">
+      <input type="text" class="form-input" name="env[val]" placeholder="VALUE">
+      <button class="btn btn-white">Add</button>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<%= render "rui/shared/theme/settings/section", title: "Transfer ownership", subcopy: "Transfer this application to a verified personal account or
+team of which you are a member." do %>
+<form action="#">
+  <div class="form-group">
+    <div class="form-label">Choose application owner</div>
+    <div class="relative">
+      <input type="text" placeholder="Start typing..." class="form-input">
+      <button class="btn btn-white flex items-center gap-2 absolute right-1.5 top-1.5 rounded btn-sm shadow-xs">
+        <%= icon "arrows-right-left", class: "size-4 stroke-current" %>
+        <span>Transfer</span>
+      </button>
+    </div>
+  </div>
+</form>
+<% end %>
+
+<%= render "rui/shared/theme/settings/section", title: "Delete application", subcopy: "Once your application is deleted it cannot be restored. Ensure you're ready to proceed before continuing." do %>
+  <button class="btn btn-danger">Delete application</button>
+<% end %>

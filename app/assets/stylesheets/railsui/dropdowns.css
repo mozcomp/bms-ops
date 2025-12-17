@@ -1,0 +1,9 @@
+@layer components {
+  .dropdown-menu {
+    @apply absolute bg-white backdrop-blur-md rounded-lg shadow-xl shadow-gray-200/40 z-50 border border-gray-300 w-[320px] md:w-[208px] dark:bg-gray-800 dark:border-gray-600 dark:shadow-gray-900/40 py-2 duration-200;
+  }
+
+  .dropdown-item {
+    @apply py-1.25 px-3 block font-medium text-gray-800 text-[15px] hover:text-primary-500 dark:text-gray-300;
+  }
+}

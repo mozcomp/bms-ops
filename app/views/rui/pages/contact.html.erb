@@ -1,41 +1,58 @@
-<div class="container mx-auto px-4 md:py-16 py-6 mb-24">
-  <div class="prose prose-zinc font-heading mx-auto prose-headings:font-semibold pb-24 dark:prose-invert">
-    <h1>Contact</h1>
-
-    <p>We're here to help. Reach out below using your preferred form of communication.</p>
-
-    <div class="not-prose space-y-4">
-      <%= link_to "#", class: "border rounded-lg border-zinc-300 p-6 block shadow-xs hover:shadow-lg transition ease-in-out duration-200 group dark:border-zinc-500 dark:hover:shadow-zinc-950/80" do %>
-        <div class="flex items-start gap-4">
-          <%= icon "chat-bubble-bottom-center-text", class: "size-6 text-zinc-600 dark:text-zinc-400 stroke-current relative top-1 group-hover:text-primary-600" %>
-          <div class="flex-1">
-            <h4 class="font-normal text-lg dark:text-zinc-100 font-heading">Chat with us</h4>
-            <p class="text-sm font-sans text-zinc-600 dark:text-zinc-400">Current wait times: Up to 24 hours</p>
-          </div>
-        </div>
-      <% end %>
-
-      <%= link_to "#", class: "border rounded-lg border-zinc-300 p-6 block shadow-xs hover:shadow-lg transition ease-in-out duration-200 group dark:border-zinc-500 dark:hover:shadow-zinc-950/80" do %>
-        <div class="flex items-start gap-4">
-          <%= icon "ticket", class: "size-6 text-zinc-600 dark:text-zinc-400 stroke-current relative top-1 group-hover:text-primary-600" %>
-          <div class="flex-1">
-            <h4 class="font-normal text-lg dark:text-zinc-100 font-heading">Submit a ticket</h4>
-            <p class="text-sm font-sans text-zinc-600 dark:text-zinc-400">Receive support asynchronously</p>
-          </div>
-        </div>
-      <% end %>
-
-      <%= link_to "#", class: "border rounded-lg border-zinc-300 p-6 block shadow-xs hover:shadow-lg transition ease-in-out duration-200 group dark:border-zinc-500 dark:hover:shadow-zinc-950/80" do %>
-        <div class="flex items-start gap-4">
-          <%= icon "phone", class: "size-6 text-zinc-600 dark:text-zinc-400 stroke-current relative top-1 group-hover:text-primary-600" %>
-          <div class="flex-1">
-            <h4 class="font-normal text-lg dark:text-zinc-100 font-heading">Give us a call</h4>
-            <p class="text-sm font-sans text-zinc-600 dark:text-zinc-400">Current wait times: 5 minutes</p>
-          </div>
-        </div>
-      <% end %>
-    </div>
+<div class="text-center pt-16 pb-3 px-4">
+  <h1 class="md:display-4 display-6 mb-1">Connect with us</h1>
+  <div class="prose prose-gray prose-lg mx-auto dark:prose-invert my-6">
+    <p>If you have any questions or need support, don't hesitate to reach out. Our team is ready to assist you with any inquiries or issues you might have.</p>
   </div>
+</div>
+
+<div class="max-w-4xl mx-auto py-16 divide-y divide-gray-200/80 space-y-10 px-4">
+  <%= render "rui/shared/theme/contact/section", icon: "envelope", title: "Email us" do %>
+    <ul>
+      <li>For support: support@yourpaas.com</li>
+      <li>For sales inquiries: sales@yourpaas.com</li>
+      <li>For partnership opportunities: partnerships@yourpaas.com</li>
+    </ul>
+  <% end %>
+
+  <%= render "rui/shared/theme/contact/section", icon: "phone", title: "Call us" do %>
+    <p>Reach our customer support team at +1 800 123 4567. Available Monday through Friday from 9 AM to 6 PM (EST).</p>
+  <% end %>
+
+  <%= render "rui/shared/theme/contact/section", icon: "chat-bubble-oval-left", title: "Chat with us" do %>
+    <p>Use our live chat feature for real-time assistance during business hours.</p>
+    <div class="not-prose">
+      <button class="btn btn-white">Launch chat</button>
+    </div>
+  <% end %>
+
+  <%= render "rui/shared/theme/contact/section", icon: "hand-thumb-up", title: "Social media" do %>
+    <ul>
+      <li><strong>X:</strong> <a href="https://x.com/railsui_">Follow us</a> for updates and support.</li>
+      <li><strong>LinkedIn:</strong> <a href="#">Connect</a> with us for industry news and insights.</li>
+      <li><strong>Facebook</strong> <a href="#">Like our page</a> to stay in touch with our community events.
+      </li>
+    </ul>
+  <% end %>
+
+  <%= render "rui/shared/theme/contact/section", icon: "paper-airplane", title: "Send a message" do %>
+    <p>Send us a brief message and we'll respond in 24-36 hours.</p>
+
+    <form action="#" class="my-4 not-prose">
+      <div class="form-group">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" id="name" class="form-input" placeholder="John Doe" />
+      </div>
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" class="form-input" placeholder="john.doe@example.com" />
+      </div>
+      <div class="form-group">
+        <label for="message" class="form-label">Message</label>
+        <textarea name="message" id="message" class="form-textarea" placeholder="Start writing..."></textarea>
+      </div>
+      <input type="submit" value="Send message" class="btn btn-primary">
+    </form>
+  <% end %>
 </div>
 
 <%= render "rui/shared/footer" %>

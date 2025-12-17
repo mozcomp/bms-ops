@@ -7,14 +7,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.r b too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <% if Railsui.config.build_mode == "build" %>
@@ -26,15 +22,26 @@
     <%= railsui_head %>
   </head>
 
-  <body class="<%= railsui_body_classes %>" data-controller="dark-mode search pricing">
+  <body class="<%= railsui_body_classes %>">
     <%= render "rui/shared/flash" %>
-    <% if content_for(:header).present? %>
-      <%= yield :header %>
-    <% else %>
-      <%= render "rui/shared/nav" %>
-    <% end %>
-    <%= yield %>
+
+    <div data-controller="railsui-toggle">
+      <div class="bg-gray-50/80 px-1.5 pt-1.5 dark:bg-gray-800/50">
+        <%= render "rui/shared/admin/global_nav" %>
+
+        <div class="flex md:flex-row flex-col items-start justify-between md:h-[calc(100vh-64px)] bg-white to-gray-50/50 dark:bg-gray-900/80 dark:border-gray-600/80 border-t border-x rounded-t-lg border-gray-300/70 overflow-x-clip">
+          <div class="md:w-[240px] w-full">
+            <%= render "rui/shared/admin/nav" %>
+          </div>
+          <div class="flex-1 h-full md:pt-2 md:w-auto w-full overflow-y-auto scrollable">
+            <div class="max-w-7xl mx-auto md:px-10 md:pb-10 md:pt-6 p-4">
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <%= railsui_launcher if Rails.env.development? %>
-    <%= render "rui/shared/search_overlay" %>
   </body>
 </html>

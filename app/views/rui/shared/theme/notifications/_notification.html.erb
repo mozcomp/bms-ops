@@ -1,0 +1,20 @@
+<%# locals: (title: "Notification title", body: "The body of the notification", name: "John Doe", avatar_variant: "women", avatar_id: "23", path: "https://example.com" ) %>
+
+<li class="px-4 pt-4 pb-2 card">
+  <%= link_to "#" do %>
+    <h4 class="font-semibold mb-2"><%= title %></h4>
+  <% end %>
+  <div class="prose prose-sm dark:prose-invert max-w-full mb-4">
+    <p><%= body %></p>
+  </div>
+
+  <div class="flex items-center justify-between pt-2 border-t border-gray-300/80 text-sm dark:border-gray-700/80">
+    <div class="flex items-center gap-2.5 flex-1">
+      <%= image_tag demo_avatar_url(variant: avatar_variant, id: avatar_id), class: "size-6 rounded-full", alt: name  %>
+      <p class="font-medium"><%= name %></p>
+    </div>
+    <div>
+      <%= link_to "View", path, class: "btn btn-link" %>
+    </div>
+  </div>
+</li>

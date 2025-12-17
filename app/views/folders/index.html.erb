@@ -1,0 +1,216 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Breadcrumbs -->
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <% @breadcrumbs.each_with_index do |breadcrumb, index| %>
+            <li class="inline-flex items-center">
+              <% if index > 0 %>
+                <%= icon "chevron-right", class: "size-4 text-slate-400 mx-2" %>
+              <% end %>
+              <% if breadcrumb[:path] %>
+                <%= link_to breadcrumb[:name], breadcrumb[:path], class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" %>
+              <% else %>
+                <span class="text-slate-900 dark:text-slate-100 text-sm font-medium"><%= breadcrumb[:name] %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Documentation</h1>
+          <p class="text-slate-600 dark:text-slate-400">Browse and manage documentation folders and documents</p>
+        </div>
+        <% if Current.user&.admin? %>
+          <div class="flex items-center gap-2">
+            <%= link_to new_folder_path, class: "btn btn-white flex items-center gap-2" do %>
+              <%= icon "plus", class: "size-5" %>
+              <span>New Folder</span>
+            <% end %>
+            <%= link_to new_document_path, class: "btn btn-primary flex items-center gap-2" do %>
+              <%= icon "plus", class: "size-5" %>
+              <span>New Document</span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Content -->
+      <div class="space-y-6">
+        <!-- Root Folders -->
+        <% if @root_folders.any? %>
+          <div>
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Folders</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <% @root_folders.each do |folder| %>
+                <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-lg transition">
+                  <%= link_to folder_path(folder), class: "block p-6" do %>
+                    <div class="flex items-start gap-4">
+                      <div class="size-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <%= icon "folder", class: "size-6 text-yellow-600 dark:text-yellow-400" %>
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 truncate mb-1">
+                          <%= folder.name %>
+                        </h3>
+                        <% if folder.description.present? %>
+                          <p class="text-sm text-slate-600 dark:text-slate-400 mb-2 line-clamp-2">
+                            <%= folder.description %>
+                          </p>
+                        <% end %>
+                        <div class="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+                          <span><%= pluralize(folder.documents.count, 'document') %></span>
+                          <% if folder.children.any? %>
+                            <span><%= pluralize(folder.children.count, 'subfolder') %></span>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                  <% if Current.user&.admin? %>
+                    <div class="px-6 pb-4 flex items-center gap-2 border-t border-slate-200 dark:border-slate-700 pt-4">
+                      <%= link_to folder_path(folder), class: "flex-1 btn btn-white text-sm flex items-center justify-center gap-2" do %>
+                        <%= icon "eye", class: "size-4" %>
+                        <span>View</span>
+                      <% end %>
+                      <%= link_to edit_folder_path(folder), class: "flex-1 btn btn-white text-sm flex items-center justify-center gap-2" do %>
+                        <%= icon "pencil", class: "size-4" %>
+                        <span>Edit</span>
+                      <% end %>
+                      <%= button_to folder_path(folder), method: :delete, data: { turbo_confirm: "Are you sure you want to delete '#{folder.name}'?" }, class: "btn btn-white text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm flex items-center justify-center gap-2" do %>
+                        <%= icon "trash", class: "size-4" %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Root Documents -->
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Documents</h2>
+          <% if @root_documents.any? %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                  <thead class="bg-slate-50 dark:bg-slate-900">
+                    <tr>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Title
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Author
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Updated
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Actions</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
+                    <% @root_documents.each do |document| %>
+                      <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="flex items-center gap-3">
+                            <div class="size-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <%= icon "document-text", class: "size-4 text-blue-600 dark:text-blue-400" %>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
+                                <%= link_to document.title, document_path(document), class: "hover:text-primary-600 dark:hover:text-primary-400" %>
+                              </div>
+                              <% if document.excerpt.present? %>
+                                <div class="text-xs text-slate-500 dark:text-slate-400 truncate max-w-xs">
+                                  <%= document.excerpt %>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-slate-900 dark:text-slate-100">
+                            <%= document.created_by.first_name %> <%= document.created_by.last_name %>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-slate-600 dark:text-slate-400">
+                            <%= time_tag document.updated_at, document.updated_at.strftime("%b %d, %Y") %>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <% if document.published? %>
+                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
+                              Published
+                            </span>
+                          <% else %>
+                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300">
+                              Draft
+                            </span>
+                          <% end %>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <div class="flex items-center justify-end gap-2">
+                            <%= link_to document_path(document), class: "text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300" do %>
+                              <%= icon "eye", class: "size-5" %>
+                            <% end %>
+                            <% if Current.user&.admin? %>
+                              <%= link_to edit_document_path(document), class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+                                <%= icon "pencil", class: "size-5" %>
+                              <% end %>
+                              <%= button_to document_path(document), method: :delete, data: { turbo_confirm: "Are you sure you want to delete '#{document.title}'?" }, class: "text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300" do %>
+                                <%= icon "trash", class: "size-5" %>
+                              <% end %>
+                            <% end %>
+                          </div>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          <% else %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+              <div class="text-center py-12">
+                <div class="inline-flex items-center justify-center size-16 bg-slate-100 dark:bg-slate-700 rounded-full mb-4">
+                  <%= icon "document-text", class: "size-8 text-slate-400" %>
+                </div>
+                <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">No documents yet</h3>
+                <p class="text-slate-600 dark:text-slate-400 mb-6">Get started by creating your first document or folder.</p>
+                <% if Current.user&.admin? %>
+                  <div class="flex items-center justify-center gap-3">
+                    <%= link_to new_folder_path, class: "btn btn-white inline-flex items-center gap-2" do %>
+                      <%= icon "plus", class: "size-5" %>
+                      <span>New Folder</span>
+                    <% end %>
+                    <%= link_to new_document_path, class: "btn btn-primary inline-flex items-center gap-2" do %>
+                      <%= icon "plus", class: "size-5" %>
+                      <span>New Document</span>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

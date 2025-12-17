@@ -1,0 +1,26 @@
+<%= render "rui/shared/theme/apps/header" %>
+
+<h3 class="h3 mb-4">Activity</h3>
+
+<ul class="pb-16 space-y-3">
+  <% [
+    { type: "Deploy", time: "May 24, 2024", success: true },
+    { type: "Deploy", time: "May 24, 2024", success: false },
+    { type: "Restart", time: "May 23, 2024", success: true },
+    { type: "Deploy", time: "May 15, 2024", success: true },
+    { type: "Deploy", time: "May 14, 2024", success: true },
+    { type: "Backup", time: "May 13, 2024", success: true },
+    { type: "Deploy", time: "May 24, 2024", success: true },
+    { type: "Deploy", time: "May 24, 2024", success: false },
+    { type: "Restart", time: "May 23, 2024", success: true },
+    { type: "Deploy", time: "May 15, 2024", success: true },
+    { type: "Deploy", time: "May 14, 2024", success: true },
+    { type: "Backup", time: "May 13, 2024", success: true },
+    { type: "Deploy", time: "May 24, 2024", success: false },
+    { type: "Restart", time: "May 23, 2024", success: true },
+    { type: "Deploy", time: "May 15, 2024", success: true },
+    { type: "Deploy", time: "May 14, 2024", success: true },
+    { type: "Backup", time: "May 13, 2024", success: true }
+  ].each do |activity| %>
+  <%= render "rui/shared/theme/apps/activity_item", type: activity[:type], time: activity[:time], success: activity[:success] %>
+<% end %>

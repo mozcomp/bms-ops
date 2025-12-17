@@ -1,0 +1,139 @@
+<%= render "rui/shared/theme/settings/nav" %>
+
+<%= render "rui/shared/theme/settings/section", title: "Billing address", subcopy: "Add or manage your billing address." do %>
+
+<div class="pb-6 border-b border-gray-200/80 mb-6 dark:border-gray-700/80">
+  <h3 class="h6 mb-4">Saved address</h3>
+
+  <div class="flex items-start justify-between gap-4">
+    <div class="bg-primary-50/50 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 dark:bg-primary-500/25">
+      <%= icon "identification", class: "size-5 text-primary-500 stroke-current flex-shrink-0 dark:text-primary-400" %>
+    </div>
+    <div class="flex-1 text-sm"><span class="font-semibold">Jane Doe</span><br />
+      456 Oak Avenue, NY 10001 <br /> United States</div>
+    <%= link_to "Edit", "#", class: "btn btn-sm btn-white" %>
+  </div>
+</div>
+
+<h3 class="h6 mb-4">Add a new address</h3>
+<form action="#">
+  <div class="form-group">
+    <label for="fullName" class="form-label">Full Name</label>
+    <input type="text" class="form-input" id="fullName" placeholder="Enter your full name">
+  </div>
+
+  <div class="form-group">
+    <label for="streetAddress" class="form-label">Street Address</label>
+    <input type="text" class="form-input" id="streetAddress" placeholder="Enter your street address">
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 form-group">
+    <div>
+      <label for="city" class="form-label">City</label>
+      <input type="text" class="form-input" id="city" placeholder="Enter your city">
+    </div>
+    <div>
+      <label for="state" class="form-label">State/Province</label>
+      <input type="text" class="form-input" id="state" placeholder="Enter your state/province">
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 form-group">
+    <div>
+      <label for="postalCode" class="form-label">ZIP/Postal Code</label>
+      <input type="text" class="form-input" id="postalCode" placeholder="Enter your ZIP/postal code">
+    </div>
+    <div>
+      <label for="country" class="form-label">Country</label>
+      <select class="form-select" id="country">
+        <option>Select country</option>
+        <option>United States</option>
+        <option>Canada</option>
+        <option>United Kingdom</option>
+        <!-- Add more options as needed -->
+      </select>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<% end %>
+
+<hr class="dark:border-gray-700/80 border-gray-200/80">
+
+<%= render "rui/shared/theme/settings/section", title: "Subscription", subcopy: "Manage your subscription and payment method." do %>
+
+<div class="divide-y divide-gray-200/80 dark:divide-gray-700/80">
+  <div class="pb-6 flex items-start justify-between text-sm">
+    <div class="flex items-start gap-4 flex-1">
+      <div class="bg-primary-50/50 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 dark:bg-primary-500/25">
+        <%= icon "credit-card", class: "size-5 text-primary-500 stroke-current dark:text-primary-400" %>
+      </div>
+      <div>
+        <h5 class="h6">Saved payment method</h5>
+        <p class="font-mono py-1 text-gray-600 dark:text-gray-400">**** **** **** 1234</p>
+        <p class="text-gray-600 dark:text-gray-400">Visa &bull; Expires 11/27</p>
+      </div>
+    </div>
+    <%= link_to "Edit", "#", class: "btn btn-sm btn-white" %>
+  </div>
+
+  <div class="py-6 flex items-start justify-between text-sm">
+    <div class="flex items-start gap-4 flex-1">
+      <div class="bg-primary-50/50 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 dark:bg-primary-500/25">
+        <%= icon "arrow-path", class: "size-5 text-primary-500 stroke-current dark:text-primary-400" %>
+      </div>
+      <div>
+        <h5 class="h6">Active Plan</h5>
+        <div class="flex items-center gap-3 mt-1">
+          <div class="rounded bg-green-500/10 text-green-600 inline-flex px-1.5 font-semibold text-[13px] items-center">Pro</div>
+          <p class="text-gray-700 dark:text-gray-400">Renews on Oct 10, 2024</p>
+        </div>
+      </div>
+    </div>
+    <div class="gap-2 flex items-center">
+      <%= link_to "Edit", "#", class: "btn btn-sm btn-white" %>
+      <%= link_to "Cancel", "#", class: "btn btn-sm btn-danger" %>
+    </div>
+  </div>
+</div>
+
+<% end %>
+
+<hr class="dark:border-gray-700/80 border-gray-200/80">
+
+<%= render "rui/shared/theme/settings/section", title: "Invoices", subcopy: "Easy access to your invoice history." do %>
+
+<div class="overflow-x-auto scrollable">
+  <table class="w-full text-left">
+    <thead>
+      <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Date</th>
+      <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Name</th>
+      <th class="py-3 border-b-2 border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1"></th>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">05/30/23</td>
+        <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Invoice #3</td>
+        <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 text-right">
+          <a href="#" class="btn btn-white btn-sm">Download PDF</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">04/30/23</td>
+        <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Invoice#2</td>
+        <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 text-right">
+          <%= link_to "Download PDF", "#", class: "btn btn-white btn-sm" %>
+        </td>
+      </tr>
+      <tr>
+        <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">03/30/23</td>
+        <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1">Invoice#1</td>
+        <td class="py-3 border-b border-gray-200/80 dark:border-gray-700/80 whitespace-nowrap px-1 text-right">
+          <%= link_to "Download PDF", "#", class: "btn btn-white btn-sm" %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<% end %>

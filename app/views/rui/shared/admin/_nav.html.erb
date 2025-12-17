@@ -1,0 +1,84 @@
+<div
+  class="px-4 md:border-r border-gray-300/70 dark:border-gray-700/80 bg-white dark:bg-gray-900 rounded-tl-md overflow-x-clip relative">
+  <nav class="md:flex md:flex-col hidden justify-between md:h-[calc(100vh-64px)] h-full origin-top-right pt-3 pb-4"
+    data-railsui-toggle-target="toggleable" data-transition-enter-active="transition ease-out duration-50"
+    data-transition-enter-from="transform opacity-0 scale-95"
+    data-transition-enter-to="transform opacity-100 scale-100"
+    data-transition-leave-active="transition ease-in duration-100"
+    data-transition-leave-from="transform opacity-100 scale-100"
+    data-transition-leave-to="transform opacity-0 scale-95">
+
+    <ul class="flex-1">
+      <%= render "rui/shared/admin/nav_links" %>
+    </ul>
+
+    <ul class="md:pt-0 pt-2 md:mt-0 mt-2 md:border-none border-t border-gray-200/80 w-full dark:border-gray-600/80">
+      <li data-controller="railsui-dropdown" class="w-full relative">
+        <button data-action="click->railsui-dropdown#toggle click@window->railsui-dropdown#hide" class="flex items-center gap-2 -mx-2 p-2 rounded-lg hover:bg-gray-50/80 justify-between md:w-[107%] w-full font-medium text-[15px] focus:ring-4 focus:ring-gray-100 dark:focus:text-white transition
+          dark:text-gray-200 dark:hover:bg-gray-800/70 dark:hover:text-white group dark:focus:ring-gray-700/60">
+          <div class="flex-1 flex items-center gap-2">
+            <%= icon "globe-alt", class: "size-6 text-gray-700 dark:text-gray-400 group-hover:text-primary-500" %>
+            <div>Switch origin</div>
+          </div>
+          <div>
+            <%= icon "chevron-up-down", class: "size-4 text-gray-700" %>
+          </div>
+        </button>
+        <ul
+          data-railsui-dropdown-target="menu"
+          class="hidden bottom-14 left-0 origin-bottom-left dropdown-menu" data-transition-enter-active="transition ease-out duration-50"
+          data-transition-enter-from="transform opacity-0 scale-95"
+          data-transition-enter-to="transform opacity-100 scale-100"
+          data-transition-leave-active="transition ease-in duration-100"
+          data-transition-leave-from="transform opacity-100 scale-100"
+          data-transition-leave-to="transform opacity-0 scale-95">
+          <li>
+            <a href="#" class="dropdown-item">
+              <span>🇺🇸</span>
+              <span>Denver</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="dropdown-item">
+              <span>🇺🇸</span>
+              <span>New York</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="dropdown-item">
+              <span>🇬🇧</span>
+              <span>United Kingdom</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="dropdown-item">
+              <span>🇦🇺</span>
+              <span>Austrailia</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="dropdown-item">
+              <span>🇨🇳</span>
+              <span>China</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="md:hidden block pt-4">
+      <form action="#">
+        <input type="text" placeholder="Search" class="form-input">
+      </form>
+
+      <div class="pt-4">
+        <%= link_to rui_settings_path, class: "flex gap-2 items-center rounded p-2 hover:bg-gray-50/90 -mx-2 transition ease-in-out duration-200 group" do %>
+          <%= image_tag demo_avatar_url(variant: "women", id: "24"), class: "size-10 rounded-full group-hover:ring-4 group-hover:ring-primary-500/20", alt: "Jane Smith" %>
+          <span class="font-semibold text-sm">
+            Jane Smith
+          </span>
+        <% end %>
+      </div>
+    </div>
+  </nav>
+</div>

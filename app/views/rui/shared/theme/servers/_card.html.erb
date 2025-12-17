@@ -1,0 +1,53 @@
+<%# locals: (active: true, title: "Server name", ip: "198.51.100.2", stats: "LON1 / 16GB / 200GB Disk", app_count: 1) %>
+
+<div class="card p-0 bg-gradient-to-b from-gray-50/50 dark:from-gray-900 relative" data-controller="railsui-dropdown">
+  <div class="flex items-start justify-start gap-4 py-4 px-5">
+    <div
+      class="size-10 border rounded-full flex items-center justify-center shadow-xs bg-white border-gray-300 mt-1 dark:bg-gray-900 dark:border-gray-600/80">
+      <%= icon "server", class: "size-6 #{active ? "text-primary-600 dark:text-primary-500" : "text-red-600 dark:text-red-500" }" %>
+    </div>
+    <div class="space-y-0.5">
+        <%= link_to "#", class: "block" do %>
+          <h3 class="h6"><%= title %></h3>
+        <% end %>
+        <p class="text-gray-500 text-xs"><%= stats %></p>
+        <p class="text-xs text-gray-500 font-mono"><%= ip %></p>
+    </div>
+  </div>
+
+  <div class="absolute top-1.5 right-1.5">
+    <button class="btn btn-transparent px-1.5 py-0.5 group rounded-md focus:bg-white dark:focus:bg-gray-900"
+    type="button" data-action="click->railsui-dropdown#toggle click@window->railsui-dropdown#hide">
+      <%= icon "ellipsis-horizontal", class: "size-6 text-gray-400 group-hover:text-gray-600
+      dark:group-hover:text-gray-300" %>
+    </button>
+    <ul data-railsui-dropdown-target="menu" class="hidden absolute top-9 -right-1 dropdown-menu" data-transition-enter-active="transition ease-out duration-50"
+    data-transition-enter-from="transform opacity-0 scale-95"
+    data-transition-enter-to="transform opacity-100 scale-100"
+    data-transition-leave-active="transition ease-in duration-100"
+    data-transition-leave-from="transform opacity-100 scale-100"
+    data-transition-leave-to="transform opacity-0 scale-95">
+      <li>
+        <%= link_to "Edit server", "#", class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Copy server name", "#", class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Copy server IP", "#", class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Restart", "#", class: "dropdown-item" %>
+      </li>
+    </ul>
+  </div>
+
+  <div class="flex items-center justify-between py-2 px-5 bg-gradient-to-b from-white dark:from-gray-800/70 border-t dark:border-gray-700/80 border-gray-200/70 relative rounded-b-md gap-4 ">
+    <p class="font-medium text-sm"><%= pluralize(app_count, 'app') %></p>
+
+    <div class="flex justify-end">
+      <input type="checkbox" id="list_active_server_<%= title.parameterize %>" class="form-input-switch" <% if active == true %>checked <% end %>>
+      <label for="list_active_server_<%= title.parameterize %>" class="before:!mr-0"></label>
+    </div>
+  </div>
+</div>

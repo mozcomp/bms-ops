@@ -1,0 +1,78 @@
+<%= render "rui/shared/theme/settings/nav" %>
+
+<div class="xl:flex items-center justify-between pb-6 border-b border-gray-200/80 flex-wrap dark:border-gray-700/80">
+  <div class="mb-6 xl:mb-0">
+    <form action="#">
+      <div class="flex items-center gap-4">
+        <div class="flex-1 xl:flex items-center gap-4">
+          <label for="access" class="form-label xl:m-0 mb-1 whitespace-nowrap">Invite contributor</label>
+          <div class="relative flex items-center justify-center gap-4">
+            <input type="text" id="access" class="form-input xl:min-w-[300px]" placeholder="john.doe@example.com">
+            <button type="submit" class="xl:btn-base btn-sm btn-white btn xl:relative absolute right-1.5 xl:top-0 top-1.5 whitespace-nowrap">Send invite</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div>
+    <div class="flex items-center gap-3 relative">
+      <input type="text" class="form-input pl-8 text-[15px] xl:min-w-[220px] w-full" placeholder="Search">
+      <span class="top-2.5 left-3 absolute">
+        <%= icon "magnifying-glass", class: "size-4 text-gray-400 stroke-current" %>
+      </span>
+
+      <div data-controller="railsui-dropdown">
+        <button  data-action="click->railsui-dropdown#toggle click@window->railsui-dropdown#hide" class="btn btn-white flex items-center gap-2">
+          <%= icon "bars-arrow-down", class: "size-4 text-gray-500 stroke-current select-none pointer-events-none dark:text-gray-400" %>
+
+          <span class="select-none pointer-events-none">Sort</span>
+        </button>
+
+        <ul data-railsui-dropdown-target="menu"
+          class="hidden absolute top-10 right-0 border border-gray-300/70 dark:border-gray-700/80" data-transition-enter-active="transition ease-out duration-50 dropdown-menu"
+          data-transition-enter-from="transform opacity-0 scale-95"
+          data-transition-enter-to="transform opacity-100 scale-100"
+          data-transition-leave-active="transition ease-in duration-100"
+          data-transition-leave-from="transform opacity-100 scale-100"
+          data-transition-leave-to="transform opacity-0 scale-95">
+          <li>
+            <%= link_to "Most recent", "#", class: "dropdown-item" %>
+          </li>
+          <li>
+            <%= link_to "Title", "#", class: "dropdown-item" %>
+          </li>
+          <li>
+            <%= link_to "Status", "#", class: "dropdown-item" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700/80">
+  <% [
+    { name: "Stacey Brown", title: "Software Engineer", status: "Active", avatar_variant: "women", avatar_id: "1" },
+    { name: "Adam Johnson", title: "Product Lead", status: "Active", avatar_variant: "men", avatar_id: "28" },
+    { name: "Benjamin Patel", title: "Software Engineer", status: "Active", avatar_variant: "men", avatar_id: "29" },
+    { name: "Mia Gupta", title: "UX Designer", status: "Active", avatar_variant: "women", avatar_id: "2" },
+    { name: "Ave Sharma", title: "Product Designer", status: "Active", avatar_variant: "women", avatar_id: "33" },
+    { name: "Nathan Rodriguez", title: "Senior Software Architect", status: "Active", avatar_variant: "women", avatar_id: "22" },
+    { name: "Lily Cooper", title: "Software Engineer", status: "Active", avatar_variant: "women", avatar_id: "34" },
+    { name: "Chris Davis", title: "Frontend Developer", status: "Active", avatar_variant: "men", avatar_id: "15" },
+    { name: "Emily White", title: "UI/UX Specialist", status: "Active", avatar_variant: "women", avatar_id: "12" },
+    { name: "Daniel Lewis", title: "Software Engineer", status: "Active", avatar_variant: "men", avatar_id: "5" },
+    { name: "Sophia Brown", title: "Product Manager", status: "Active", avatar_variant: "women", avatar_id: "18" },
+    { name: "Elijah Chen", title: "DevOps Engineer", status: "Active", avatar_variant: "men", avatar_id: "7" },
+    { name: "Zachary Taylor", title: "Software Developer", status: "Active", avatar_variant: "men", avatar_id: "14" },
+    { name: "Jackson Fergo", title: "Writer", status: "Active", avatar_variant: "men", avatar_id: "85"}].each do |user| %>
+      <%= render "rui/shared/user",
+        title: user[:title],
+        status: user[:status],
+        avatar_variant: user[:avatar_variant],
+        avatar_id: user[:avatar_id],
+        name: user[:name] %>
+  <% end %>
+</ul>
+
+<%= render "rui/shared/pagination", align: "right" %>

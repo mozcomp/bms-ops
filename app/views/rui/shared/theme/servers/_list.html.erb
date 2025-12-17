@@ -1,0 +1,50 @@
+<%# locals: (active: true, title: "Server name", ip: "198.51.100.2", stats: "LON1 / 16GB / 200GB Disk") %>
+<tr>
+  <td class="py-2 whitespace-nowrap border-b border-gray-200/80 dark:border-gray-700/80">
+    <div class="flex gap-3">
+      <%= icon "server", class: "size-7 #{active ? "text-primary-500 dark:text-primary-400" : "text-rose-600 dark:text-rose-500" }" %>
+      <a href="#">
+        <h3 class="h6 <%= active ? "text-primary-500 dark:text-primary-400" : "text-red-600 dark:text-red-500" %>"><%= title %></h3>
+      </a>
+    </div>
+  </td>
+  <td class="p-2 whitespace-nowrap border-b border-gray-200/80 dark:border-gray-700/80">
+    <p class="text-gray-500 text-sm whitespace-nowrap dark:text-gray-300"><%= stats %></p>
+  </td>
+  <td class="p-2 whitespace-nowrap border-b border-gray-200/80 dark:border-gray-700/80">
+    <p class="text-sm text-gray-500 font-mono dark:text-gray-300"><%= ip %></p>
+  </td>
+  <td class="p-2 whitespace-nowrap border-b border-gray-200/80 dark:border-gray-700/80">
+    <div class="flex">
+      <input type="checkbox" id="list_active_server_<%= title.parameterize %>" class="form-input-switch" <% if active == true %>checked <% end %>>
+      <label for="list_active_server_<%= title.parameterize %>" class="before:!mr-0"></label>
+    </div>
+  </td>
+  <td class="relative p-2 whitespace-nowrap border-b border-gray-200/80 dark:border-gray-700/80 text-right"
+    data-controller="railsui-dropdown">
+    <button class="btn btn-transparent px-1.5 py-0.5 group" type="button"
+      data-action="click->railsui-dropdown#toggle click@window->railsui-dropdown#hide">
+      <%= icon "ellipsis-horizontal", class: "size-6  text-gray-400 group-hover:text-gray-600
+      group-hover:text-gray-400" %>
+    </button>
+    <ul data-railsui-dropdown-target="menu" class="hidden transition absolute top-10 right-1 text-left dropdown-menu" data-transition-enter-active="transition ease-out duration-50"
+      data-transition-enter-from="transform opacity-0 scale-95"
+      data-transition-enter-to="transform opacity-100 scale-100"
+      data-transition-leave-active="transition ease-in duration-100"
+      data-transition-leave-from="transform opacity-100 scale-100"
+      data-transition-leave-to="transform opacity-0 scale-95">
+      <li>
+        <%= link_to "Edit server", "#", class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Copy server name", "#", class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Copy server IP", "#", class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Restart", "#", class: "dropdown-item" %>
+      </li>
+    </ul>
+  </td>
+</tr>

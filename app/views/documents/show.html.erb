@@ -1,0 +1,273 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Breadcrumbs -->
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <% @breadcrumbs.each_with_index do |breadcrumb, index| %>
+            <li class="inline-flex items-center">
+              <% if index > 0 %>
+                <%= icon "chevron-right", class: "size-4 text-slate-400 mx-2" %>
+              <% end %>
+              <% if breadcrumb[:path] %>
+                <%= link_to breadcrumb[:name], breadcrumb[:path], class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" %>
+              <% else %>
+                <span class="text-slate-900 dark:text-slate-100 text-sm font-medium"><%= breadcrumb[:name] %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <% if @document.folder %>
+            <%= link_to folder_path(@document.folder), class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+              <%= icon "arrow-left", class: "size-6" %>
+            <% end %>
+          <% else %>
+            <%= link_to documents_path, class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+              <%= icon "arrow-left", class: "size-6" %>
+            <% end %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1"><%= @document.title %></h1>
+            <div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+              <span>By <%= @document.created_by.first_name %> <%= @document.created_by.last_name %></span>
+              <span>•</span>
+              <span>Updated <%= time_tag @document.updated_at, @document.updated_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+              <span>•</span>
+              <% if @document.published? %>
+                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
+                  Published
+                </span>
+              <% else %>
+                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300">
+                  Draft
+                </span>
+              <% end %>
+              <span>•</span>
+              <% case @document.visibility %>
+              <% when 'public' %>
+                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400">
+                  <%= icon "globe-alt", class: "size-3 mr-1" %>
+                  Public
+                </span>
+              <% when 'private' %>
+                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400">
+                  <%= icon "lock-closed", class: "size-3 mr-1" %>
+                  Private
+                </span>
+              <% when 'admin_only' %>
+                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400">
+                  <%= icon "shield-check", class: "size-3 mr-1" %>
+                  Admin Only
+                </span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <% if Current.user %>
+            <button type="button" 
+                    data-controller="bookmark" 
+                    data-bookmark-document-id-value="<%= @document.id %>"
+                    data-bookmark-bookmarked-value="<%= @is_bookmarked %>"
+                    data-bookmark-url-value="<%= toggle_bookmark_document_path(@document) %>"
+                    class="btn btn-white flex items-center gap-2 bookmark-btn">
+              <%= icon "bookmark", class: "size-5 bookmark-icon #{'text-yellow-500' if @is_bookmarked}" %>
+              <span class="bookmark-text"><%= @is_bookmarked ? 'Bookmarked' : 'Bookmark' %></span>
+            </button>
+          <% end %>
+          <% if Current.user&.admin? %>
+            <%= link_to edit_document_path(@document), class: "btn btn-white flex items-center gap-2" do %>
+              <%= icon "pencil", class: "size-5" %>
+              <span>Edit</span>
+            <% end %>
+            <%= button_to document_path(@document), method: :delete, data: { turbo_confirm: "Are you sure you want to delete '#{@document.title}'?" }, class: "btn btn-white text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2" do %>
+              <%= icon "trash", class: "size-5" %>
+              <span>Delete</span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Content -->
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <!-- Main content -->
+        <div class="lg:col-span-3">
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-8">
+              <div class="prose prose-slate dark:prose-invert max-w-none">
+                <%= @rendered_content %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <!-- Document Info -->
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Document Info</h2>
+            </div>
+            <div class="px-6 py-4 space-y-4">
+              <div>
+                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Created</dt>
+                <dd class="text-sm text-slate-900 dark:text-slate-100">
+                  <%= time_tag @document.created_at, @document.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Last Updated</dt>
+                <dd class="text-sm text-slate-900 dark:text-slate-100">
+                  <%= time_tag @document.updated_at, @document.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Author</dt>
+                <dd class="text-sm text-slate-900 dark:text-slate-100">
+                  <%= @document.created_by.first_name %> <%= @document.created_by.last_name %>
+                </dd>
+              </div>
+              <% if @document.updated_by != @document.created_by %>
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Last Updated By</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100">
+                    <%= @document.updated_by.first_name %> <%= @document.updated_by.last_name %>
+                  </dd>
+                </div>
+              <% end %>
+              <% if @document.folder %>
+                <div>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Folder</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100">
+                    <%= link_to @document.folder.name, folder_path(@document.folder), class: "text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300" %>
+                  </dd>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Attachments -->
+          <% if @document.attachments.any? %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+              <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Attachments</h2>
+              </div>
+              <div class="px-6 py-4">
+                <div class="space-y-3">
+                  <% @document.attachments.each do |attachment| %>
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                      <% if attachment.image? %>
+                        <%= icon "photo", class: "size-5 text-blue-600 dark:text-blue-400 flex-shrink-0" %>
+                      <% else %>
+                        <%= icon "document", class: "size-5 text-slate-600 dark:text-slate-400 flex-shrink-0" %>
+                      <% end %>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
+                          <%= attachment.filename %>
+                        </p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                          <%= number_to_human_size(attachment.byte_size) %>
+                        </p>
+                      </div>
+                      <%= link_to rails_blob_path(attachment), target: "_blank", class: "text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 flex-shrink-0" do %>
+                        <%= icon "arrow-top-right-on-square", class: "size-4" %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Version History -->
+          <% if @document.document_versions.any? %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+              <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Version History</h2>
+                  <%= link_to versions_document_path(@document), class: "text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 text-sm font-medium" do %>
+                    View All
+                  <% end %>
+                </div>
+              </div>
+              <div class="px-6 py-4">
+                <div class="space-y-3">
+                  <% @document.document_versions.ordered.limit(5).each do |version| %>
+                    <div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-700 last:border-b-0">
+                      <div>
+                        <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
+                          Version <%= version.version_number %>
+                        </div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400">
+                          <%= time_tag version.created_at, version.created_at.strftime("%b %d, %Y") %>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <div class="text-xs text-slate-600 dark:text-slate-400">
+                          <%= version.created_by.first_name %> <%= version.created_by.last_name %>
+                        </div>
+                        <% if Current.user&.admin? %>
+                          <%= link_to compare_versions_document_path(@document, version1_id: version.id), class: "text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 text-xs font-medium" do %>
+                            Compare
+                          <% end %>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                  <% if @document.document_versions.count > 5 %>
+                    <div class="text-center pt-2">
+                      <%= link_to versions_document_path(@document), class: "text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium" do %>
+                        <%= pluralize(@document.document_versions.count - 5, 'more version') %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Quick Actions -->
+          <% if Current.user&.admin? %>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+              <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Quick Actions</h2>
+              </div>
+              <div class="px-6 py-4 space-y-2">
+                <%= link_to edit_document_path(@document), class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                  <%= icon "pencil", class: "size-5 text-slate-500" %>
+                  <span class="text-sm font-medium">Edit Document</span>
+                <% end %>
+                <%= link_to versions_document_path(@document), class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                  <%= icon "clock", class: "size-5 text-slate-500" %>
+                  <span class="text-sm font-medium">Version History</span>
+                <% end %>
+                <% if @document.folder %>
+                  <%= link_to new_folder_document_path(@document.folder), class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                    <%= icon "plus", class: "size-5 text-slate-500" %>
+                    <span class="text-sm font-medium">New Document in Folder</span>
+                  <% end %>
+                <% else %>
+                  <%= link_to new_document_path, class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                    <%= icon "plus", class: "size-5 text-slate-500" %>
+                    <span class="text-sm font-medium">New Document</span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

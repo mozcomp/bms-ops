@@ -1,0 +1,86 @@
+<%= render "rui/shared/theme/settings/nav" %>
+
+<%# Fake form for UI loading %>
+<%= form_with(url: "#", method: :put, class: "space-y-8") do |f| %>
+  <%#= render "rui/shared/error_messages", resource: @user %>
+
+  <div class="divide-y dark:divide-gray-700/80 divide-gray-200/80 space-y-4">
+    <%= render "rui/shared/theme/settings/section", title: "Personal information", subcopy: "Use a permanent address. P.O. boxes are not acceptable." do %>
+
+      <div class="flex items-center gap-6 form-group">
+
+        <div class="w-14 h-14 flex items-center justify-center rounded-full bg-white border border-zinc-200 pointer-events-none select-none shadow-xs">
+          <%= icon "user", class: "w-6 h-6 text-zinc-500" %>
+        </div>
+
+        <%= f.label :avatar, class: "block" do %>
+          <%= f.file_field :avatar, class: "form-file" %>
+          <p class="text-xs text-gray-700 dark:text-gray-400 mt-2">JPG, GIF or PNG. 1MB max.</p>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :first_name, class: "form-label" %>
+        <%= f.text_field :first_name, class: "form-input", placeholder: "First name" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :last_name, class: "form-label" %>
+        <%= f.text_field :last_name, class: "form-input", placeholder: "Last name" %>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <%= f.label :email, class: "form-label" %>
+        <%= f.email_field :email, autocomplete: "email", class: "form-input", placeholder: "john.doe@example.com" %>
+      </div>
+
+      <%= f.submit "Save", class:"btn btn-primary" %>
+    <% end %>
+
+    <%= render "rui/shared/theme/settings/section", title: "Change password", subcopy: "Manage your password."  do %>
+
+      <div class="form-group">
+        <%= f.label :password, class: "form-label" %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-input" %>
+        <div class="prose prose-sm text-xs prose-gray dark:prose-invert prose-p:m-0 my-2 max-w-full">
+          <% if @minimum_password_length %>
+            <p><%= @minimum_password_length %> characters minimum</p>
+          <% end %>
+          <p>Leave this blank if you don't want to change it</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation, class: "form-label" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :current_password, class: "form-label" %>
+        <%= f.password_field :current_password, autocomplete: "current-password", class: "form-input" %>
+        <div class="prose prose-sm text-xs prose-gray dark:prose-invert prose-p:m-0 my-2 max-w-full">
+          <p>Your current password is required to update your account.</p>
+        </div>
+      </div>
+
+      <%= f.submit "Save", class:"btn btn-primary" %>
+    <% end %>
+
+    <%= render "rui/shared/theme/settings/section", title: "Log out other sessions", subcopy: "Confirm your password to log out of all other sessions related to your account." do %>
+
+      <!-- More logic required! -->
+      <div class="form-group">
+        <label class="form-label" for="session_pass">Your password</label>
+        <input type="password" class="form-input" id="session_pass" />
+      </div>
+
+      <a href="#" class="btn btn-primary">Log out other sessions</a>
+    <% end %>
+
+    <%= render "rui/shared/theme/settings/section", title: "Close your account", subcopy: "You can close your account at any time. All data will be gone forever so make certain you want to perform this action." do %>
+      <!-- More logic required! -->
+      <a href="#" class="btn btn-danger">Yes, delete my account</a>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,175 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Breadcrumbs -->
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <% @breadcrumbs.each_with_index do |breadcrumb, index| %>
+            <li class="inline-flex items-center">
+              <% if index > 0 %>
+                <%= icon "chevron-right", class: "size-4 text-slate-400 mx-2" %>
+              <% end %>
+              <% if breadcrumb[:path] %>
+                <%= link_to breadcrumb[:name], breadcrumb[:path], class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" %>
+              <% else %>
+                <span class="text-slate-900 dark:text-slate-100 text-sm font-medium"><%= breadcrumb[:name] %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <%= link_to document_path(@document), class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+            <%= icon "arrow-left", class: "size-6" %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">Version History</h1>
+            <p class="text-slate-600 dark:text-slate-400">All versions of "<%= @document.title %>"</p>
+          </div>
+        </div>
+        <% if Current.user&.admin? %>
+          <div class="flex items-center gap-2">
+            <%= link_to edit_document_path(@document), class: "btn btn-white flex items-center gap-2" do %>
+              <%= icon "pencil", class: "size-5" %>
+              <span>Edit Document</span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <!-- Version Comparison Form -->
+      <% if @versions.count >= 2 %>
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 mb-6">
+          <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Compare Versions</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Select two versions to compare their differences</p>
+          </div>
+          <div class="px-6 py-4">
+            <%= form_with url: compare_versions_document_path(@document), method: :get, local: true, class: "flex items-end gap-4" do |form| %>
+              <div class="flex-1">
+                <%= form.label :version1_id, "Version 1", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+                <%= form.select :version1_id, 
+                    options_from_collection_for_select(@versions, :id, ->(v) { "Version #{v.version_number} (#{v.created_at.strftime('%b %d, %Y')})" }, params[:version1_id]),
+                    { prompt: "Select first version" },
+                    { class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" } %>
+              </div>
+              <div class="flex-1">
+                <%= form.label :version2_id, "Version 2", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+                <%= form.select :version2_id, 
+                    options_from_collection_for_select(@versions, :id, ->(v) { "Version #{v.version_number} (#{v.created_at.strftime('%b %d, %Y')})" }, params[:version2_id]) + 
+                    [["Current Version", ""]],
+                    { prompt: "Select second version" },
+                    { class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" } %>
+              </div>
+              <div>
+                <%= form.submit "Compare", class: "btn btn-primary" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Version List -->
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">All Versions</h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            <%= pluralize(@versions.count, 'version') %> available
+          </p>
+        </div>
+        <div class="divide-y divide-slate-200 dark:divide-slate-700">
+          <!-- Current Version -->
+          <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <div class="flex items-center justify-center size-10 bg-green-100 dark:bg-green-900/30 rounded-full">
+                  <%= icon "check-circle", class: "size-6 text-green-600 dark:text-green-400" %>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100">Current Version</h3>
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
+                      Active
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mt-1">
+                    <span>Updated <%= time_tag @document.updated_at, @document.updated_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+                    <span>•</span>
+                    <span>By <%= @document.updated_by.first_name %> <%= @document.updated_by.last_name %></span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <%= link_to document_path(@document), class: "text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 text-sm font-medium" do %>
+                  View Current
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Previous Versions -->
+          <% @versions.each do |version| %>
+            <div class="px-6 py-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                  <div class="flex items-center justify-center size-10 bg-slate-100 dark:bg-slate-700 rounded-full">
+                    <span class="text-sm font-semibold text-slate-600 dark:text-slate-400">
+                      <%= version.version_number %>
+                    </span>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      Version <%= version.version_number %>
+                    </h3>
+                    <div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mt-1">
+                      <span>Created <%= time_tag version.created_at, version.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+                      <span>•</span>
+                      <span>By <%= version.created_by.first_name %> <%= version.created_by.last_name %></span>
+                    </div>
+                    <% if version.change_summary.present? %>
+                      <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                        <%= version.change_summary %>
+                      </p>
+                    <% end %>
+                  </div>
+                </div>
+                <% if Current.user&.admin? %>
+                  <div class="flex items-center gap-2">
+                    <%= link_to compare_versions_document_path(@document, version1_id: version.id), class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-sm font-medium" do %>
+                      Compare
+                    <% end %>
+                    <%= button_to restore_version_document_path(@document, version_id: version.id), 
+                        method: :post,
+                        data: { turbo_confirm: "Are you sure you want to restore to version #{version.version_number}? This will replace the current content." },
+                        class: "text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 text-sm font-medium" do %>
+                      Restore
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <% if @versions.empty? %>
+            <div class="px-6 py-8 text-center">
+              <div class="inline-flex items-center justify-center size-16 bg-slate-100 dark:bg-slate-700 rounded-full mb-4">
+                <%= icon "clock", class: "size-8 text-slate-400" %>
+              </div>
+              <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">No Version History</h3>
+              <p class="text-slate-600 dark:text-slate-400">This document hasn't been modified since creation.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

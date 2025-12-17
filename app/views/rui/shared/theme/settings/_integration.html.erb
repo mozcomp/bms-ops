@@ -1,0 +1,51 @@
+<%# locals: (title: "Zapier", enabled: "true", email: "saasquatch@railsui.com", logo: "zapier") %>
+
+<% brand_color_class = case logo
+  when "zapier"
+    "size-12 text-[#FF4F00]"
+  when "google_analytics"
+    "size-10 text-[#E37400]"
+  when "mailchimp"
+    "size-10 text-neutral-800 dark:text-neutral-400"
+  when "stripe"
+    "size-10 text-[#008CDD]"
+  else
+    "size-10 text-neutral-800 dark:text-neutral-400"
+  end
+%>
+
+<li class="py-3">
+  <div class="rounded-md border-gray-300/70 shadow-xs shadow-gray-300/25 block dark:bg-gray-800/50 border dark:border-gray-700/80 dark:shadow-gray-950/25 bg-gradient-to-b from-gray-50/50 dark:from-gray-900">
+    <div class="p-5">
+      <div class="flex items-start gap-4">
+        <%= icon logo, custom_path: "/railsui/brands/#{logo}.svg", class: "fill-current #{brand_color_class}" %>
+        <div>
+          <h5 class="h5"><%= title %></h5>
+          <div class="prose prose-gray prose-sm dark:prose-invert max-w-full">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="py-3 px-5 bg-gradient-to-b from-white dark:from-gray-800/70 border-t dark:border-gray-700/80 border-gray-200/70 relative rounded-b-md md:flex items-center gap-4 justify-between">
+      <div>
+        <% if enabled == true %>
+          <div class="flex md:items-center items-start gap-3 not-prose text-sm">
+            <div class="size-5 rounded-full flex items-center justify-center bg-emerald-600 shadow-xs border border-emerald-700/50 flex-shrink-0 md:mt-0 mt-1">
+              <%= icon "check", class: "size-3 text-emerald-50 stroke-current" %>
+            </div>
+            <p>Connected to <%= title %> using <span class="font-medium"><%= email %></span>.</p>
+          </div>
+        <% else %>
+          <input type="checkbox" id="<%= title.parameterize %>" class="form-input-switch" checked>
+          <label for="<%= title.parameterize %>" class="m-0 relative top-px">Enable</label>
+        <% end %>
+      </div>
+
+      <% if enabled == true %>
+        <%= link_to "Disconnect", "#", class: "btn btn-danger btn-sm mt-5 mb-3 md:mt-0 md:mb-0" %>
+      <% end %>
+    </div>
+  </div>
+</li>

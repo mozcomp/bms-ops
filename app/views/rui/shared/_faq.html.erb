@@ -1,0 +1,16 @@
+<%# locals: (question: "Question") %>
+
+<details class="py-3 group">
+  <summary
+    class="flex w-full cursor-pointer select-none justify-between text-left text-base font-semibold leading-7 text-gray-900 dark:text-gray-200 group-open:text-primary-600 group-open:dark:text-primary-400 [&::-webkit-details-marker]:hidden">
+    <h4 class="font-semibold"><%= question %></h4>
+    <svg class="mt-0.5 ml-4 h-6 w-6 flex-none stroke-gray-500 group-open:stroke-primary-500 dark:stroke-gray-600"
+      fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 12H6"></path>
+      <path class="group-open:hidden" d="M12 6v12"></path>
+    </svg>
+  </summary>
+  <div class="prose prose-gray max-w-full pt-3 dark:prose-invert">
+    <%= yield %>
+  </div>
+</details>
