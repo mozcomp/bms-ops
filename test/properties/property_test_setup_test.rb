@@ -53,15 +53,24 @@ class PropertyTestSetupTest < ActiveSupport::TestCase
     end
   end
   
-  test "generate_tenant_configuration produces valid JSON structure" do
+  test "generate_contact_details produces valid JSON structure" do
     10.times do
-      config = generate_tenant_configuration
-      assert config.is_a?(Hash), "Configuration should be a hash"
-      assert config.key?(:subdomain), "Configuration should have subdomain"
-      assert config.key?(:database), "Configuration should have database"
-      assert config.key?(:service_name), "Configuration should have service_name"
-      assert config.key?(:ses_region), "Configuration should have ses_region"
-      assert config.key?(:s3_bucket), "Configuration should have s3_bucket"
+      details = generate_contact_details
+      assert details.is_a?(Hash), "Contact details should be a hash"
+      
+      # Check that if fields are present, they have valid values
+      if details.key?("email")
+        assert details["email"].include?("@"), "Email should contain @ symbol"
+      end
+      if details.key?("phone")
+        assert details["phone"].start_with?("+1-"), "Phone should start with +1-"
+      end
+      if details.key?("address")
+        assert details["address"].length > 10, "Address should be reasonably long"
+      end
+      if details.key?("company")
+        assert details["company"].length > 0, "Company should not be empty"
+      end
     end
   end
 end

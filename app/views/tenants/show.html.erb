@@ -52,8 +52,8 @@
                   </dd>
                 </div>
                 <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Subdomain</dt>
-                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.subdomain %></dd>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Contact Person</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.contact || "Not specified" %></dd>
                 </div>
                 <div>
                   <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">URL</dt>
@@ -70,25 +70,43 @@
 
           <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Configuration</h2>
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Contact Information</h2>
             </div>
             <div class="px-6 py-4">
               <dl class="grid grid-cols-1 gap-6">
                 <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Database</dt>
-                  <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded"><%= @tenant.database %></dd>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Email</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100">
+                    <% if @tenant.email.present? %>
+                      <%= link_to @tenant.email, "mailto:#{@tenant.email}", class: "text-primary-600 dark:text-primary-400 hover:underline" %>
+                    <% else %>
+                      <span class="text-slate-500 dark:text-slate-400">Not specified</span>
+                    <% end %>
+                  </dd>
                 </div>
                 <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Service Name</dt>
-                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.service_name || "Not configured" %></dd>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Phone</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100">
+                    <% if @tenant.phone.present? %>
+                      <%= link_to @tenant.phone, "tel:#{@tenant.phone}", class: "text-primary-600 dark:text-primary-400 hover:underline" %>
+                    <% else %>
+                      <span class="text-slate-500 dark:text-slate-400">Not specified</span>
+                    <% end %>
+                  </dd>
                 </div>
                 <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">SES Region</dt>
-                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.ses_region %></dd>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Company</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.company || "Not specified" %></dd>
                 </div>
                 <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">S3 Bucket</dt>
-                  <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded"><%= @tenant.s3_bucket %></dd>
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Address</dt>
+                  <dd class="text-sm text-slate-900 dark:text-slate-100">
+                    <% if @tenant.address.present? %>
+                      <div class="whitespace-pre-line"><%= @tenant.address %></div>
+                    <% else %>
+                      <span class="text-slate-500 dark:text-slate-400">Not specified</span>
+                    <% end %>
+                  </dd>
                 </div>
               </dl>
             </div>

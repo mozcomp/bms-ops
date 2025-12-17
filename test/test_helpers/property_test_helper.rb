@@ -66,15 +66,51 @@ module PropertyTestHelper
     parts.join("-")
   end
 
-  # Generate tenant configuration JSON
-  def generate_tenant_configuration
-    {
-      subdomain: generate_subdomain,
-      database: generate_database_name,
-      service_name: generate_service_name,
-      ses_region: generate_aws_region,
-      s3_bucket: generate_s3_bucket
-    }
+  # Generate a random contact name
+  def generate_contact_name
+    first_name = Rantly { sized(range(3, 12)) { string(:alpha) } }.capitalize
+    last_name = Rantly { sized(range(3, 15)) { string(:alpha) } }.capitalize
+    "#{first_name} #{last_name}"
+  end
+
+  # Generate a random email address
+  def generate_email
+    username = Rantly { sized(range(3, 15)) { string(:alnum) } }.downcase
+    domain = Rantly { sized(range(3, 10)) { string(:alpha) } }.downcase
+    tld = Rantly { choose("com", "org", "net", "edu", "gov") }
+    "#{username}@#{domain}.#{tld}"
+  end
+
+  # Generate a random phone number
+  def generate_phone
+    area_code = Rantly { integer(900) + 100 }
+    exchange = Rantly { integer(900) + 100 }
+    number = Rantly { integer(9000) + 1000 }
+    "+1-#{area_code}-#{exchange}-#{number}"
+  end
+
+  # Generate a random address
+  def generate_address
+    street_num = Rantly { integer(9999) + 1 }
+    street_name = Rantly { sized(range(4, 12)) { string(:alpha) } }.capitalize
+    street_type = Rantly { choose("St", "Ave", "Blvd", "Dr", "Ln", "Rd") }
+    city = Rantly { sized(range(4, 15)) { string(:alpha) } }.capitalize
+    state = Rantly { choose("CA", "NY", "TX", "FL", "IL", "PA", "OH", "GA", "NC", "MI") }
+    zip = Rantly { integer(90000) + 10000 }
+    "#{street_num} #{street_name} #{street_type}, #{city}, #{state} #{zip}"
+  end
+
+  # Generate tenant contact details JSON
+  def generate_contact_details
+    details = {}
+    
+    # Randomly include different contact fields
+    details["email"] = generate_email if Rantly { choose(true, false) }
+    details["phone"] = generate_phone if Rantly { choose(true, false) }
+    details["address"] = generate_address if Rantly { choose(true, false) }
+    details["company"] = generate_tenant_name if Rantly { choose(true, false) }
+    
+    details
   end
 
   # Generate a random app name
@@ -195,6 +231,14 @@ module PropertyTestHelper
     end
   end
 
+  # Generate a random instance name
+  def generate_instance_name
+    prefix = Rantly { choose("prod", "staging", "dev", "test") }
+    suffix = Rantly { sized(range(3, 8)) { string(:alnum) } }.downcase
+    timestamp = Time.current.to_i.to_s[-4..-1] # Last 4 digits of timestamp
+    "#{prefix}-instance-#{suffix}-#{timestamp}"
+  end
+
   # Generate instance environment variables JSON
   def generate_instance_env_vars
     db_name = generate_database_name
@@ -249,7 +293,8 @@ module PropertyTestHelper
     Tenant.create!(
       code: generate_tenant_code,
       name: generate_tenant_name,
-      configuration: generate_tenant_configuration
+      contact: generate_contact_name,
+      contact_details: generate_contact_details
     )
   end
 
@@ -287,6 +332,7 @@ module PropertyTestHelper
     service ||= create_random_service
     
     Instance.create!(
+      name: generate_instance_name,
       tenant: tenant,
       app: app,
       service: service,

@@ -4,68 +4,58 @@ class Tenant < ApplicationRecord
   validates :code, presence: true, uniqueness: { message: "has already been taken. Each tenant must have a unique code." }
   validates :name, presence: true
 
-  after_initialize :ensure_configuration
-  before_save :ensure_configuration
+  after_initialize :ensure_contact_details
+  before_save :ensure_contact_details
 
-  # Virtual attribute getters with robust defaults
-  def subdomain
-    config = configuration || {}
-    config["subdomain"] || config[:subdomain] || code
+  # Virtual attribute getters for contact details with robust defaults
+  def email
+    details = contact_details || {}
+    details["email"] || details[:email]
   end
 
-  def subdomain=(value)
-    self.configuration ||= {}
-    configuration["subdomain"] = value
+  def email=(value)
+    self.contact_details ||= {}
+    contact_details["email"] = value
   end
 
-  def database
-    config = configuration || {}
-    config["database"] || config[:database] || "bms_#{code}_production"
+  def phone
+    details = contact_details || {}
+    details["phone"] || details[:phone]
   end
 
-  def database=(value)
-    self.configuration ||= {}
-    configuration["database"] = value
+  def phone=(value)
+    self.contact_details ||= {}
+    contact_details["phone"] = value
   end
 
-  def service_name
-    config = configuration || {}
-    config["service_name"] || config[:service_name]
+  def address
+    details = contact_details || {}
+    details["address"] || details[:address]
   end
 
-  def service_name=(value)
-    self.configuration ||= {}
-    configuration["service_name"] = value
+  def address=(value)
+    self.contact_details ||= {}
+    contact_details["address"] = value
   end
 
-  def ses_region
-    config = configuration || {}
-    config["ses_region"] || config[:ses_region] || "ap-southeast-2"
+  def company
+    details = contact_details || {}
+    details["company"] || details[:company]
   end
 
-  def ses_region=(value)
-    self.configuration ||= {}
-    configuration["ses_region"] = value
+  def company=(value)
+    self.contact_details ||= {}
+    contact_details["company"] = value
   end
 
-  def s3_bucket
-    config = configuration || {}
-    config["s3_bucket"] || config[:s3_bucket] || "bms-#{code}-production"
-  end
-
-  def s3_bucket=(value)
-    self.configuration ||= {}
-    configuration["s3_bucket"] = value
-  end
-
-  # Computed URL based on subdomain
+  # Computed URL based on code
   def url
-    "https://#{subdomain}.bmserp.com"
+    "https://#{code}.bmserp.com"
   end
 
   private
 
-  def ensure_configuration
-    self.configuration ||= {}
+  def ensure_contact_details
+    self.contact_details ||= {}
   end
 end

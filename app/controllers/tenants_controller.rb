@@ -45,6 +45,6 @@ class TenantsController < ApplicationController
   end
 
   def tenant_params
-    params.require(:tenant).permit(:code, :name, :subdomain, :database, :service_name, :ses_region, :s3_bucket)
+    params.require(:tenant).permit(:code, :name, :contact, :email, :phone, :address, :company)
   end
 end

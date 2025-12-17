@@ -3,6 +3,7 @@ class Instance < ApplicationRecord
   belongs_to :app
   belongs_to :service
 
+  validates :name, presence: true, uniqueness: { message: "has already been taken. Each instance must have a unique name." }
   validates :tenant_id, presence: true
   validates :app_id, presence: true
   validates :service_id, presence: true
@@ -41,7 +42,7 @@ class Instance < ApplicationRecord
     return if virtual_host.present?
     return unless tenant.present?
 
-    subdomain = tenant.subdomain
+    subdomain = tenant.code
     subdomain = "#{environment}-#{subdomain}" unless environment == 'production'
     self.virtual_host = "#{subdomain}.bmserp.com"
   end

@@ -5,6 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
+  name: production-instance-one
   tenant: one
   app: one
   service: one
@@ -13,6 +14,7 @@ one:
   env_vars: {}
 
 two:
+  name: staging-instance-two
   tenant: one
   app: one
   service: one

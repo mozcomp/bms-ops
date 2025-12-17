@@ -13,6 +13,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       
       # Create instance with associations
       instance = Instance.create!(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,
@@ -52,6 +53,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       # Test valid environments
       valid_env = Rantly { choose("production", "staging", "development") }
       instance = Instance.new(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,
@@ -66,6 +68,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       }
       
       instance_invalid = Instance.new(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,
@@ -92,6 +95,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       environment = generate_environment
       
       instance = Instance.create!(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,
@@ -139,6 +143,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
         env = generate_environment
         
         instance = Instance.create!(
+          name: generate_instance_name,
           tenant: tenant,
           app: app,
           service: service,
@@ -157,6 +162,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
         env = generate_environment
         
         other_instance = Instance.create!(
+          name: generate_instance_name,
           tenant: other_tenant,
           app: app,
           service: service,
@@ -208,6 +214,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
         service = create_random_service
         
         instance = Instance.create!(
+          name: generate_instance_name,
           tenant: tenant,
           app: app,
           service: service,
@@ -227,6 +234,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
         other_env = Rantly { choose(*other_envs) }
         
         instance = Instance.create!(
+          name: generate_instance_name,
           tenant: tenant,
           app: app,
           service: service,
@@ -265,6 +273,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       service = create_random_service
       
       instance = Instance.create!(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,
@@ -306,6 +315,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       environment = generate_environment
       
       instance1 = Instance.create!(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,
@@ -314,6 +324,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       
       # Attempt to create duplicate with same tenant, app, and environment
       instance2 = Instance.new(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,  # Can be different service
@@ -327,6 +338,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       # Verify different environment is allowed
       other_env = (["production", "staging", "development"] - [environment]).sample
       instance3 = Instance.new(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,
@@ -356,6 +368,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       
       # Create instance with env_vars
       instance = Instance.create!(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,
@@ -392,6 +405,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       
       # Create instance
       instance = Instance.new(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,
@@ -426,6 +440,7 @@ class InstancePropertiesTest < ActiveSupport::TestCase
       
       # Create instance without env_vars
       instance = Instance.create!(
+        name: generate_instance_name,
         tenant: tenant,
         app: app,
         service: service,

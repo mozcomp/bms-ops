@@ -1,22 +1,23 @@
 require "test_helper"
 
 class CrossModelPropertiesTest < ActiveSupport::TestCase
-  # Feature: infrastructure-management, Property 2: Configuration JSON round-trip
+  # Feature: infrastructure-management, Property 2: Contact details JSON round-trip
   # Validates: Requirements 1.2, 3.2, 4.2
-  test "JSON configuration round-trip preserves data for all models" do
+  test "JSON contact details round-trip preserves data for all models" do
     100.times do
-      # Test Tenant configuration JSON round-trip
-      tenant_config = generate_tenant_configuration
+      # Test Tenant contact details JSON round-trip
+      contact_details = generate_contact_details
       tenant = Tenant.create!(
         code: generate_tenant_code,
         name: generate_tenant_name,
-        configuration: tenant_config
+        contact: generate_contact_name,
+        contact_details: contact_details
       )
       
-      # Retrieve and verify tenant configuration
+      # Retrieve and verify tenant contact details
       retrieved_tenant = Tenant.find(tenant.id)
-      assert_equal tenant_config.stringify_keys, retrieved_tenant.configuration.stringify_keys,
-        "Tenant configuration should round-trip correctly"
+      assert_equal contact_details.stringify_keys, retrieved_tenant.contact_details.stringify_keys,
+        "Tenant contact details should round-trip correctly"
       
       # Test Service environment JSON round-trip
       service_env = generate_service_environment
@@ -46,6 +47,7 @@ class CrossModelPropertiesTest < ActiveSupport::TestCase
       # Test Instance env_vars JSON round-trip
       env_vars = generate_instance_env_vars
       instance = Instance.create!(
+        name: generate_instance_name,
         tenant: tenant,
         app: create_random_app,
         service: service,

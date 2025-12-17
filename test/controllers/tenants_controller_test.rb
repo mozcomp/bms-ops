@@ -50,11 +50,11 @@ class TenantsControllerTest < ActionDispatch::IntegrationTest
         tenant: {
           code: "newcode",
           name: "New Tenant",
-          subdomain: "newsubdomain",
-          database: "bms_newcode_production",
-          service_name: "bms-newcode-service",
-          ses_region: "us-east-1",
-          s3_bucket: "bms-newcode-bucket"
+          contact: "John Doe",
+          email: "john@newcode.com",
+          phone: "+1-555-0123",
+          company: "New Code Corp",
+          address: "123 Main St, City, State"
         }
       }
     end
@@ -101,7 +101,8 @@ class TenantsControllerTest < ActionDispatch::IntegrationTest
     patch tenant_url(@tenant), params: {
       tenant: {
         name: "Updated Name",
-        subdomain: "updated-subdomain"
+        contact: "Jane Smith",
+        email: "jane@updated.com"
       }
     }
 
@@ -111,7 +112,8 @@ class TenantsControllerTest < ActionDispatch::IntegrationTest
     
     @tenant.reload
     assert_equal "Updated Name", @tenant.name
-    assert_equal "updated-subdomain", @tenant.subdomain
+    assert_equal "Jane Smith", @tenant.contact
+    assert_equal "jane@updated.com", @tenant.email
   end
 
   test "should not update tenant with invalid data" do

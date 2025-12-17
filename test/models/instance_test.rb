@@ -1,6 +1,73 @@
 require "test_helper"
 
 class InstanceTest < ActiveSupport::TestCase
+  # Validation tests
+  
+  test "should require name" do
+    tenant = Tenant.create!(code: "test", name: "Test Tenant")
+    app = App.create!(name: "Test App", repository: "https://github.com/test/repo")
+    service = Service.create!(name: "Test Service", image: "test-image")
+    
+    instance = Instance.new(
+      tenant: tenant,
+      app: app,
+      service: service,
+      environment: "production"
+    )
+    
+    assert_not instance.valid?
+    assert_includes instance.errors[:name], "can't be blank"
+  end
+  
+  test "should require unique name" do
+    tenant = Tenant.create!(code: "test", name: "Test Tenant")
+    app = App.create!(name: "Test App", repository: "https://github.com/test/repo")
+    service = Service.create!(name: "Test Service", image: "test-image")
+    
+    Instance.create!(
+      name: "unique-instance",
+      tenant: tenant,
+      app: app,
+      service: service,
+      environment: "production"
+    )
+    
+    duplicate = Instance.new(
+      name: "unique-instance",
+      tenant: tenant,
+      app: app,
+      service: service,
+      environment: "staging"
+    )
+    
+    assert_not duplicate.valid?
+    assert_includes duplicate.errors[:name], "has already been taken. Each instance must have a unique name."
+  end
+  
+  test "should allow different names" do
+    tenant = Tenant.create!(code: "test", name: "Test Tenant")
+    app = App.create!(name: "Test App", repository: "https://github.com/test/repo")
+    service = Service.create!(name: "Test Service", image: "test-image")
+    
+    Instance.create!(
+      name: "first-instance",
+      tenant: tenant,
+      app: app,
+      service: service,
+      environment: "production"
+    )
+    
+    second = Instance.new(
+      name: "second-instance",
+      tenant: tenant,
+      app: app,
+      service: service,
+      environment: "staging"
+    )
+    
+    assert second.valid?
+  end
+
   # Association tests
   
   test "should belong to tenant" do
@@ -9,6 +76,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-3",
       tenant: tenant,
       app: app,
       service: service,
@@ -25,6 +93,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-4",
       tenant: tenant,
       app: app,
       service: service,
@@ -41,6 +110,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-5",
       tenant: tenant,
       app: app,
       service: service,
@@ -58,6 +128,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-4",
       app: app,
       service: service,
       environment: "production"
@@ -72,6 +143,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-5",
       tenant: tenant,
       service: service,
       environment: "production"
@@ -86,6 +158,7 @@ class InstanceTest < ActiveSupport::TestCase
     app = App.create!(name: "Test App", repository: "https://github.com/test/repo")
     
     instance = Instance.new(
+      name: "test-instance-new-6",
       tenant: tenant,
       app: app,
       environment: "production"
@@ -101,6 +174,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-7",
       tenant: tenant,
       app: app,
       service: service
@@ -116,6 +190,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-8",
       tenant: tenant,
       app: app,
       service: service,
@@ -135,6 +210,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-9",
       tenant: tenant,
       app: app,
       service: service,
@@ -150,6 +226,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-10",
       tenant: tenant,
       app: app,
       service: service,
@@ -165,6 +242,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-11",
       tenant: tenant,
       app: app,
       service: service,
@@ -180,6 +258,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-12",
       tenant: tenant,
       app: app,
       service: service,
@@ -196,6 +275,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-13",
       tenant: tenant,
       app: app,
       service: service,
@@ -215,6 +295,7 @@ class InstanceTest < ActiveSupport::TestCase
     
     # Create first instance
     Instance.create!(
+      name: "test-instance-6",
       tenant: tenant,
       app: app,
       service: service1,
@@ -223,6 +304,7 @@ class InstanceTest < ActiveSupport::TestCase
     
     # Attempt to create duplicate
     duplicate = Instance.new(
+      name: "test-instance-new-14",
       tenant: tenant,
       app: app,
       service: service2,  # Different service, but same tenant-app-environment
@@ -240,6 +322,7 @@ class InstanceTest < ActiveSupport::TestCase
     
     # Create production instance
     Instance.create!(
+      name: "test-instance-7",
       tenant: tenant,
       app: app,
       service: service,
@@ -248,6 +331,7 @@ class InstanceTest < ActiveSupport::TestCase
     
     # Create staging instance (should be valid)
     staging_instance = Instance.new(
+      name: "test-instance-new-15",
       tenant: tenant,
       app: app,
       service: service,
@@ -265,6 +349,7 @@ class InstanceTest < ActiveSupport::TestCase
     
     # Create instance for tenant1
     Instance.create!(
+      name: "test-instance-8",
       tenant: tenant1,
       app: app,
       service: service,
@@ -273,6 +358,7 @@ class InstanceTest < ActiveSupport::TestCase
     
     # Create instance for tenant2 (should be valid)
     instance2 = Instance.new(
+      name: "test-instance-new-16",
       tenant: tenant2,
       app: app,
       service: service,
@@ -290,6 +376,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-9",
       tenant: tenant,
       app: app,
       service: service,
@@ -305,6 +392,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-10",
       tenant: tenant,
       app: app,
       service: service,
@@ -329,6 +417,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-11",
       tenant: tenant,
       app: app,
       service: service,
@@ -344,6 +433,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-12",
       tenant: tenant,
       app: app,
       service: service,
@@ -359,6 +449,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-13",
       tenant: tenant,
       app: app,
       service: service,
@@ -368,22 +459,21 @@ class InstanceTest < ActiveSupport::TestCase
     assert_equal "development-acme.bmserp.com", instance.virtual_host
   end
   
-  test "should use custom subdomain from tenant configuration" do
+  test "should use tenant code for virtual host generation" do
     tenant = Tenant.create!(code: "acme", name: "Acme Corp")
-    tenant.subdomain = "custom"
-    tenant.save!
     
     app = App.create!(name: "Test App", repository: "https://github.com/test/repo")
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-14",
       tenant: tenant,
       app: app,
       service: service,
       environment: "production"
     )
     
-    assert_equal "custom.bmserp.com", instance.virtual_host
+    assert_equal "acme.bmserp.com", instance.virtual_host
   end
   
   test "should not override manually set virtual_host" do
@@ -392,6 +482,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-15",
       tenant: tenant,
       app: app,
       service: service,
@@ -410,6 +501,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.create!(
+      name: "test-instance-16",
       tenant: tenant,
       app: app,
       service: service,
@@ -432,6 +524,7 @@ class InstanceTest < ActiveSupport::TestCase
     }
     
     instance = Instance.create!(
+      name: "test-instance-17",
       tenant: tenant,
       app: app,
       service: service,
@@ -450,6 +543,7 @@ class InstanceTest < ActiveSupport::TestCase
     env_vars = { "KEY" => "value" }
     
     instance = Instance.create!(
+      name: "test-instance-18",
       tenant: tenant,
       app: app,
       service: service,
@@ -466,6 +560,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-17",
       tenant: tenant,
       app: app,
       service: service,
@@ -484,6 +579,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-18",
       tenant: tenant,
       app: app,
       service: service,
@@ -501,6 +597,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance = Instance.new(
+      name: "test-instance-new-19",
       tenant: tenant,
       app: app,
       service: service,
@@ -521,6 +618,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     instance1 = Instance.create!(
+      name: "test-instance-19",
       tenant: tenant1,
       app: app,
       service: service,
@@ -528,6 +626,7 @@ class InstanceTest < ActiveSupport::TestCase
     )
     
     instance2 = Instance.create!(
+      name: "test-instance-20",
       tenant: tenant2,
       app: app,
       service: service,
@@ -546,6 +645,7 @@ class InstanceTest < ActiveSupport::TestCase
     service = Service.create!(name: "Test Service", image: "test-image")
     
     prod_instance = Instance.create!(
+      name: "test-instance-21",
       tenant: tenant,
       app: app,
       service: service,
@@ -553,6 +653,7 @@ class InstanceTest < ActiveSupport::TestCase
     )
     
     staging_instance = Instance.create!(
+      name: "test-instance-22",
       tenant: tenant,
       app: app,
       service: service,
@@ -572,6 +673,7 @@ class InstanceTest < ActiveSupport::TestCase
     service2 = Service.create!(name: "Test Service 2", image: "test-image-2")
     
     instance1 = Instance.create!(
+      name: "test-instance-23",
       tenant: tenant,
       app: app,
       service: service1,
@@ -579,6 +681,7 @@ class InstanceTest < ActiveSupport::TestCase
     )
     
     instance2 = Instance.create!(
+      name: "test-instance-24",
       tenant: tenant,
       app: app,
       service: service2,

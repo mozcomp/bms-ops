@@ -42,6 +42,7 @@ class InstancesControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Instance.count") do
       post instances_url, params: {
         instance: {
+          name: "test-instance",
           tenant_id: @tenant.id,
           app_id: @app.id,
           service_id: @service.id,
@@ -61,6 +62,7 @@ class InstancesControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Instance.count") do
       post instances_url, params: {
         instance: {
+          name: "test-instance-with-env-vars",
           tenant_id: @tenant.id,
           app_id: @app.id,
           service_id: @service.id,
@@ -78,6 +80,7 @@ class InstancesControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Instance.count") do
       post instances_url, params: {
         instance: {
+          name: "test-instance-invalid-json",
           tenant_id: @tenant.id,
           app_id: @app.id,
           service_id: @service.id,
@@ -140,7 +143,7 @@ class InstancesControllerTest < ActionDispatch::IntegrationTest
   test "should show instance" do
     get instance_url(@instance)
     assert_response :success
-    assert_select "h1", /#{@instance.tenant.name}/
+    assert_select "h1", /#{@instance.name}/
   end
 
   test "should get edit" do

@@ -60,7 +60,7 @@ Rails.application.routes.draw do
   resources :folders do
     resources :documents, except: [:index]
   end
-  resources :documents, only: [:index, :show, :edit, :update, :destroy] do
+  resources :documents do #, only: [:index, :show, :edit, :update, :destroy] do
     collection do
       get :search
       get :search_suggestions

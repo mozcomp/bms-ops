@@ -28,15 +28,51 @@ namespace :ops do
 
   desc "import existing tenants & database from BMS Domains into BMS Ops"
   task import_tenants: :environment do
+    Instance.delete_all
+    Tenant.delete_all
     Domain.all.each do |domain|
       puts "Importing tenant: #{domain.name}"
-      tenant = Tenant.find_or_initialize_by(name: domain.name)
-      tenant.domain = domain.name
-      tenant.database_config = domain.database_config
-      if tenant.save
+      if match = domain.code.downcase.match(/(.+)-staging/)
+        code = match[1]
+        env = 'staging'
+      elsif match = domain.code.downcase.match(/(.+)-development/)
+        code = match[1]
+        env = 'development'
+      elsif match = domain.code.downcase.match(/(.+)-dev/)
+        code = match[1]
+        env = 'development'
+      elsif match = domain.code.downcase.match(/(.+)-demo/)
+        code = match[1]
+        env = 'staging'
+      elsif match = domain.code.downcase.match(/(.+)-local/)
+        code = match[1]
+        env = 'development'
+      else
+        code = domain.code.downcase
+        env = 'production'
+      end
+      tenant = Tenant.find_or_create_by(code: code) do |t|
+        t.name = domain.name
+      end
+      puts "tenant_code: #{code}, tenant: #{tenant.inspect}, env: #{env}"
+      instance = Instance.find_or_initialize_by(name: domain.s3_bucket)
+      instance.tenant = tenant
+      instance.app = App.find_by(name: 'bms-cloud')
+      instance.service = Service.find_by(name: domain.service_name)
+      instance.environment = env
+      file = File.new("/Users/mozcomp/Projects/bms-cli/resources/env/#{domain.s3_bucket}.env") rescue nil
+      if file.present?
+        env_vars = YAML.load_file(file)
+        instance.env_vars = env_vars.split
+      else
+        instance.env_vars = []
+      end
+      instance.save
+      if instance.save
         puts "  Imported successfully."
       else
-        puts "  Failed to import: #{tenant.errors.full_messages.join(', ')}"
+        puts "  Failed to import: #{instance
+        .errors.full_messages.join(', ')}"
       end
     end
   end

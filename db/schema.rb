@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_17_084738) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_17_092340) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -147,12 +147,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_084738) do
     t.datetime "created_at", null: false
     t.json "env_vars"
     t.string "environment", null: false
+    t.string "name", null: false
     t.integer "service_id", null: false
     t.integer "tenant_id", null: false
     t.datetime "updated_at", null: false
     t.string "virtual_host", null: false
     t.index ["app_id"], name: "index_instances_on_app_id"
     t.index ["environment"], name: "index_instances_on_environment"
+    t.index ["name"], name: "index_instances_on_name", unique: true
     t.index ["service_id"], name: "index_instances_on_service_id"
     t.index ["tenant_id", "app_id", "environment"], name: "index_instances_on_tenant_app_environment", unique: true
     t.index ["tenant_id"], name: "index_instances_on_tenant_id"
@@ -214,7 +216,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_084738) do
 
   create_table "tenants", force: :cascade do |t|
     t.string "code"
-    t.json "configuration"
+    t.string "contact"
+    t.json "contact_details"
     t.datetime "created_at", null: false
     t.string "name"
     t.datetime "updated_at", null: false

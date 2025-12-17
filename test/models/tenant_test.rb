@@ -30,144 +30,132 @@ class TenantTest < ActiveSupport::TestCase
     assert second.valid?
   end
   
-  # Configuration initialization tests
+  # Contact details initialization tests
   
-  test "should initialize configuration as empty hash on create" do
+  test "should initialize contact_details as empty hash on create" do
     tenant = Tenant.create!(code: "test", name: "Test Tenant")
     
-    assert_not_nil tenant.configuration
-    assert_equal({}, tenant.configuration)
+    assert_not_nil tenant.contact_details
+    assert_equal({}, tenant.contact_details)
   end
   
-  test "should initialize configuration on new record" do
+  test "should initialize contact_details on new record" do
     tenant = Tenant.new(code: "test", name: "Test Tenant")
     
-    assert_not_nil tenant.configuration
-    assert_equal({}, tenant.configuration)
+    assert_not_nil tenant.contact_details
+    assert_equal({}, tenant.contact_details)
   end
   
-  # Virtual attribute getter tests
+  # Contact field tests
   
-  test "subdomain should default to code when not set" do
+  test "should store and retrieve contact string" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
+    tenant.contact = "John Doe"
     
-    assert_equal "acme", tenant.subdomain
+    assert_equal "John Doe", tenant.contact
   end
   
-  test "subdomain should return configured value when set" do
-    tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.configuration = { "subdomain" => "custom" }
+  test "should persist contact field" do
+    tenant = Tenant.create!(code: "test", name: "Test", contact: "Jane Smith")
     
-    assert_equal "custom", tenant.subdomain
+    reloaded = Tenant.find(tenant.id)
+    assert_equal "Jane Smith", reloaded.contact
   end
   
-  test "database should default to bms_code_production format" do
+  # Virtual attribute getter tests for contact_details
+  
+  test "email should return nil when not set" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
     
-    assert_equal "bms_acme_production", tenant.database
+    assert_nil tenant.email
   end
   
-  test "database should return configured value when set" do
+  test "email should return configured value when set" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.configuration = { "database" => "custom_db" }
+    tenant.contact_details = { "email" => "contact@acme.com" }
     
-    assert_equal "custom_db", tenant.database
+    assert_equal "contact@acme.com", tenant.email
   end
   
-  test "service_name should return nil when not configured" do
+  test "phone should return nil when not set" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
     
-    assert_nil tenant.service_name
+    assert_nil tenant.phone
   end
   
-  test "service_name should return configured value when set" do
+  test "phone should return configured value when set" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.configuration = { "service_name" => "bms-acme-service" }
+    tenant.contact_details = { "phone" => "+1-555-0123" }
     
-    assert_equal "bms-acme-service", tenant.service_name
+    assert_equal "+1-555-0123", tenant.phone
   end
   
-  test "ses_region should default to ap-southeast-2" do
+  test "address should return nil when not set" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
     
-    assert_equal "ap-southeast-2", tenant.ses_region
+    assert_nil tenant.address
   end
   
-  test "ses_region should return configured value when set" do
+  test "address should return configured value when set" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.configuration = { "ses_region" => "us-east-1" }
+    tenant.contact_details = { "address" => "123 Main St, City, State" }
     
-    assert_equal "us-east-1", tenant.ses_region
+    assert_equal "123 Main St, City, State", tenant.address
   end
   
-  test "s3_bucket should default to bms-code-production format" do
+  test "company should return nil when not set" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
     
-    assert_equal "bms-acme-production", tenant.s3_bucket
+    assert_nil tenant.company
   end
   
-  test "s3_bucket should return configured value when set" do
+  test "company should return configured value when set" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.configuration = { "s3_bucket" => "custom-bucket" }
+    tenant.contact_details = { "company" => "Acme Corporation" }
     
-    assert_equal "custom-bucket", tenant.s3_bucket
+    assert_equal "Acme Corporation", tenant.company
   end
   
-  # Virtual attribute setter tests
+  # Virtual attribute setter tests for contact_details
   
-  test "subdomain setter should update configuration" do
+  test "email setter should update contact_details" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.subdomain = "custom"
+    tenant.email = "test@acme.com"
     
-    assert_equal "custom", tenant.configuration["subdomain"]
-    assert_equal "custom", tenant.subdomain
+    assert_equal "test@acme.com", tenant.contact_details["email"]
+    assert_equal "test@acme.com", tenant.email
   end
   
-  test "database setter should update configuration" do
+  test "phone setter should update contact_details" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.database = "custom_db"
+    tenant.phone = "+1-555-9999"
     
-    assert_equal "custom_db", tenant.configuration["database"]
-    assert_equal "custom_db", tenant.database
+    assert_equal "+1-555-9999", tenant.contact_details["phone"]
+    assert_equal "+1-555-9999", tenant.phone
   end
   
-  test "service_name setter should update configuration" do
+  test "address setter should update contact_details" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.service_name = "custom-service"
+    tenant.address = "456 Oak Ave, Town, State"
     
-    assert_equal "custom-service", tenant.configuration["service_name"]
-    assert_equal "custom-service", tenant.service_name
+    assert_equal "456 Oak Ave, Town, State", tenant.contact_details["address"]
+    assert_equal "456 Oak Ave, Town, State", tenant.address
   end
   
-  test "ses_region setter should update configuration" do
+  test "company setter should update contact_details" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.ses_region = "eu-west-1"
+    tenant.company = "Acme Industries"
     
-    assert_equal "eu-west-1", tenant.configuration["ses_region"]
-    assert_equal "eu-west-1", tenant.ses_region
-  end
-  
-  test "s3_bucket setter should update configuration" do
-    tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.s3_bucket = "my-bucket"
-    
-    assert_equal "my-bucket", tenant.configuration["s3_bucket"]
-    assert_equal "my-bucket", tenant.s3_bucket
+    assert_equal "Acme Industries", tenant.contact_details["company"]
+    assert_equal "Acme Industries", tenant.company
   end
   
   # URL computation tests
   
-  test "url should be computed from subdomain" do
+  test "url should be computed from code" do
     tenant = Tenant.new(code: "acme", name: "Acme Corp")
     
     assert_equal "https://acme.bmserp.com", tenant.url
-  end
-  
-  test "url should use custom subdomain when configured" do
-    tenant = Tenant.new(code: "acme", name: "Acme Corp")
-    tenant.subdomain = "custom"
-    
-    assert_equal "https://custom.bmserp.com", tenant.url
   end
   
   test "url should always use https protocol" do
@@ -184,30 +172,43 @@ class TenantTest < ActiveSupport::TestCase
   
   # Edge case tests
   
-  test "should handle nil configuration gracefully" do
+  test "should handle nil contact_details gracefully" do
     tenant = Tenant.new(code: "test", name: "Test")
-    tenant.configuration = nil
+    tenant.contact_details = nil
     
-    # Should not raise errors and should return defaults
-    assert_equal "test", tenant.subdomain
-    assert_equal "bms_test_production", tenant.database
-    assert_equal "ap-southeast-2", tenant.ses_region
+    # Should not raise errors and should return nil for all contact fields
+    assert_nil tenant.email
+    assert_nil tenant.phone
+    assert_nil tenant.address
+    assert_nil tenant.company
   end
   
-  test "should handle empty configuration" do
+  test "should handle empty contact_details" do
     tenant = Tenant.new(code: "test", name: "Test")
-    tenant.configuration = {}
+    tenant.contact_details = {}
     
-    assert_equal "test", tenant.subdomain
-    assert_equal "bms_test_production", tenant.database
+    assert_nil tenant.email
+    assert_nil tenant.phone
+    assert_nil tenant.address
+    assert_nil tenant.company
   end
   
-  test "should persist configuration changes" do
+  test "should persist contact_details changes" do
     tenant = Tenant.create!(code: "test", name: "Test")
-    tenant.subdomain = "custom"
+    tenant.email = "test@example.com"
+    tenant.phone = "+1-555-0123"
     tenant.save!
     
     reloaded = Tenant.find(tenant.id)
-    assert_equal "custom", reloaded.subdomain
+    assert_equal "test@example.com", reloaded.email
+    assert_equal "+1-555-0123", reloaded.phone
+  end
+  
+  test "should handle mixed string and symbol keys in contact_details" do
+    tenant = Tenant.new(code: "test", name: "Test")
+    tenant.contact_details = { :email => "symbol@test.com", "phone" => "string-phone" }
+    
+    assert_equal "symbol@test.com", tenant.email
+    assert_equal "string-phone", tenant.phone
   end
 end

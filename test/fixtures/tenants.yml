@@ -3,9 +3,11 @@
 one:
   code: tenant_one
   name: Tenant One
-  configuration: {}
+  contact: John Smith
+  contact_details: { "email": "john@tenantone.com", "phone": "+1-555-0123" }
 
 two:
   code: tenant_two
   name: Tenant Two
-  configuration: {} 
+  contact: Jane Doe
+  contact_details: { "email": "jane@tenanttwo.com", "company": "Tenant Two Corp" } 

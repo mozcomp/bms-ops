@@ -70,6 +70,6 @@ class InstancesController < ApplicationController
   end
 
   def instance_params
-    params.require(:instance).permit(:tenant_id, :app_id, :service_id, :environment, :virtual_host, :env_vars_json)
+    params.require(:instance).permit(:name, :tenant_id, :app_id, :service_id, :environment, :virtual_host, :env_vars_json)
   end
 end
