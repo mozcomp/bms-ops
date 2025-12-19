@@ -22,22 +22,34 @@
       <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Basic Information</h2>
       <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Essential tenant details and identifiers</p>
     </div>
-    <div class="px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "Acme Corporation" %>
+    <div class="px-6 py-6 space-y-6">
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "Acme Corporation" %>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :code, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :code, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "acme" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Unique identifier (lowercase, no spaces)</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :code, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :code, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "acme" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Unique identifier (lowercase, no spaces)</p>
+        </div>
       </div>
 
-      <div class="md:col-span-2">
-        <%= form.label :contact, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :contact, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "John Smith" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Primary contact person for this tenant</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :contact, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :contact, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "John Smith" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Primary contact person for this tenant</p>
+        </div>
       </div>
     </div>
   </div>
@@ -47,26 +59,32 @@
       <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Contact Information</h2>
       <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Additional contact details and company information</p>
     </div>
-    <div class="px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <%= form.label :email, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.email_field :email, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "contact@acme.com" %>
+    <div class="px-6 py-6 space-y-6">
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :email, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.email_field :email, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "contact@acme.com" %>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :phone, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.telephone_field :phone, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "+1-555-0123" %>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :phone, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.telephone_field :phone, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "+1-555-0123" %>
+        </div>
       </div>
 
-      <div class="md:col-span-2">
-        <%= form.label :company, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :company, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "Acme Corporation" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Company or organization name</p>
-      </div>
-
-      <div class="md:col-span-2">
-        <%= form.label :address, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_area :address, rows: 3, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "123 Main St, City, State 12345" %>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :address, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_area :address, rows: 3, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "123 Main St, City, State 12345" %>
+        </div>
       </div>
     </div>
   </div>

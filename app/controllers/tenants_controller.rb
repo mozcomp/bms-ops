@@ -2,7 +2,7 @@ class TenantsController < ApplicationController
   before_action :set_tenant, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @tenants = Tenant.all.order(created_at: :desc)
+    @tenants = Tenant.all.order(name: :asc)
   end
 
   def show

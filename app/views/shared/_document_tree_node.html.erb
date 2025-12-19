@@ -1,0 +1,54 @@
+<% folders.each do |folder| %>
+  <div class="tree-node" data-folder-id="<%= folder.id %>" style="margin-left: <%= level * 16 %>px;">
+    <div class="folder-item flex items-center gap-2 py-1 px-2 rounded hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer group" 
+         data-action="click->document-tree#toggleFolder" 
+         data-folder-id="<%= folder.id %>"
+         tabindex="0">
+      <span class="folder-icon text-slate-400 dark:text-slate-500 text-xs font-mono w-3 text-center">+</span>
+      <%= icon "folder", class: "size-4 text-yellow-600 dark:text-yellow-400 flex-shrink-0" %>
+      <span class="text-sm text-slate-700 dark:text-slate-300 flex-1 truncate"><%= folder.name %></span>
+      <% if Current.user&.admin? %>
+        <div class="opacity-0 group-hover:opacity-100 flex items-center gap-1">
+          <button data-action="click->document-tree#addFolder" data-parent-id="<%= folder.id %>" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded" title="Add Subfolder" onclick="event.stopPropagation()">
+            <%= icon "plus", class: "size-3" %>
+          </button>
+          <button data-action="click->document-tree#addFile" data-folder-id="<%= folder.id %>" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded" title="Add Document" onclick="event.stopPropagation()">
+            <%= icon "plus", class: "size-3" %>
+          </button>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="folder-children" style="display: none;">
+      <!-- Subfolder documents -->
+      <% folder.documents.published.visible_to(Current.user).each do |document| %>
+        <div class="file-item flex items-center gap-2 py-1 px-2 rounded hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer" 
+             style="margin-left: <%= (level + 1) * 16 %>px;"
+             data-action="click->document-tree#selectFile"
+             data-file-id="<%= document.id %>"
+             data-file-url="<%= document_path(document) %>"
+             tabindex="0">
+          <%= icon "document-text", class: "size-4 text-blue-600 dark:text-blue-400 flex-shrink-0" %>
+          <span class="text-sm text-slate-600 dark:text-slate-400 flex-1 truncate"><%= document.title %></span>
+        </div>
+      <% end %>
+      
+      <!-- Recursive subfolders -->
+      <%= render 'shared/document_tree_node', folders: folder.children.includes(:children, :documents), documents: [], level: level + 1 %>
+    </div>
+  </div>
+<% end %>
+
+<!-- Root level documents (if level is 0) -->
+<% if level == 0 %>
+  <% documents.each do |document| %>
+    <div class="file-item flex items-center gap-2 py-1 px-2 rounded hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer" 
+         data-action="click->document-tree#selectFile"
+         data-file-id="<%= document.id %>"
+         data-file-url="<%= document_path(document) %>"
+         tabindex="0">
+      <%= icon "document-text", class: "size-4 text-blue-600 dark:text-blue-400 flex-shrink-0" %>
+      <span class="text-sm text-slate-600 dark:text-slate-400 flex-1 truncate"><%= document.title %></span>
+    </div>
+  <% end %>
+<% end %>

@@ -22,53 +22,77 @@
       <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Instance Configuration</h2>
       <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Configure the deployment instance</p>
     </div>
-    <div class="px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="md:col-span-2">
-        <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "production-acme-app" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Unique name for this instance</p>
+    <div class="px-6 py-6 space-y-6">
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "production-acme-app" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Unique name for this instance</p>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :tenant_id, "Tenant", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.select :tenant_id, 
-            options_for_select(@tenants.map { |t| [t.name, t.id] }, instance.tenant_id), 
-            { prompt: "Select a tenant" }, 
-            class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">The client this instance belongs to</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :tenant_id, "Tenant", class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.select :tenant_id, 
+              options_for_select(@tenants.map { |t| [t.name, t.id] }, instance.tenant_id), 
+              { prompt: "Select a tenant" }, 
+              class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">The client this instance belongs to</p>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :app_id, "Application", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.select :app_id, 
-            options_for_select(@apps.map { |a| [a.name, a.id] }, instance.app_id), 
-            { prompt: "Select an app" }, 
-            class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">The application to deploy</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :app_id, "Application", class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.select :app_id, 
+              options_for_select(@apps.map { |a| [a.name, a.id] }, instance.app_id), 
+              { prompt: "Select an app" }, 
+              class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">The application to deploy</p>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :service_id, "Service", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.select :service_id, 
-            options_for_select(@services.map { |s| [s.name, s.id] }, instance.service_id), 
-            { prompt: "Select a service" }, 
-            class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">The ECS service handling this deployment</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :service_id, "Service", class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.select :service_id, 
+              options_for_select(@services.map { |s| [s.name, s.id] }, instance.service_id), 
+              { prompt: "Select a service" }, 
+              class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">The ECS service handling this deployment</p>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :environment, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.select :environment, 
-            options_for_select([["Production", "production"], ["Staging", "staging"], ["Development", "development"]], instance.environment), 
-            { prompt: "Select environment" }, 
-            class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Deployment environment level</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :environment, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.select :environment, 
+              options_for_select([["Production", "production"], ["Staging", "staging"], ["Development", "development"]], instance.environment), 
+              { prompt: "Select environment" }, 
+              class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Deployment environment level</p>
+        </div>
       </div>
 
-      <div class="md:col-span-2">
-        <%= form.label :virtual_host, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :virtual_host, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "acme.bmserp.com" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Leave blank to auto-generate based on tenant subdomain and environment</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :virtual_host, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :virtual_host, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "acme.bmserp.com" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Leave blank to auto-generate based on tenant subdomain and environment</p>
+        </div>
       </div>
     </div>
   </div>
@@ -79,15 +103,18 @@
       <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Configuration settings for the application instance</p>
     </div>
     <div class="px-6 py-6">
-      <div>
-        <%= form.label :env_vars_json, "Environment Variables (JSON)", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_area :env_vars_json, 
-            rows: 10, 
-            class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", 
-            placeholder: '{"DATABASE_URL": "mysql2://...", "REDIS_URL": "redis://...", "RAILS_ENV": "production"}' %>
-        <div class="mt-2 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg">
-          <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Example format:</p>
-          <pre class="text-xs text-slate-600 dark:text-slate-400 font-mono overflow-x-auto">{
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :env_vars_json, "Environment Variables", class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_area :env_vars_json, 
+              rows: 10, 
+              class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", 
+              placeholder: '{"DATABASE_URL": "mysql2://...", "REDIS_URL": "redis://...", "RAILS_ENV": "production"}' %>
+          <div class="mt-2 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg">
+            <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Example format:</p>
+            <pre class="text-xs text-slate-600 dark:text-slate-400 font-mono overflow-x-auto">{
   "DATABASE_URL": "mysql2://user:pass@host:3306/database",
   "REDIS_URL": "redis://localhost:6379/0",
   "RAILS_ENV": "production",
@@ -95,10 +122,11 @@
   "AWS_REGION": "ap-southeast-2",
   "S3_BUCKET": "your-bucket-name"
 }</pre>
+          </div>
+          <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            Enter environment variables as valid JSON. Invalid JSON will be ignored and default to an empty object.
+          </p>
         </div>
-        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-          Enter environment variables as valid JSON. Invalid JSON will be ignored and default to an empty object.
-        </p>
       </div>
     </div>
   </div>

@@ -22,17 +22,25 @@
       <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Basic Information</h2>
       <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Essential database details</p>
     </div>
-    <div class="px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="md:col-span-2">
-        <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "bms_production" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Unique database identifier</p>
+    <div class="px-6 py-6 space-y-6">
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "bms_production" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Unique database identifier</p>
+        </div>
       </div>
 
-      <div class="md:col-span-2">
-        <%= form.label :schema_version, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :schema_version, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "20251126000000" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Current schema migration version</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :schema_version, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :schema_version, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "20251126000000" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Current schema migration version</p>
+        </div>
       </div>
     </div>
   </div>
@@ -43,9 +51,12 @@
       <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Database connection parameters as JSON</p>
     </div>
     <div class="px-6 py-6">
-      <div>
-        <%= form.label :connection_json, "Connection Details", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_area :connection_json, rows: 12, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: '{
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :connection_json, "Connection Details", class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_area :connection_json, rows: 12, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: '{
   "adapter": "mysql2",
   "host": "localhost",
   "port": 3306,
@@ -55,21 +66,22 @@
   "pool": 5,
   "timeout": 5000
 }' %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Connection configuration as valid JSON</p>
-        
-        <div class="mt-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
-          <div class="flex gap-2">
-            <%= icon "information-circle", class: "size-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" %>
-            <div class="text-sm text-blue-800 dark:text-blue-300">
-              <p class="font-medium mb-1">Common connection parameters:</p>
-              <ul class="list-disc list-inside space-y-0.5 text-blue-700 dark:text-blue-400 text-xs">
-                <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">adapter</code> - Database type (mysql2, mysql2, sqlite3)</li>
-                <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">host</code> - Database server hostname</li>
-                <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">port</code> - Connection port</li>
-                <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">database</code> - Database name</li>
-                <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">username</code> - Database user</li>
-                <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">password</code> - Authentication password</li>
-              </ul>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Connection configuration as valid JSON</p>
+          
+          <div class="mt-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+            <div class="flex gap-2">
+              <%= icon "information-circle", class: "size-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" %>
+              <div class="text-sm text-blue-800 dark:text-blue-300">
+                <p class="font-medium mb-1">Common connection parameters:</p>
+                <ul class="list-disc list-inside space-y-0.5 text-blue-700 dark:text-blue-400 text-xs">
+                  <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">adapter</code> - Database type (mysql2, mysql2, sqlite3)</li>
+                  <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">host</code> - Database server hostname</li>
+                  <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">port</code> - Connection port</li>
+                  <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">database</code> - Database name</li>
+                  <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">username</code> - Database user</li>
+                  <li><code class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">password</code> - Authentication password</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

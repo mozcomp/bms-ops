@@ -22,35 +22,55 @@
       <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Basic Information</h2>
       <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Essential service details and container configuration</p>
     </div>
-    <div class="px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="md:col-span-2">
-        <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "bms-core-api" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Unique service name</p>
+    <div class="px-6 py-6 space-y-6">
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :name, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :name, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500", placeholder: "bms-core-api" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Unique service name</p>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :image, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :image, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "bms/core-api" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Container image name</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :image, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :image, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "bms/core-api" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Container image name</p>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :version, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :version, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "v2.4.1 or latest" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Image version/tag</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :version, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :version, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "v2.4.1 or latest" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Image version/tag</p>
+        </div>
       </div>
 
-      <div class="md:col-span-2">
-        <%= form.label :registry, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :registry, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "123456789.dkr.ecr.ap-southeast-2.amazonaws.com" %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Container registry URL (optional)</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :registry, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :registry, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "123456789.dkr.ecr.ap-southeast-2.amazonaws.com" %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Container registry URL (optional)</p>
+        </div>
       </div>
 
-      <div class="md:col-span-2">
-        <%= form.label :service_task, class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_field :service_task, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "arn:aws:ecs:region:account:task/..." %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">AWS ECS task ARN (optional)</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :service_task, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_field :service_task, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono", placeholder: "arn:aws:ecs:region:account:task/..." %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">AWS ECS task ARN (optional)</p>
+        </div>
       </div>
     </div>
   </div>
@@ -61,22 +81,34 @@
       <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Optional JSON configurations for environment, service, and task definitions</p>
     </div>
     <div class="px-6 py-6 space-y-6">
-      <div>
-        <%= form.label :environment_json, "Environment Variables (JSON)", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_area :environment_json, rows: 6, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: '{"RAILS_ENV": "production", "DATABASE_URL": "postgres://..."}' %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Environment variables as JSON object</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :environment_json, "Environment Variables", class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_area :environment_json, rows: 6, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: '{"RAILS_ENV": "production", "DATABASE_URL": "postgres://..."}' %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Environment variables as JSON object</p>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :service_definition_json, "Service Definition (JSON)", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_area :service_definition_json, rows: 6, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: '{"desiredCount": 1, "launchType": "FARGATE"}' %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">AWS ECS service definition</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :service_definition_json, "Service Definition", class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_area :service_definition_json, rows: 6, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: '{"desiredCount": 1, "launchType": "FARGATE"}' %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">AWS ECS service definition</p>
+        </div>
       </div>
 
-      <div>
-        <%= form.label :task_definitions_json, "Task Definitions (JSON)", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
-        <%= form.text_area :task_definitions_json, rows: 6, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: '{"cpu": "256", "memory": "512"}' %>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">AWS ECS task definition parameters</p>
+      <div class="flex items-start gap-6">
+        <div class="w-48 flex-shrink-0">
+          <%= form.label :task_definitions_json, "Task Definitions", class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <%= form.text_area :task_definitions_json, rows: 6, class: "form-input w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500 font-mono text-sm", placeholder: '{"cpu": "256", "memory": "512"}' %>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">AWS ECS task definition parameters</p>
+        </div>
       </div>
     </div>
   </div>

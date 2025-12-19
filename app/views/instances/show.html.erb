@@ -39,38 +39,60 @@
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
               <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Deployment Information</h2>
             </div>
-            <div class="px-6 py-4">
-              <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Instance Name</dt>
+            <div class="px-6 py-6 space-y-6">
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Instance Name</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100 font-medium"><%= @instance.name %></dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Tenant</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Tenant</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd>
                     <%= link_to @instance.tenant, class: "text-sm text-primary-600 dark:text-primary-400 hover:underline" do %>
                       <%= @instance.tenant.name %>
                     <% end %>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Tenant Code</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Tenant Code</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd>
                     <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300">
                       <%= @instance.tenant.code %>
                     </span>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Application</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Application</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd>
                     <%= link_to @instance.app, class: "text-sm text-primary-600 dark:text-primary-400 hover:underline" do %>
                       <%= @instance.app.name %>
                     <% end %>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Repository</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Repository</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd>
                     <%= link_to @instance.app.repository_url, target: "_blank", class: "text-sm text-slate-900 dark:text-slate-100 hover:text-primary-600 dark:hover:text-primary-400 flex items-center gap-1" do %>
                       <span class="font-mono"><%= @instance.app.repository_name %></span>
@@ -78,22 +100,37 @@
                     <% end %>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Service</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Service</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd>
                     <%= link_to @instance.service, class: "text-sm text-primary-600 dark:text-primary-400 hover:underline" do %>
                       <%= @instance.service.name %>
                     <% end %>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Service Image</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Service Image</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded">
                     <%= @instance.service.full_image %>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Environment</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Environment</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd>
                     <% case @instance.environment %>
                     <% when "production" %>
@@ -111,8 +148,13 @@
                     <% end %>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Virtual Host</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Virtual Host</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd>
                     <%= link_to @instance.full_url, target: "_blank", class: "text-sm text-primary-600 dark:text-primary-400 hover:underline flex items-center gap-1" do %>
                       <span><%= @instance.virtual_host %></span>
@@ -120,7 +162,7 @@
                     <% end %>
                   </dd>
                 </div>
-              </dl>
+              </div>
             </div>
           </div>
 
@@ -129,17 +171,19 @@
               <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                 <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Environment Variables</h2>
               </div>
-              <div class="px-6 py-4">
-                <dl class="grid grid-cols-1 gap-4">
-                  <% @instance.env_vars.each do |key, value| %>
-                    <div class="flex items-start gap-4">
-                      <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 font-mono min-w-[200px]"><%= key %></dt>
-                      <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded flex-1 break-all">
+              <div class="px-6 py-6 space-y-6">
+                <% @instance.env_vars.each do |key, value| %>
+                  <div class="flex items-start gap-6">
+                    <div class="w-48 flex-shrink-0">
+                      <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 font-mono"><%= key %></dt>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono bg-slate-50 dark:bg-slate-900 px-3 py-2 rounded break-all">
                         <%= value %>
                       </dd>
                     </div>
-                  <% end %>
-                </dl>
+                  </div>
+                <% end %>
               </div>
             </div>
           <% end %>

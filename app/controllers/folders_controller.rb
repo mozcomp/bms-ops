@@ -29,7 +29,8 @@ class FoldersController < ApplicationController
     @folder.created_by = Current.user
 
     if @folder.save
-      redirect_to @folder, notice: 'Folder was successfully created.'
+      # Redirect to documents index to show the tree view
+      redirect_to documents_path, notice: 'Folder was successfully created.'
     else
       breadcrumb_name = @parent_folder ? "New Subfolder" : "New Folder"
       @breadcrumbs << { name: breadcrumb_name, path: nil }

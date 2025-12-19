@@ -42,7 +42,9 @@ Rails.application.routes.draw do
   root "dashboard#index"
 
   # Tenant management
-  resources :tenants
+  resources :tenants do
+    resources :instances, only: [:new, :create], controller: 'tenants/instances'
+  end
 
   # Service management
   resources :services
@@ -59,6 +61,7 @@ Rails.application.routes.draw do
   # Documentation management
   resources :folders do
     resources :documents, except: [:index]
+    resources :folders, only: [:new, :create], controller: 'folders'
   end
   resources :documents do #, only: [:index, :show, :edit, :update, :destroy] do
     collection do

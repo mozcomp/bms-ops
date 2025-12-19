@@ -39,6 +39,6 @@ module BmsOps
     end
 
     # Add metrics middleware for HTTP request timing
-    config.middleware.use MetricsMiddleware
+    # config.middleware.use MetricsMiddleware  # Disabled - too much logging
   end
 end

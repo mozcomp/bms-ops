@@ -1,0 +1,19 @@
+<div class="document-tree" data-controller="document-tree" data-document-tree-selected-file-value="<%= params[:id] if @document %>" tabindex="0" data-action="keydown->document-tree#keydown">
+  <div class="tree-header mb-4">
+    <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">Documentation</h3>
+    <% if Current.user&.admin? %>
+      <div class="flex items-center gap-1">
+        <button data-action="click->document-tree#addFolder" data-parent-id="" class="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded" title="Add Folder">
+          <%= icon "plus", class: "size-4" %>
+        </button>
+        <button data-action="click->document-tree#addFile" data-folder-id="" class="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded" title="Add Document">
+          <%= icon "plus", class: "size-4" %>
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="tree-content">
+    <%= render 'shared/document_tree_node', folders: Folder.root_folders.includes(:children, :documents), documents: Document.where(folder: nil).published.visible_to(Current.user), level: 0 %>
+  </div>
+</div>

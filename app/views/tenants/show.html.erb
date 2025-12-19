@@ -35,28 +35,37 @@
         <div class="lg:col-span-2 space-y-6">
           <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Basic Information</h2>
+              <div class="flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Basic Information</h2>
+                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400">
+                  <%= @tenant.code %>
+                </span>
+              </div>
             </div>
-            <div class="px-6 py-4">
-              <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Tenant Name</dt>
+            <div class="px-6 py-6 space-y-6">
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Tenant Name</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.name %></dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Tenant Code</dt>
-                  <dd>
-                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400">
-                      <%= @tenant.code %>
-                    </span>
-                  </dd>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Contact Person</dt>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Contact Person</dt>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.contact || "Not specified" %></dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">URL</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">URL</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd>
                     <%= link_to @tenant.url, target: "_blank", class: "text-sm text-primary-600 dark:text-primary-400 hover:underline flex items-center gap-1" do %>
                       <span><%= @tenant.url %></span>
@@ -64,7 +73,7 @@
                     <% end %>
                   </dd>
                 </div>
-              </dl>
+              </div>
             </div>
           </div>
 
@@ -72,10 +81,12 @@
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
               <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Contact Information</h2>
             </div>
-            <div class="px-6 py-4">
-              <dl class="grid grid-cols-1 gap-6">
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Email</dt>
+            <div class="px-6 py-6 space-y-6">
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Email</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100">
                     <% if @tenant.email.present? %>
                       <%= link_to @tenant.email, "mailto:#{@tenant.email}", class: "text-primary-600 dark:text-primary-400 hover:underline" %>
@@ -84,8 +95,13 @@
                     <% end %>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Phone</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Phone</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100">
                     <% if @tenant.phone.present? %>
                       <%= link_to @tenant.phone, "tel:#{@tenant.phone}", class: "text-primary-600 dark:text-primary-400 hover:underline" %>
@@ -94,12 +110,22 @@
                     <% end %>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Company</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Company</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @tenant.company || "Not specified" %></dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Address</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Address</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100">
                     <% if @tenant.address.present? %>
                       <div class="whitespace-pre-line"><%= @tenant.address %></div>
@@ -108,7 +134,7 @@
                     <% end %>
                   </dd>
                 </div>
-              </dl>
+              </div>
             </div>
           </div>
 
@@ -129,25 +155,16 @@
                     <%= link_to instance, class: "block p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition" do %>
                       <div class="flex items-center justify-between">
                         <div class="flex-1 min-w-0">
-                          <div class="flex items-center gap-2 mb-1">
+                          <div class="mb-1">
                             <span class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
-                              <%= instance.app.name %>
+                              <%= instance.name %>
                             </span>
-                            <% if instance.environment == "production" %>
-                              <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
-                                Production
-                              </span>
-                            <% elsif instance.environment == "staging" %>
-                              <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400">
-                                Staging
-                              </span>
-                            <% else %>
-                              <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400">
-                                Development
-                              </span>
-                            <% end %>
                           </div>
                           <div class="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
+                            <span class="flex items-center gap-1">
+                              <%= icon "code-bracket", class: "size-3" %>
+                              <%= instance.app.name %>
+                            </span>
                             <span class="flex items-center gap-1">
                               <%= icon "server", class: "size-3" %>
                               <%= instance.service.name %>
@@ -169,7 +186,7 @@
                     <%= icon "server", class: "size-6 text-slate-400" %>
                   </div>
                   <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">No instances configured for this tenant</p>
-                  <%= link_to new_instance_path(tenant_id: @tenant.id), class: "btn btn-primary inline-flex items-center gap-2" do %>
+                  <%= link_to new_tenant_instance_path(@tenant), class: "btn btn-primary inline-flex items-center gap-2" do %>
                     <%= icon "plus", class: "size-4" %>
                     <span>Create Instance</span>
                   <% end %>
@@ -206,6 +223,10 @@
               <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Quick Actions</h2>
             </div>
             <div class="px-6 py-4 space-y-2">
+              <%= link_to new_tenant_instance_path(@tenant), class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
+                <%= icon "plus", class: "size-5 text-slate-500" %>
+                <span class="text-sm font-medium">Create Instance</span>
+              <% end %>
               <%= link_to instances_path(tenant_id: @tenant.id), class: "flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" do %>
                 <%= icon "server", class: "size-5 text-slate-500" %>
                 <div class="flex-1 flex items-center justify-between">

@@ -1,0 +1,125 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <%= render "shared/sidebar" %>
+  
+  <div class="lg:ml-64">
+    <%= render "shared/topbar" %>
+    
+    <main class="p-6">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <%= link_to @tenant, class: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" do %>
+            <%= icon "arrow-left", class: "size-6" %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">Create New Instance</h1>
+            <p class="text-slate-600 dark:text-slate-400">Create a new BMS Cloud instance for <%= @tenant.name %></p>
+          </div>
+        </div>
+      </div>
+
+      <%= render "shared/flash_messages" %>
+
+      <%= form_with(model: [@tenant, @instance], class: "space-y-6") do |form| %>
+        <!-- Error messages -->
+        <% if @instance.errors.any? %>
+          <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <div class="flex items-start gap-3">
+              <%= icon "exclamation-circle", class: "size-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" %>
+              <div class="flex-1">
+                <h3 class="text-sm font-medium text-red-800 dark:text-red-400 mb-2">
+                  <%= pluralize(@instance.errors.count, "error") %> prohibited this instance from being saved:
+                </h3>
+                <ul class="list-disc list-inside text-sm text-red-700 dark:text-red-400 space-y-1">
+                  <% @instance.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Instance Configuration -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700">
+          <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Instance Configuration</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Configure the BMS Cloud instance for this tenant</p>
+          </div>
+          <div class="px-6 py-6 space-y-6">
+
+            <!-- Environment -->
+            <div class="flex items-start gap-6">
+              <div class="w-48 flex-shrink-0">
+                <%= form.label :environment, class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <%= form.select :environment, 
+                    options_for_select(@environments.map { |env| [env.capitalize, env] }, @instance.environment),
+                    { prompt: "Select environment" },
+                    { class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" } %>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Choose the deployment environment for this instance</p>
+              </div>
+            </div>
+
+            <!-- Service -->
+            <div class="flex items-start gap-6">
+              <div class="w-48 flex-shrink-0">
+                <%= form.label :service_id, "Service", class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <%= form.select :service_id, 
+                    options_from_collection_for_select(@services, :id, :name, @instance.service_id),
+                    { prompt: "Select service" },
+                    { class: "form-select w-full rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 focus:border-primary-500 focus:ring-primary-500" } %>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Choose the ECS service to deploy this instance on</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Form actions -->
+        <div class="flex items-center justify-end gap-3">
+          <%= link_to "Cancel", @tenant, class: "btn btn-white" %>
+          <%= form.submit "Create Instance", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+      <!-- JavaScript for live preview -->
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const environmentSelect = document.getElementById('instance_environment');
+          const serviceSelect = document.getElementById('instance_service_id');
+          const generatedName = document.getElementById('generated-name');
+          const generatedHost = document.getElementById('generated-host');
+          const tenantCode = '<%= @tenant.code %>';
+
+          function updatePreview() {
+            const environment = environmentSelect.value;
+            const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
+            const serviceName = serviceOption ? serviceOption.text : '';
+
+            if (environment && serviceName && serviceName !== 'Select service') {
+              const name = `${tenantCode}-${environment}-${serviceName}`;
+              generatedName.textContent = name;
+
+              let subdomain = tenantCode;
+              if (environment !== 'production') {
+                subdomain = `${environment}-${subdomain}`;
+              }
+              generatedHost.textContent = `${subdomain}.bmserp.com`;
+            } else {
+              generatedName.textContent = 'Will be generated based on selections';
+              generatedHost.textContent = 'Will be generated based on selections';
+            }
+          }
+
+          environmentSelect.addEventListener('change', updatePreview);
+          serviceSelect.addEventListener('change', updatePreview);
+          updatePreview(); // Initial call
+        });
+      </script>
+    </main>
+  </div>
+</div>

@@ -43,25 +43,37 @@
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
               <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Database Information</h2>
             </div>
-            <div class="px-6 py-4">
-              <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Database Name</dt>
+            <div class="px-6 py-6 space-y-6">
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Database Name</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @database.name %></dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Schema Version</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Schema Version</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd>
                     <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-400">
                       <%= @database.schema_version %>
                     </span>
                   </dd>
                 </div>
-                <div>
-                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Status</dt>
+              </div>
+
+              <div class="flex items-start gap-6">
+                <div class="w-48 flex-shrink-0">
+                  <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Status</dt>
+                </div>
+                <div class="flex-1 min-w-0">
                   <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @database.status %></dd>
                 </div>
-              </dl>
+              </div>
             </div>
           </div>
 
@@ -71,37 +83,64 @@
               <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                 <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Connection Details</h2>
               </div>
-              <div class="px-6 py-4">
-                <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Adapter</dt>
+              <div class="px-6 py-6 space-y-6">
+                <div class="flex items-start gap-6">
+                  <div class="w-48 flex-shrink-0">
+                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Adapter</dt>
+                  </div>
+                  <div class="flex-1 min-w-0">
                     <dd class="text-sm text-slate-900 dark:text-slate-100"><%= @database.adapter.titleize %></dd>
                   </div>
-                  <div>
-                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Host</dt>
+                </div>
+
+                <div class="flex items-start gap-6">
+                  <div class="w-48 flex-shrink-0">
+                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Host</dt>
+                  </div>
+                  <div class="flex-1 min-w-0">
                     <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono"><%= @database.host %></dd>
                   </div>
-                  <div>
-                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Port</dt>
+                </div>
+
+                <div class="flex items-start gap-6">
+                  <div class="w-48 flex-shrink-0">
+                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Port</dt>
+                  </div>
+                  <div class="flex-1 min-w-0">
                     <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono"><%= @database.port %></dd>
                   </div>
-                  <div>
-                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Database</dt>
+                </div>
+
+                <div class="flex items-start gap-6">
+                  <div class="w-48 flex-shrink-0">
+                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Database</dt>
+                  </div>
+                  <div class="flex-1 min-w-0">
                     <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono"><%= @database.database_name %></dd>
                   </div>
-                  <% if @database.username %>
-                    <div>
-                      <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Username</dt>
+                </div>
+
+                <% if @database.username %>
+                  <div class="flex items-start gap-6">
+                    <div class="w-48 flex-shrink-0">
+                      <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Username</dt>
+                    </div>
+                    <div class="flex-1 min-w-0">
                       <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono"><%= @database.username %></dd>
                     </div>
-                  <% end %>
-                  <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Connection String</dt>
+                  </div>
+                <% end %>
+
+                <div class="flex items-start gap-6">
+                  <div class="w-48 flex-shrink-0">
+                    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Connection String</dt>
+                  </div>
+                  <div class="flex-1 min-w-0">
                     <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono bg-slate-50 dark:bg-slate-900 px-4 py-3 rounded-lg break-all">
                       <%= @database.connection_string %>
                     </dd>
                   </div>
-                </dl>
+                </div>
               </div>
             </div>
 
