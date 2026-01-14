@@ -26,17 +26,17 @@ module BmsOps
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    
+
     # Configure structured JSON logging
-    config.log_formatter = proc do |severity, timestamp, progname, msg|
-      log_entry = {
-        timestamp: timestamp.iso8601,
-        level: severity.downcase,
-        message: msg.is_a?(String) ? msg : msg.inspect,
-        progname: progname
-      }
-      "#{log_entry.to_json}\n"
-    end
+    # config.log_formatter = proc do |severity, timestamp, progname, msg|
+    #   log_entry = {
+    #     timestamp: timestamp.iso8601,
+    #     level: severity.downcase,
+    #     message: msg.is_a?(String) ? msg : msg.inspect,
+    #     progname: progname
+    #   }
+    #   "#{log_entry.to_json}\n"
+    # end
 
     # Add metrics middleware for HTTP request timing
     # config.middleware.use MetricsMiddleware  # Disabled - too much logging
