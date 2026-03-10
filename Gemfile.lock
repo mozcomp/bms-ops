@@ -196,6 +196,8 @@ GEM
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
+    interactor (3.2.0)
+      ostruct
     io-console (0.8.1)
     irb (1.15.3)
       pp (>= 0.6.0)
@@ -490,6 +492,7 @@ DEPENDENCIES
   faraday
   image_processing (~> 1.2)
   importmap-rails
+  interactor
   jbuilder
   kamal
   propshaft

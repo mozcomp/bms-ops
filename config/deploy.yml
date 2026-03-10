@@ -2,12 +2,12 @@
 service: bms_ops
 
 # Name of the container image (use your-user/app-name on external registries).
-image: bms_ops
+image: mozcomp/bms_ops  # Change mozcomp to your Docker Hub username
 
 # Deploy to these servers.
 servers:
   web:
-    - 192.168.0.1
+    - 192.168.192.1
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -26,15 +26,13 @@ servers:
 
 # Where you keep your container images.
 registry:
-  # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
-  server: localhost:5555
-
-  # Needed for authenticated registries.
-  # username: your-user
+  # Use Docker Hub
+  server: docker.io
+  username: mozcomp  # Change this to your Docker Hub username
 
   # Always use an access token rather than real password when possible.
-  # password:
-  #   - KAMAL_REGISTRY_PASSWORD
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
@@ -53,7 +51,7 @@ env:
 
     # Match this to any external database server to configure Active Record correctly
     # Use bms_ops-db for a db accessory server on same machine via local kamal docker network.
-    # DB_HOST: 192.168.0.2
+    # DB_HOST: 192.168.192.2
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
@@ -79,7 +77,7 @@ asset_path: /rails/public/assets
 
 # Configure the image builder.
 builder:
-  arch: amd64
+  arch: arm64
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
   # remote: ssh://docker@docker-builder-server
@@ -92,8 +90,8 @@ builder:
   #   - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
-# ssh:
-#   user: app
+ssh:
+  user: mozcomp
 
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:

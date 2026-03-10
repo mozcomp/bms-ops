@@ -1,0 +1,40 @@
+server {
+  listen 80 default_server;
+
+  location /healthcheck {
+    return 200 "OK\n";
+  }
+  location / {
+    return 503;
+  }
+}
+
+<% @services.each do |service|
+  next if service[:ports].empty?
+  %>upstream <%= service[:service_name] %> {
+  <% service[:ports].each do |port|%>server <%= port %>;
+<% end %>}
+
+server {
+  listen 80;
+  server_name <%= service[:service_url] %>;
+
+  # Our main location to proxy everything else to the upstream
+  # server, but with the added logic for enforcing HTTPS.
+  location / {
+    if ($http_x_forwarded_proto = 'http') {
+      return 308 https://$host$request_uri;
+    }
+    proxy_set_header X-Request-Start "t=${msec}";
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_next_upstream error;
+    proxy_connect_timeout 60;
+    proxy_read_timeout 60;
+    proxy_send_timeout 60;
+    proxy_pass http://<%= service[:service_name] %>;
+  }
+}
+<% end %>

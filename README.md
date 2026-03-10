@@ -42,3 +42,6 @@ Database:
 A separate schema is specified for each tenant.
 A service would specify the migration level for a database.
 
+Docker API:
+https://docs.docker.com/reference/api/hub/latest/
+
