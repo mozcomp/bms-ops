@@ -120,8 +120,8 @@ class Resources
         ports:          []
       }
       service.tasks.each do |task|
-        next if task.internal_ip_address.blank? || task.host_port(service.virtual_port).blank?
-        deployed_service[:ports] << "#{task.internal_ip_address}:#{task.host_port(service.virtual_port)}"
+        next if task.internal_ip_address.blank? || task.host_port(service.virtual_port.to_i).blank?
+        deployed_service[:ports] << "#{task.internal_ip_address}:#{task.host_port(service.virtual_port.to_i)}"
       end
       deployed_services << deployed_service if deployed_service[:ports].any?
     end
