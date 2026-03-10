@@ -21,22 +21,14 @@ class Resources
       raise ConfigurationError, "No cluster_name in settings. Please configure the ECS cluster name."
     end
 
-    log_operation("Initializing Resources with cluster: #{@settings.ecs_cluster}")
+    log_operation("Initializing Resources for cluster: #{@settings.ecs_cluster}")
     @cluster = Resource::Cluster.new(@settings.ecs_cluster)
-
-    @services = []
-    service_arns.each do |service_arn|
-      @services << Resource::Service.new(cluster_arn, service_arn)
-    end
-
-    @containers = []
-    container_arns.each do |container_arn|
-      @containers << Resource::Container.new(cluster_arn, container_arn)
-    end
+    @services ||= service_arns.inject([]) { |array, service_arn| array << Resource::Service.new(cluster_arn, service_arn); array }
+    @containers ||= container_arns.inject([]) { |array, container_arn| array << Resource::Container.new(cluster_arn, container_arn); array }
 
     @services.each do |service|
       service.tasks.each do |task|
-        task.container = container_instance(task.container_instance_arn)
+        task.container = container(task.container_instance_arn)
       end
     end
 
@@ -113,25 +105,25 @@ class Resources
     @containers
   end
 
-  def container_instance(arn)
-    container = containers.find { |container| container.container_arn == arn }
-    container
+  def container(arn)
+    containers.find { |c| c.container_arn == arn }
   end
 
   def deployed_services
     deployed_services = []
-    @services.each do |service|
+    services.each do |service|
       next unless service.deployed?
-      next if service.virtual_host.blank?
+      next if service.virtual_host.blank? || service.virtual_port.blank?
       deployed_service = {
         service_name:   service.service_name,
         service_url:    service.virtual_host,
         ports:          []
       }
       service.tasks.each do |task|
+        next if task.internal_ip_address.blank? || task.host_port(service.virtual_port).blank?
         deployed_service[:ports] << "#{task.internal_ip_address}:#{task.host_port(service.virtual_port)}"
       end
-      deployed_services << deployed_service
+      deployed_services << deployed_service if deployed_service[:ports].any?
     end
     deployed_services
   end

@@ -1,5 +1,7 @@
 module Resource
   class Task < Base
+    attr_reader :task, :container
+
     def initialize(cluster_arn, task_arn)
       @task = ecs.describe_tasks(cluster: cluster_arn, tasks: [ task_arn ]).tasks.first
     end
@@ -33,14 +35,11 @@ module Resource
     end
 
     def host_port(container_port)
-      ports = []
-      @task.containers.each do |container|
-        container.network_bindings.each do |binding|
-          next unless binding.container_port == container_port
-          ports << binding.host_port
-        end
-      end
-      ports.first
+      @task.containers.inject([]) do |array, container|
+        port = container.network_bindings.find { |binding| binding.container_port == container_port }&.host_port
+        array << port if port
+        array
+      end&.first
     end
   end
 end

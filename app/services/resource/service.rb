@@ -1,13 +1,12 @@
 module Resource
   class Service < Base
+    attr_reader :service, :tasks, :settings
+
     def initialize(cluster_arn, service_arn)
       unless service_arn.blank?
         @service = ecs.describe_services(cluster: cluster_arn, services: [ service_arn ]).services.first
       end
-      @tasks = []
-      task_arns.each do |task_arn|
-        @tasks << Resource::Task.new(cluster_arn, task_arn)
-      end
+      @tasks = task_arns.inject([]) { |array, task_arn| array << Resource::Task.new(cluster_arn, task_arn); array }
       @settings = {}
     end
 
@@ -58,15 +57,7 @@ module Resource
     end
 
     def events
-      @service.try("events")
-    end
-
-    def tasks
-      @tasks
-    end
-
-    def settings
-      @settings
+      @service&.events
     end
 
     def settings=(value)
