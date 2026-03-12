@@ -58,6 +58,7 @@ module Docker
         faraday.request :json
         faraday.headers["Authorization"] = "Bearer #{token}"
         faraday.response :json, content_type: /\bjson$/
+        faraday.response :logger
         faraday.adapter Faraday.default_adapter
       end
     end
